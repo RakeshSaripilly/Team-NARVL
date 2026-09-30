@@ -190,7 +190,7 @@ def test_delta_lake_3_step_dag_and_reversibility_rollback(tmp_path):
     print(f"  Cleaned Shape: {exec_res.cleaned_df.shape}")
 
     assert exec_res.initial_version == 0
-    assert exec_res.final_version == 1
+    assert exec_res.final_version == len(dag_steps)
 
     # Verify commits in _delta_log
     delta_log_dir = delta_uri / "_delta_log"
@@ -366,5 +366,40 @@ def test_executor_column_selection_and_null_resolution(tmp_path):
     # Salary was NOT in target_columns, so its null is preserved (not dropped or imputed)
     assert res.cleaned_df["salary"].null_count() == 1
     assert res.cleaned_df.height == 4
+
+
+def test_simulate_plan_dry_run_zero_delta_commits(tmp_path):
+    """Verify that simulate_plan and dry_run=True execute transformations purely in-memory
+    without initializing or creating any Delta Lake commits on disk."""
+    raw_df = pl.DataFrame({
+        "id": [1, 2, 2],
+        "score": [50.0, 150.0, 150.0],
+    })
+    delta_uri = tmp_path / "delta_dry_run"
+    executor = ReversibleExecutor(table_uri=delta_uri)
+
+    steps = [
+        {"step_id": 1, "action": "deduplicate_exact", "target_column": "ALL"},
+        {"step_id": 2, "action": "clamp_bounds", "target_column": "score", "parameters": {"lower": 0, "upper": 100}},
+    ]
+
+    # Before execution: table must not exist
+    assert not executor.table_exists()
+    assert executor.get_current_version() is None
+    assert executor.get_version_options() == []
+
+    # Run simulation
+    simulated_df = executor.simulate_plan(raw_df, plan_steps=steps)
+
+    # Output dataframe has transformations applied
+    assert simulated_df.height == 2
+    assert simulated_df["score"].max() == 100.0
+
+    # Delta table still does NOT exist on disk and has zero commits
+    assert not executor.table_exists()
+    assert executor.get_current_version() is None
+    assert executor.get_version_options() == []
+    assert not (delta_uri / "_delta_log").exists()
+
 
 

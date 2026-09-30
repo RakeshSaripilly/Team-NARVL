@@ -149,6 +149,7 @@ class ReversibleExecutor:
         else:
             self.raw_df = raw_df
             self.table_uri = str(delta_table_path or table_uri)
+        self.version_metadata: Dict[int, Dict[str, Any]] = {}
 
     def initialize_store(self, raw_df: pl.DataFrame) -> int:
         """Write raw dataset as initial Delta commit version 0."""
@@ -162,8 +163,17 @@ class ReversibleExecutor:
             mode="overwrite",
         )
         dt = DeltaTable(self.table_uri)
-        logger.info("Initialized Delta store at %s (version: %d)", self.table_uri, dt.version())
-        return dt.version()
+        v = dt.version()
+        self.version_metadata[v] = {
+            "version": v,
+            "description": f"v{v} - Raw Initial Ingestion",
+            "action": "RAW_INGESTION",
+            "target_column": "ALL",
+            "rows": raw_df.height,
+            "cols": raw_df.width,
+        }
+        logger.info("Initialized Delta store at %s (version: %d)", self.table_uri, v)
+        return v
 
     def execute_step(self, df: pl.DataFrame, step: Dict[str, Any]) -> pl.DataFrame:
         """Apply a single transformation step via Polars."""
@@ -260,15 +270,38 @@ class ReversibleExecutor:
             drop_unresolvable_rows=drop_unresolvable_rows,
         )
 
+    def simulate_plan(
+        self,
+        raw_df: Union[pl.DataFrame, List[Dict[str, Any]]],
+        plan_steps: Optional[List[Dict[str, Any]]] = None,
+        target_columns: Optional[List[str]] = None,
+        resolve_nulls_policy: bool = False,
+        semantic_types: Optional[Dict[str, Any]] = None,
+    ) -> pl.DataFrame:
+        """Simulate plan execution purely in-memory with zero side-effects on Delta Lake.
+
+        Used for speculative 4D loss estimation and dry-run validation without creating commits.
+        """
+        result = self.execute_plan(
+            raw_df=raw_df,
+            plan_steps=plan_steps,
+            target_columns=target_columns,
+            resolve_nulls_policy=resolve_nulls_policy,
+            semantic_types=semantic_types,
+            dry_run=True,
+        )
+        return result.cleaned_df
+
     def execute_plan(
         self,
         raw_df: Union[pl.DataFrame, List[Dict[str, Any]]],
         plan_steps: Optional[List[Dict[str, Any]]] = None,
-        commit_per_step: bool = False,
+        commit_per_step: bool = True,
         filter_validation_failures: bool = False,
         target_columns: Optional[List[str]] = None,
         resolve_nulls_policy: bool = False,
         semantic_types: Optional[Dict[str, Any]] = None,
+        dry_run: bool = False,
     ) -> ExecutionResult:
         """Execute full DAG pipeline and commit to Delta Lake."""
         if isinstance(raw_df, list):
@@ -288,6 +321,38 @@ class ReversibleExecutor:
                 if s.get("target_column") == "ALL" or s.get("target_column") in col_set
             ]
 
+        # In dry_run mode, execute purely in memory without initializing or touching Delta Lake
+        if dry_run:
+            curr_df = actual_df
+            applied_count = 0
+            for step in actual_steps:
+                curr_df = self.execute_step(curr_df, step)
+                applied_count += 1
+
+            null_res_report: Dict[str, Any] = {}
+            if resolve_nulls_policy:
+                curr_df, null_res_report = resolve_nulls(
+                    curr_df,
+                    target_columns=target_columns,
+                    semantic_types=semantic_types,
+                    drop_unresolvable_rows=True,
+                )
+
+            if filter_validation_failures and actual_steps:
+                from narvl.core.test_gen import DualTestSynthesizer
+                synth = DualTestSynthesizer(actual_steps)
+                curr_df, _, _ = synth.filter_valid_records(curr_df, target_columns=target_columns)
+
+            return ExecutionResult(
+                initial_version=0,
+                final_version=0,
+                applied_steps=applied_count,
+                total_steps=len(actual_steps),
+                cleaned_df=curr_df,
+                table_uri=self.table_uri,
+                null_resolution=null_res_report,
+            )
+
         init_v = self.initialize_store(actual_df)
         curr_df = actual_df
         applied_count = 0
@@ -301,6 +366,21 @@ class ReversibleExecutor:
                     curr_df.to_arrow(),
                     mode="overwrite",
                 )
+                dt = DeltaTable(self.table_uri)
+                v = dt.version()
+                act = str(step.get("action", "")).upper()
+                col = str(step.get("target_column", "ALL"))
+                step_num = step.get("step_id", applied_count)
+                self.version_metadata[v] = {
+                    "version": v,
+                    "description": f"v{v} - Step {step_num}: {act} on `{col}`",
+                    "action": act,
+                    "target_column": col,
+                    "step_id": step_num,
+                    "step": step,
+                    "rows": curr_df.height,
+                    "cols": curr_df.width,
+                }
 
         # Null resolution policy: replace nulls where possible, remove rows where not possible
         null_res_report: Dict[str, Any] = {}
@@ -326,6 +406,16 @@ class ReversibleExecutor:
                 curr_df.to_arrow(),
                 mode="overwrite",
             )
+            dt = DeltaTable(self.table_uri)
+            v = dt.version()
+            self.version_metadata[v] = {
+                "version": v,
+                "description": f"v{v} - Post-Processing (Null Resolution & Validation)",
+                "action": "POST_PROCESS_VALIDATION",
+                "target_column": "ALL",
+                "rows": curr_df.height,
+                "cols": curr_df.width,
+            }
 
         dt = DeltaTable(self.table_uri)
         final_v = dt.version()
@@ -340,13 +430,37 @@ class ReversibleExecutor:
             null_resolution=null_res_report,
         )
 
-    def get_current_version(self) -> int:
-        """Get the latest commit version of the Delta Lake table."""
+    def table_exists(self) -> bool:
+        """Check if Delta Lake table exists at table_uri."""
+        try:
+            DeltaTable(self.table_uri)
+            return True
+        except Exception:
+            return False
+
+    def get_current_version(self) -> Optional[int]:
+        """Get the latest commit version of the Delta Lake table, or None if table does not exist."""
         try:
             dt = DeltaTable(self.table_uri)
             return dt.version()
         except Exception:
-            return 0
+            return None
+
+    def get_version_options(self) -> List[Tuple[int, str]]:
+        """Return list of (version_number, descriptive_label) for all available Delta versions."""
+        curr_v = self.get_current_version()
+        if curr_v is None:
+            return []
+        options: List[Tuple[int, str]] = []
+        for v in range(curr_v + 1):
+            if v in self.version_metadata:
+                desc = self.version_metadata[v].get("description", f"v{v} - Commit {v}")
+            elif v == 0:
+                desc = "v0 - Initial Raw Dataset"
+            else:
+                desc = f"v{v} - Delta Commit {v}"
+            options.append((v, desc))
+        return options
 
     def rollback_to_version(self, version: int) -> pl.DataFrame:
         """Time-travel back to a specific Delta version and restore Polars DataFrame."""

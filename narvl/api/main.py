@@ -303,6 +303,7 @@ def clean_dataset_api(
         plan.steps,
         target_columns=payload.selected_columns,
         resolve_nulls_policy=payload.resolve_nulls,
+        dry_run=True,
     )
     estimator = LossEstimator()
     assessment = estimator.assess(raw_df, candidate_df)
