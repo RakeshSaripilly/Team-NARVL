@@ -1,0 +1,24 @@
+# NARVL Platform Requirements
+
+# Core Engine Dependencies
+polars>=1.0.0
+duckdb>=1.0.0
+charset-normalizer>=3.0.0
+ftfy>=6.0.0
+rapidfuzz>=3.0.0
+onnxruntime>=1.15.0
+huggingface-hub>=0.20.0
+scipy>=1.10.0
+numpy>=1.24.0
+tiktoken>=0.5.0
+
+# CleanPilot Web UI & REST API
+streamlit>=1.30.0
+fastapi>=0.100.0
+uvicorn>=0.20.0
+
+# ML, Quality Validation & Delta ACID Storage
+lightgbm>=4.0.0
+pandera>=0.18.0
+deltalake>=0.17.0
+great-expectations>=0.18.0
