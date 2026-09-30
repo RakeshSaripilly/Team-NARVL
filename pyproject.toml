@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "narvl"
+version = "0.1.0"
+description = "Autonomous, Offline, Plug-and-Play Agentic Data Cleaning Platform"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "NARVL Team" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "polars>=1.0.0",
+    "duckdb>=1.0.0",
+    "charset-normalizer>=3.0.0",
+    "ftfy>=6.0.0",
+    "rapidfuzz>=3.0.0",
+    "onnxruntime>=1.15.0",
+    "huggingface-hub>=0.20.0",
+    "scipy>=1.10.0",
+    "numpy>=1.24.0",
+    "tiktoken>=0.5.0",
+]
+
+[project.optional-dependencies]
+ml = [
+    "lightgbm>=4.0.0",
+    "pandera>=0.18.0",
+    "deltalake>=0.17.0",
+    "great-expectations>=0.18.0",
+    "llama-cpp-python>=0.2.70",
+]
+ui = [
+    "streamlit>=1.30.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "build>=1.0.0",
+]
+
+[project.scripts]
+narvl = "narvl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["narvl*"]
+exclude = [
+    "tests*",
+    "models*",
+    "dist*",
+    "build*",
+    "scratch*",
+    "*.gguf",
+    "*.onnx",
+    "*.bin",
+    "data*",
+]
+
+[tool.setuptools.package-data]
+narvl = ["py.typed"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.gguf", "*.onnx", "*.bin", "*.parquet", "*.csv", "*.log"]

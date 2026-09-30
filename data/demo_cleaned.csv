@@ -1,0 +1,6 @@
+CustomerID,Age,Email,State,PostalCode,Salary
+105,33,eva@domain.co,Maharashtra,400001,68000.0
+103,120,bad_email_format,Karnatak,560001,110000.0
+103,45,charlie@gmail.com,Karnatak,560001,88000.0
+101,28,alice@corp.com,Telangana,500001,75000.0
+101,0,bob@org.net,Telangana,500001,92000.0
