@@ -1,0 +1,52 @@
+[
+  {
+    "customer_name": "Rajesh Kumar",
+    "email": "rajesh.kumar@acme.com",
+    "phone": "+91-98765-43210",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "invoiceno": null,
+    "date": "2023-03-15",
+    "amount": "$1,250.00"
+  },
+  {
+    "customer_name": "Priya Sharma",
+    "email": "priya.sharma@enterprise.org",
+    "phone": "+91-91234-56780",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "invoiceno": null,
+    "date": "2022-04-20",
+    "amount": "$3,400.50"
+  },
+  {
+    "customer_name": "Amit Patel",
+    "email": null,
+    "phone": "+91-99887-76655",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "invoiceno": null,
+    "date": "2024-01-12",
+    "amount": "$520.00"
+  },
+  {
+    "customer_name": "Sarah Jenkins",
+    "email": "sjenkins@techcorp.io",
+    "phone": "+1-555-234-5678",
+    "city": null,
+    "state": "California",
+    "invoiceno": null,
+    "date": "2024-02-18",
+    "amount": "$9,800.00"
+  },
+  {
+    "customer_name": "Suresh Reddy",
+    "email": null,
+    "phone": "+91-94401-23456",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "invoiceno": "INV-2024-004",
+    "date": "2023-11-05",
+    "amount": "$750.25"
+  }
+]

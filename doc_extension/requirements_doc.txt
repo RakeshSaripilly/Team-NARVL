@@ -1,0 +1,15 @@
+# Core dependencies for NARVL Document Intelligence Extension
+polars>=1.0.0
+PyMuPDF>=1.23.0
+pdfplumber>=0.10.0
+python-docx>=1.0.0
+rapidfuzz>=3.0.0
+openpyxl>=3.1.0
+pydantic>=2.0.0
+fastapi>=0.100.0
+uvicorn>=0.20.0
+streamlit>=1.30.0
+pytest>=7.0.0
+deltalake>=0.17.0
+pandera>=0.18.0
+great-expectations>=0.18.0

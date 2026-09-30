@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "total_checks": 6,
+  "passed_checks": 6,
+  "failed_checks": 0,
+  "checks": [
+    {
+      "name": "required_fields_present",
+      "target_field": "ALL",
+      "passed": true,
+      "details": "All extracted entity categories preserved in cleaned output"
+    },
+    {
+      "name": "valid_date_format_iso8601",
+      "target_field": "Date",
+      "passed": true,
+      "details": "All 10 dates conform to ISO-8601"
+    },
+    {
+      "name": "valid_phone_format_e164",
+      "target_field": "Phone",
+      "passed": true,
+      "details": "All 9 phones conform to valid E.164/standard formats"
+    },
+    {
+      "name": "valid_email_regex_rfc",
+      "target_field": "Email",
+      "passed": true,
+      "details": "All 3 email addresses match RFC standard"
+    },
+    {
+      "name": "no_unintended_duplicates",
+      "target_field": "ALL",
+      "passed": true,
+      "details": "Zero duplicate entities detected in cleaned output"
+    },
+    {
+      "name": "volumetric_loss_ceiling",
+      "target_field": "Dataset",
+      "passed": true,
+      "details": "Volumetric loss is 8.3% (Limit <= 15.0%)"
+    }
+  ],
+  "warnings": []
+}
