@@ -1,0 +1,15 @@
+{
+  "commitInfo": {
+    "timestamp": 1790783705034,
+    "operation": "RESOLVE_AND_DEDUPLICATE",
+    "version": 2,
+    "readVersion": 1,
+    "isBlindAppend": false
+  },
+  "add": {
+    "path": "snapshot_v2.json",
+    "size": 16891,
+    "modificationTime": 1790783705034,
+    "dataChange": true
+  }
+}

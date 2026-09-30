@@ -1,0 +1,15 @@
+{
+  "commitInfo": {
+    "timestamp": 1790783793541,
+    "operation": "EXTRACT",
+    "version": 0,
+    "readVersion": null,
+    "isBlindAppend": false
+  },
+  "add": {
+    "path": "snapshot_v0.json",
+    "size": 11542,
+    "modificationTime": 1790783793542,
+    "dataChange": true
+  }
+}

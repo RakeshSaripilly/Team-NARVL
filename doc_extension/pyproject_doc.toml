@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "narvl-doc-extension"
+version = "0.1.0"
+description = "Unstructured Document Intelligence Module for NARVL (Autonomous Data Cleaning Platform)"
+readme = "README_DOC_EXTENSION.md"
+requires-python = ">=3.10"
+dependencies = [
+    "polars>=1.0.0",
+    "PyMuPDF>=1.23.0",
+    "pdfplumber>=0.10.0",
+    "python-docx>=1.0.0",
+    "rapidfuzz>=3.0.0",
+    "openpyxl>=3.1.0",
+    "pydantic>=2.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "streamlit>=1.30.0",
+    "pytest>=7.0.0",
+]
+
+[project.optional-dependencies]
+ocr = [
+    "pytesseract>=0.3.10",
+    "pdf2image>=1.16.3",
+    "pillow>=10.0.0",
+]
+delta = [
+    "deltalake>=0.17.0",
+    "pandera>=0.18.0",
+    "great-expectations>=0.18.0",
+]
+
+[project.scripts]
+clean-document = "narvl.cli_doc:main"

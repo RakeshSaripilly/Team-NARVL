@@ -1,0 +1,15 @@
+{
+  "commitInfo": {
+    "timestamp": 1790783793570,
+    "operation": "VALIDATE",
+    "version": 3,
+    "readVersion": 2,
+    "isBlindAppend": false
+  },
+  "add": {
+    "path": "snapshot_v3.json",
+    "size": 12671,
+    "modificationTime": 1790783793570,
+    "dataChange": true
+  }
+}

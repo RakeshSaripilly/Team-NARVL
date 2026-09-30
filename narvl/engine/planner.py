@@ -54,11 +54,11 @@ class SLMPlanner:
 
         # Attempt to load local GGUF model if llama_cpp is installed
         try:
-            import llama_cpp
+            import llama_cpp  # type: ignore
             resolved = resolve_model_path(allow_download=False)
             self.llama_model = llama_cpp.Llama(
                 model_path=str(resolved),
-                n_threads=4,
+                n_threads=4,    
                 n_ctx=2048,
                 mmap=True,
                 verbose=False,
@@ -172,12 +172,18 @@ class SLMPlanner:
                 steps.append({
                     "step_id": step_id,
                     "target_column": col_name,
-                    "issue": "Inconsistent email case and whitespace",
-                    "rule": "Email RFC standardization",
+                    "issue": "Inconsistent email case, whitespace, or invalid format tokens",
+                    "rule": "Email RFC standardization and validation",
                     "action": "regex_replace",
-                    "parameters": {"pattern": r"^\s+|\s+$", "replacement": "", "lowercase": True},
+                    "parameters": {
+                        "pattern": r"^\s+|\s+$",
+                        "replacement": "",
+                        "lowercase": True,
+                        "nullify_invalid": True,
+                        "valid_pattern": r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
+                    },
                     "confidence": 0.96,
-                    "justification": "Emails must be trimmed and lowercased for uniform entity resolution.",
+                    "justification": "Emails must be trimmed, lowercased, and invalid format strings nullified.",
                     "loss_potential": "none",
                     "test_criterion": "valid_email_regex",
                 })

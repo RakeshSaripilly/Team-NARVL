@@ -1,0 +1,6 @@
+customer_name,email,phone,city,state,invoiceno,date,amount
+Rajesh Kumar,rajesh.kumar@acme.com,+91-98765-43210,Hyderabad,Telangana,,2023-03-15,"$1,250.00"
+Priya Sharma,priya.sharma@enterprise.org,+91-91234-56780,Hyderabad,Telangana,,2022-04-20,"$3,400.50"
+Amit Patel,,+91-99887-76655,Ahmedabad,Gujarat,,2024-01-12,$520.00
+Sarah Jenkins,sjenkins@techcorp.io,+1-555-234-5678,,California,,2024-02-18,"$9,800.00"
+Suresh Reddy,,+91-94401-23456,Hyderabad,Telangana,INV-2024-004,2023-11-05,$750.25
