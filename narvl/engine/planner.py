@@ -54,11 +54,11 @@ class SLMPlanner:
 
         # Attempt to load local GGUF model if llama_cpp is installed
         try:
-            import llama_cpp
+            import llama_cpp  # type: ignore
             resolved = resolve_model_path(allow_download=False)
             self.llama_model = llama_cpp.Llama(
                 model_path=str(resolved),
-                n_threads=4,
+                n_threads=4,    
                 n_ctx=2048,
                 mmap=True,
                 verbose=False,

@@ -25,6 +25,7 @@ dependencies = [
     "charset-normalizer>=3.0.0",
     "ftfy>=6.0.0",
     "rapidfuzz>=3.0.0",
+    "onnx>=1.15.0",
     "onnxruntime>=1.15.0",
     "huggingface-hub>=0.20.0",
     "scipy>=1.10.0",
