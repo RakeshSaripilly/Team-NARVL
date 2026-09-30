@@ -13,8 +13,12 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import numpy as np
+import pandas as pd
 import polars as pl
 import streamlit as st
+import altair as alt
+
+alt.data_transformers.disable_max_rows()
 
 import importlib
 import narvl.core.executor
@@ -651,6 +655,190 @@ def screen_7_validation() -> None:
                     st.write(f"- `{r['column']}`: {r['details']}")
 
 
+def render_relationship_chart(
+    df: pl.DataFrame,
+    x_col: str,
+    y_col: str,
+    chart_type: str,
+    is_cleaned: bool,
+) -> None:
+    """Render full-dataset bivariate or univariate relationship chart with Altair."""
+    if df.height == 0:
+        st.info("No records available in this dataset snapshot.")
+        return
+
+    if x_col not in df.columns:
+        st.warning(f"Feature '{x_col}' is not present in this dataset.")
+        return
+
+    is_y_count = (y_col == "(Count / Frequency)") or (x_col == y_col)
+    if not is_y_count and y_col not in df.columns:
+        st.warning(f"Feature '{y_col}' is not present in this dataset.")
+        return
+
+    cols_to_use = [x_col] if is_y_count else [x_col, y_col]
+    # Extract ALL rows from Polars DataFrame into Pandas for Altair plotting
+    pdf = df.select(cols_to_use).to_pandas()
+
+    # Smart coercion for numeric strings with currency/commas
+    for c in cols_to_use:
+        if pdf[c].dtype == object or pd.api.types.is_string_dtype(pdf[c]):
+            non_nulls = (
+                pdf[c]
+                .dropna()
+                .astype(str)
+                .str.replace("$", "", regex=False)
+                .str.replace(",", "", regex=False)
+                .str.strip()
+            )
+            num_test = pd.to_numeric(non_nulls, errors="coerce")
+            if len(non_nulls) > 0 and (num_test.notna().sum() / len(non_nulls)) >= 0.7:
+                pdf[c] = pd.to_numeric(
+                    pdf[c]
+                    .astype(str)
+                    .str.replace("$", "", regex=False)
+                    .str.replace(",", "", regex=False)
+                    .str.strip(),
+                    errors="coerce",
+                )
+
+    color_primary = "#10b981" if is_cleaned else "#f59e0b"
+    color_scheme = "greens" if is_cleaned else "oranges"
+
+    is_x_num = pd.api.types.is_numeric_dtype(pdf[x_col])
+    is_y_num = (not is_y_count) and pd.api.types.is_numeric_dtype(pdf[y_col])
+
+    chart = None
+
+    try:
+        if is_y_count:
+            if is_x_num:
+                chart = (
+                    alt.Chart(pdf.dropna(subset=[x_col]))
+                    .mark_bar(color=color_primary)
+                    .encode(
+                        x=alt.X(
+                            x_col,
+                            type="quantitative",
+                            bin=alt.Bin(maxbins=25),
+                            title=f"{x_col} (Binned Distribution)",
+                        ),
+                        y=alt.Y("count():Q", title="Total Records"),
+                        tooltip=[
+                            alt.Tooltip(x_col, bin=alt.Bin(maxbins=25), title=x_col),
+                            alt.Tooltip("count():Q", title="Record Count"),
+                        ],
+                    )
+                    .properties(height=360)
+                )
+            else:
+                chart = (
+                    alt.Chart(pdf.dropna(subset=[x_col]))
+                    .mark_bar(color=color_primary)
+                    .encode(
+                        x=alt.X(x_col, type="nominal", sort="-y", title=x_col),
+                        y=alt.Y("count():Q", title="Total Records"),
+                        tooltip=[
+                            alt.Tooltip(x_col, title=x_col),
+                            alt.Tooltip("count():Q", title="Record Count"),
+                        ],
+                    )
+                    .properties(height=360)
+                )
+        elif chart_type == "Scatter Plot" or (chart_type == "Auto (Smart Detect)" and is_x_num and is_y_num):
+            chart = (
+                alt.Chart(pdf.dropna(subset=[x_col, y_col]))
+                .mark_circle(size=70, opacity=0.75, color=color_primary)
+                .encode(
+                    x=alt.X(x_col, type="quantitative" if is_x_num else "nominal", title=x_col),
+                    y=alt.Y(y_col, type="quantitative" if is_y_num else "nominal", title=y_col),
+                    tooltip=[x_col, y_col],
+                )
+                .properties(height=360)
+                .interactive()
+            )
+        elif chart_type == "Line Chart":
+            chart = (
+                alt.Chart(pdf.dropna(subset=[x_col, y_col]))
+                .mark_line(point=True, color=color_primary)
+                .encode(
+                    x=alt.X(x_col, type="quantitative" if is_x_num else "nominal", title=x_col),
+                    y=alt.Y(y_col, type="quantitative" if is_y_num else "nominal", title=y_col),
+                    tooltip=[x_col, y_col],
+                )
+                .properties(height=360)
+                .interactive()
+            )
+        elif chart_type == "Box Plot" and is_y_num:
+            chart = (
+                alt.Chart(pdf.dropna(subset=[y_col]))
+                .mark_boxplot(color=color_primary)
+                .encode(
+                    x=alt.X(x_col, type="nominal", title=x_col),
+                    y=alt.Y(y_col, type="quantitative", title=y_col),
+                    tooltip=[x_col, y_col],
+                )
+                .properties(height=360)
+            )
+        elif not is_x_num and is_y_num:
+            chart = (
+                alt.Chart(pdf.dropna(subset=[x_col, y_col]))
+                .mark_bar(color=color_primary)
+                .encode(
+                    x=alt.X(x_col, type="nominal", sort="-y", title=x_col),
+                    y=alt.Y(f"mean({y_col}):Q", title=f"Mean {y_col}"),
+                    tooltip=[
+                        x_col,
+                        alt.Tooltip(f"mean({y_col}):Q", title=f"Mean {y_col}", format=".2f"),
+                        alt.Tooltip("count():Q", title="Record Count"),
+                    ],
+                )
+                .properties(height=360)
+            )
+        elif is_x_num and not is_y_num:
+            chart = (
+                alt.Chart(pdf.dropna(subset=[x_col, y_col]))
+                .mark_bar(color=color_primary)
+                .encode(
+                    y=alt.Y(y_col, type="nominal", sort="-x", title=y_col),
+                    x=alt.X(f"mean({x_col}):Q", title=f"Mean {x_col}"),
+                    tooltip=[
+                        y_col,
+                        alt.Tooltip(f"mean({x_col}):Q", title=f"Mean {x_col}", format=".2f"),
+                        alt.Tooltip("count():Q", title="Record Count"),
+                    ],
+                )
+                .properties(height=360)
+            )
+        else:
+            # Both categorical
+            chart = (
+                alt.Chart(pdf.dropna(subset=[x_col, y_col]))
+                .mark_rect()
+                .encode(
+                    x=alt.X(x_col, type="nominal", title=x_col),
+                    y=alt.Y(y_col, type="nominal", title=y_col),
+                    color=alt.Color("count():Q", scale=alt.Scale(scheme=color_scheme), title="Frequency"),
+                    tooltip=[x_col, y_col, alt.Tooltip("count():Q", title="Frequency")],
+                )
+                .properties(height=360)
+            )
+
+        if chart is not None:
+            st.altair_chart(chart, use_container_width=True)
+    except Exception as err:
+        st.error(f"Error rendering relationship chart: {err}")
+
+    # Micro-metrics footer
+    tot = len(pdf)
+    null_x = pdf[x_col].isna().sum() if x_col in pdf.columns else 0
+    null_y = pdf[y_col].isna().sum() if not is_y_count and y_col in pdf.columns else 0
+    st.caption(
+        f"📊 **Plotted:** {tot:,} records • **Nulls ({x_col}):** {null_x:,}"
+        + (f" • **Nulls ({y_col}):** {null_y:,}" if not is_y_count and y_col != x_col else "")
+    )
+
+
 def screen_8_before_after() -> None:
     """Screen 8: Before vs After Dashboard & Signed Provenance Export."""
     st.markdown('<div class="main-header">8. Before vs After & Provenance Audit</div>', unsafe_allow_html=True)
@@ -669,6 +857,53 @@ def screen_8_before_after() -> None:
     with c2:
         st.markdown("#### Cleaned Dataset (After)")
         st.dataframe(cleaned_df.head(10).to_pandas(), width="stretch")
+
+    st.markdown("---")
+    st.markdown("### 📊 Interactive Dataset Visualizer (All Records)")
+    st.caption("Select X and Y features below to visually inspect how their relationship and distribution compare between the raw and cleaned datasets across **all records**.")
+
+    all_cols = list(dict.fromkeys(list(raw_df.columns) + list(cleaned_df.columns)))
+    if all_cols:
+        col_ctrl1, col_ctrl2, col_ctrl3 = st.columns([2, 2, 1.5])
+        with col_ctrl1:
+            x_col = st.selectbox(
+                "Select X-Axis Feature",
+                options=all_cols,
+                index=0,
+                key="screen8_viz_x",
+                help="Feature plotted on the horizontal axis across all records.",
+            )
+        with col_ctrl2:
+            y_options = ["(Count / Frequency)"] + all_cols
+            default_y_idx = 2 if len(all_cols) > 1 else 0
+            y_col = st.selectbox(
+                "Select Y-Axis Feature",
+                options=y_options,
+                index=default_y_idx if default_y_idx < len(y_options) else 0,
+                key="screen8_viz_y",
+                help="Feature plotted on the vertical axis or frequency count across all records.",
+            )
+        with col_ctrl3:
+            chart_type = st.selectbox(
+                "Visualization Style",
+                options=["Auto (Smart Detect)", "Scatter Plot", "Bar Chart", "Line Chart", "Box Plot"],
+                index=0,
+                key="screen8_viz_type",
+                help="Choose display format or let smart detect choose optimal visual.",
+            )
+
+        viz_c1, viz_c2 = st.columns(2)
+        with viz_c1:
+            st.markdown(f"##### 📉 Raw Data: `{x_col}` vs `{y_col}`")
+            st.caption(f"All **{raw_df.height:,}** records considered")
+            render_relationship_chart(raw_df, x_col, y_col, chart_type, is_cleaned=False)
+
+        with viz_c2:
+            st.markdown(f"##### 📈 Cleaned Data: `{x_col}` vs `{y_col}`")
+            st.caption(f"All **{cleaned_df.height:,}** records considered")
+            render_relationship_chart(cleaned_df, x_col, y_col, chart_type, is_cleaned=True)
+    else:
+        st.info("No columns available to visualize.")
 
     st.markdown("---")
     st.markdown("### Provenance Audit Report Generation")
