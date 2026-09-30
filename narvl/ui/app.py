@@ -598,61 +598,141 @@ def screen_6_stepper() -> None:
 
 
 def screen_7_validation() -> None:
-    """Screen 7: Dual Validation Tests (Pandera + Great Expectations)."""
+    """Screen 7: Dual Validation Suite (Pandera + Great Expectations)."""
     st.markdown('<div class="main-header">7. Dual Validation Suite (Pandera + GE)</div>', unsafe_allow_html=True)
-    target_df = st.session_state.cleaned_df if st.session_state.cleaned_df is not None else st.session_state.raw_df
-
-    if target_df is None:
+    if st.session_state.raw_df is None:
         st.warning("Please ingest a dataset first.")
         return
 
+    raw_df = st.session_state.raw_df
+    cleaned_df = st.session_state.cleaned_df if st.session_state.cleaned_df is not None else raw_df
     steps = getattr(st.session_state, "active_steps", st.session_state.plan_steps)
     target_cols = st.session_state.get("selected_columns", None)
     synthesizer = DualTestSynthesizer(steps)
 
-    with st.spinner("Running automated Pandera schema checks and Great Expectations checkpoint..."):
-        synthesizer.validate_dataset(target_df)
-        prev_removed = getattr(st.session_state.validation_result, "removed_records_count", 0)
+    # 1. Dataset Evaluation Target Selection
+    col_t1, col_t2 = st.columns([2, 1])
+    with col_t1:
+        target_choice = st.radio(
+            "Select Dataset Target to Validate:",
+            options=["Cleaned Dataset (After Plan Execution)", "Raw Dataset (Before Cleaning)"],
+            index=0,
+            horizontal=True,
+            help="Toggle between Cleaned and Raw dataset to verify that the validation tests genuinely detect violations on raw data and verify compliance on cleaned data.",
+        )
+    target_df = cleaned_df if "Cleaned" in target_choice else raw_df
+
+    with st.spinner("Synthesizing and executing Pandera schemas and Great Expectations checkpoints..."):
         res = synthesizer.validate_dataset(target_df, target_columns=target_cols)
-        if prev_removed > 0:
-            res.removed_records_count = prev_removed
-        st.session_state.validation_result = res
+        ge_suite = synthesizer.build_ge_suite(target_df, target_columns=target_cols)
 
-    if getattr(st.session_state.validation_result, "removed_records_count", 0) > 0:
-        st.info(f"🛡️ **Post-Processing Active**: {st.session_state.validation_result.removed_records_count:,} invalid records failing Pandera or GE constraints were purged from cleaned dataset.")
+    # 2. Executive Metric Cards
+    total_exp = res.ge_summary.get("total_expectations", 0)
+    failed_exp = res.ge_summary.get("failed_expectations", 0)
+    passed_exp = total_exp - failed_exp
+    pass_rate = (passed_exp / total_exp * 100.0) if total_exp > 0 else 100.0
 
-    if not res.is_fully_validated:
+    m1, m2, m3, m4 = st.columns(4)
+    with m1:
+        st.metric("Total Synthesized Tests", f"{total_exp} Checks")
+    with m2:
+        pan_status = "✅ VERIFIED" if res.pandera_passed else "❌ FAILED"
+        st.metric("Pandera Schema", pan_status)
+    with m3:
+        ge_status = "✅ VERIFIED" if res.ge_passed else "❌ FAILED"
+        st.metric("Great Expectations", ge_status)
+    with m4:
+        st.metric("Test Pass Rate", f"{pass_rate:.1f}%", delta=f"{passed_exp}/{total_exp} Passed")
+
+    # If validating Cleaned and invalid records were purged in step 6
+    purged_cnt = getattr(st.session_state.validation_result, "removed_records_count", 0)
+    if "Cleaned" in target_choice and purged_cnt > 0:
+        st.info(f"🛡️ **Post-Processing Active**: {purged_cnt:,} invalid records failing range, regex, or null constraints were purged from the cleaned dataset during Step 6.")
+
+    if not res.is_fully_validated and "Cleaned" in target_choice:
         if st.button("🧹 Purge Non-Compliant Records from Cleaned Dataset"):
-            if hasattr(synthesizer, "filter_and_validate"):
-                filtered_df, new_res = synthesizer.filter_and_validate(target_df)
-            else:
-                new_res = synthesizer.validate_dataset(target_df)
-                filtered_df = target_df
+            filtered_df, new_res = synthesizer.filter_and_validate(target_df, target_columns=target_cols)
             st.session_state.cleaned_df = filtered_df
             st.session_state.validation_result = new_res
-            purged_cnt = getattr(new_res, "removed_records_count", 0)
-            st.success(f"Purged {purged_cnt:,} non-compliant records!")
+            st.success(f"Purged {new_res.removed_records_count:,} non-compliant records!")
             st.rerun()
 
+    st.markdown("---")
+    st.markdown("### 📋 Itemized Great Expectations Checkpoint Breakdown")
+    st.write(f"Evaluating **{len(ge_suite.get('expectations', []))} rule expectations** across all **{target_df.height:,}** records in the `{target_choice.split(' ')[0]}` dataset:")
+
+    # Detailed Expectations Table
+    ge_results = res.ge_summary.get("results", [])
+    if ge_results:
+        table_rows = []
+        for r in ge_results:
+            col = r.get("column", "-")
+            etype = r.get("expectation", "-")
+            success = r.get("success", False)
+            details = r.get("details", "")
+
+            # Human-readable rule description
+            if etype == "expect_column_values_to_be_between":
+                matching_exp = next((e for e in ge_suite.get("expectations", []) if e.get("kwargs", {}).get("column") == col and e.get("expectation_type") == etype), None)
+                min_v = matching_exp.get("kwargs", {}).get("min_value") if matching_exp else "Min"
+                max_v = matching_exp.get("kwargs", {}).get("max_value") if matching_exp else "Max"
+                rule_desc = f"Values must be bounded within [{min_v}, {max_v}]"
+            elif etype == "expect_column_values_to_match_regex":
+                rule_desc = "RFC-5322 Compliant Email Address Pattern"
+            elif etype == "expect_column_values_to_not_be_null":
+                rule_desc = "Column values must not contain null/empty entries"
+            else:
+                rule_desc = etype.replace("expect_column_values_", "").replace("_", " ").title()
+
+            status_str = "✅ PASSED" if success else "❌ FAILED"
+            finding_str = "0 violations detected (100% compliant)" if success else f"⚠️ {details}"
+
+            table_rows.append({
+                "Target Feature": col,
+                "Validation Rule / Criterion": rule_desc,
+                "Expectation API": etype,
+                "Verdict": status_str,
+                "Evaluation Result": finding_str,
+            })
+        st.dataframe(pd.DataFrame(table_rows), use_container_width=True)
+    else:
+        st.info("No specific column expectations configured for the current plan steps.")
+
+    st.markdown("---")
     c1, c2 = st.columns(2)
+
     with c1:
-        st.markdown("### 🧪 Pandera DataFrameSchema")
+        st.markdown("### 🧪 Pandera Schema Specification")
         if res.pandera_passed:
-            st.success("✅ **PASSED**: All range bounds, regex patterns, and type constraints verified.")
+            st.success("✅ **PASSED**: All range bounds, regex patterns, and type constraints verified by Pandera.")
         else:
-            st.error("❌ **BLOCKED**: Schema errors encountered:")
+            st.error("❌ **BLOCKED**: Pandera encountered schema violation exceptions:")
             for err in res.pandera_errors:
                 st.code(err)
 
+        # Pandera Schema Columns summary
+        schema_obj = synthesizer.build_pandera_schema(target_df, plan_steps=steps, target_columns=target_cols)
+        schema_rows = []
+        for col_name, pa_col in schema_obj.columns.items():
+            checks_repr = ", ".join([str(chk.name or chk) for chk in pa_col.checks]) if pa_col.checks else "Type check only"
+            schema_rows.append({
+                "Column": col_name,
+                "Dtype": str(target_df[col_name].dtype) if col_name in target_df.columns else "Unknown",
+                "Nullable": "Yes" if pa_col.nullable else "No (Enforced Non-Null)",
+                "Checks": checks_repr,
+            })
+        with st.expander("🔍 View Synthesized Pandera Column Schema Details", expanded=False):
+            st.dataframe(pd.DataFrame(schema_rows), use_container_width=True)
+
     with c2:
-        st.markdown("### 📋 Great Expectations Checkpoint")
+        st.markdown("### 📋 Great Expectations Suite Artifact")
         if res.ge_passed:
-            st.success(f"✅ **PASSED**: {res.ge_summary.get('total_expectations', 0)} expectations met.")
+            st.success(f"✅ **PASSED**: {res.ge_summary.get('total_expectations', 0)} expectations evaluated and verified.")
         else:
-            st.error(f"❌ **BLOCKED**: {res.ge_summary.get('failed_expectations', 0)} expectation(s) failed.")
-            for r in res.ge_summary.get("results", []):
-                if not r["success"]:
-                    st.write(f"- `{r['column']}`: {r['details']}")
+            st.error(f"❌ **BLOCKED**: {res.ge_summary.get('failed_expectations', 0)} expectation(s) failed on `{target_choice.split(' ')[0]}` dataset.")
+
+        with st.expander("📄 View Great Expectations JSON Suite (`narvl_cleaning_suite.json`)", expanded=False):
+            st.json(ge_suite)
 
 
 def render_relationship_chart(
