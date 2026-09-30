@@ -112,6 +112,7 @@ def run_clean_pipeline(
         plan.steps,
         target_columns=selected_columns,
         resolve_nulls_policy=resolve_nulls,
+        dry_run=True,
     )
 
     loss_estimator = LossEstimator()
