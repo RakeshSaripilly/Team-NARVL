@@ -1,0 +1,134 @@
+{
+  {
+    "ID": 1,
+    "Name": "Alice Johnson",
+    "Age": 28,
+    "Email": "alice@corp.com",
+    "Phone": "+91-9876543210",
+    "City": "Hyderabad",
+    "State": "Telangana",
+    "PostalCode": "500032",
+    "Amount": 1250.5
+  },
+  {
+    "ID": 2,
+    "Name": "Bob Smith",
+    "Age": null,
+    "Email": "bob@org.net",
+    "Phone": null,
+    "City": "Hyd",
+    "State": null,
+    "PostalCode": "500032",
+    "Amount": null
+  },
+  {
+    "ID": 3,
+    "Name": "Charlie Brown",
+    "Age": -15,
+    "Email": "invalid-email",
+    "Phone": "12345",
+    "City": "HYD",
+    "State": "Telengana",
+    "PostalCode": "500032",
+    "Amount": -500
+  },
+  {
+    "ID": 4,
+    "Name": "Diana Prince",
+    "Age": 34,
+    "Email": "diana@corp.com",
+    "Phone": "9876543210",
+    "City": "Hyderabad",
+    "State": "Telangana",
+    "PostalCode": "500032",
+    "Amount": 2000.0
+  },
+  {
+    "ID": 5,
+    "Name": "Alice Johnson",
+    "Age": 28,
+    "Email": "alice@corp.com",
+    "Phone": "+91-9876543210",
+    "City": "Hyderabad",
+    "State": "Telangana",
+    "PostalCode": "500032",
+    "Amount": 1250.5
+  },
+  {
+    "ID": 6,
+    "Name": "Alice Jonson",
+    "Age": 28,
+    "Email": "alice@corp.com",
+    "Phone": "+91-9876543210",
+    "City": "Hyd",
+    "State": "Telengana",
+    "PostalCode": "500032",
+    "Amount": 1250.5
+  },
+  {
+    "ID": 7,
+    "Name": "Eve Adams",
+    "Age": 150,
+    "Email": "EVE@CORP.COM",
+    "Phone": "987-654-3210",
+    "City": "hyd",
+    "State": "TELANGANA",
+    "PostalCode": "500032",
+    "Amount": "1250.50"
+  },
+  {
+    "ID": 8,
+    "Name": null,
+    "Age": 45,
+    "Email": null,
+    "Phone": "+91-9876543211",
+    "City": null,
+    "State": "Telangana",
+    "PostalCode": null,
+    "Amount": 3000.0
+  },
+  {
+    "ID": 9,
+    "Name": "Frank Miller",
+    "Age": 52,
+    "Email": "frank@test.com",
+    "Phone": "+91-9876543212",
+    "City": "Secunderabad",
+    "State": "Karnataka",
+    "PostalCode": "500032",
+    "Amount": 4500.0
+  },
+  {
+    "ID": 10,
+    "Name": "  ",
+    "Age": 29,
+    "Email": "grace@corp.com",
+    "Phone": "+91-9876543213",
+    "City": "Hyderabad",
+    "State": "Telangana",
+    "PostalCode": "500032",
+    "Amount": 1800.75
+  },
+  {
+    "ID": 11,
+    "Name": "Henry Ford",
+    "Age": 38,
+    "Email": "henry@ford.com",
+    "Phone": "+91-9876543214",
+    "City": "Bangalore",
+    "State": "Karnataka",
+    "PostalCode": "560001",
+    "Amount": 5200.0
+  },
+  {
+    "ID": 12,
+    "Name": "Ivy Chen",
+    "Age": null,
+    "Email": "ivy@@corp..com",
+    "Phone": null,
+    "City": "HYD",
+    "State": null,
+    "PostalCode": "500032",
+    "Amount": null
+  }
+}

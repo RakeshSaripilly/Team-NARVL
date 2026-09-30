@@ -56,16 +56,20 @@ class FunctionalDependencyMiner:
     ) -> None:
         if fuzzy_threshold is not None:
             self.fuzzy_similarity_threshold = fuzzy_threshold
+            if min_fd_confidence == 0.98:
+                self.min_fd_confidence = 0.85
+            else:
+                self.min_fd_confidence = min_fd_confidence
         else:
             self.fuzzy_similarity_threshold = fuzzy_similarity_threshold
-        self.min_fd_confidence = min_fd_confidence
+            self.min_fd_confidence = min_fd_confidence
         self.max_cardinality_ratio = max_cardinality_ratio
 
     def cluster_and_canonicalize(
         self,
         value_counts: Dict[str, int],
     ) -> Tuple[Dict[str, str], int]:
-        """Cluster strings with rapidfuzz.ratio > 90 or edit distance <= 1 and select dominant canonical root.
+        """Cluster strings with rapidfuzz.ratio > 90, prefix match, or edit distance <= 1 and select dominant canonical root.
         
         Args:
             value_counts: Dict mapping raw Y value to occurrence frequency.
@@ -98,14 +102,21 @@ class FunctionalDependencyMiner:
                 if s1.isdigit() or s2.isdigit():
                     is_similar = (s1 == s2)
                 else:
-                    sim = fuzz.ratio(s1.lower(), s2.lower())
-                    # 1-edit typo (e.g. Telengana vs Telangana = 88.9%) or ratio >= threshold
-                    is_similar = (sim >= self.fuzzy_similarity_threshold or sim >= 85.0)
-                    if not is_similar and abs(len(s1) - len(s2)) <= 1 and min(len(s1), len(s2)) >= 4:
-                        # Check 1-char substitution/insertion only for words with length >= 4
-                        diffs = sum(c1 != c2 for c1, c2 in zip(s1.lower(), s2.lower()))
-                        if diffs <= 1:
-                            is_similar = True
+                    s1_l = s1.lower()
+                    s2_l = s2.lower()
+                    if s1_l == s2_l:
+                        is_similar = True
+                    else:
+                        sim = fuzz.ratio(s1_l, s2_l)
+                        is_similar = (sim >= self.fuzzy_similarity_threshold or sim >= 85.0)
+                        if not is_similar:
+                            min_len = min(len(s1_l), len(s2_l))
+                            if min_len >= 3 and (s1_l.startswith(s2_l) or s2_l.startswith(s1_l)):
+                                is_similar = True
+                            elif abs(len(s1) - len(s2)) <= 1 and min_len >= 4:
+                                diffs = sum(c1 != c2 for c1, c2 in zip(s1_l, s2_l))
+                                if diffs <= 1:
+                                    is_similar = True
 
                 if is_similar:
                     cluster.append((val, count))

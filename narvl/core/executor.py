@@ -177,13 +177,30 @@ class ReversibleExecutor:
         if action == "standardize_values" and target_col and target_col in df.columns:
             mapping = params.get("mapping", {})
             if mapping:
-                return df.with_columns(pl.col(target_col).replace(mapping))
+                expanded_mapping: Dict[Any, Any] = {}
+                for k, v in mapping.items():
+                    if k is not None:
+                        k_str = str(k).strip()
+                        v_val = None if v is None else str(v).strip()
+                        expanded_mapping[k_str] = v_val
+                        expanded_mapping[k_str.lower()] = v_val
+                        expanded_mapping[k_str.upper()] = v_val
+                        expanded_mapping[k_str.title()] = v_val
+
+                ser = df[target_col]
+                if ser.dtype in [pl.String, pl.Categorical]:
+                    cleaned_col = pl.col(target_col).cast(pl.String).str.strip_chars().replace(expanded_mapping)
+                    return df.with_columns(cleaned_col.alias(target_col))
+                return df.with_columns(pl.col(target_col).replace(expanded_mapping))
             return df
 
         if action == "clamp_bounds" and target_col and target_col in df.columns:
             low = params.get("lower", 0)
             high = params.get("upper", 120)
-            return df.with_columns(pl.col(target_col).clip(low, high))
+            col_expr = pl.col(target_col)
+            if not df[target_col].dtype.is_numeric():
+                col_expr = col_expr.cast(pl.Float64, strict=False)
+            return df.with_columns(col_expr.clip(low, high))
 
         if action == "knn_impute" and target_col and target_col in df.columns:
             ser = df[target_col]

@@ -12,11 +12,20 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Union
 
+import polars as pl
+from rapidfuzz import fuzz
+
 from narvl.core.fd_miner import FunctionalDependency
-from narvl.core.semantic_typer import SemanticClassification
+from narvl.core.semantic_typer import (
+    COMMON_CITIES,
+    COMMON_INDIAN_STATES,
+    SemanticClassification,
+    US_STATES,
+)
 from narvl.engine.grammars import (
     CLEANING_PLAN_GBNF,
     GrammarValidationError,
@@ -26,6 +35,21 @@ from narvl.engine.grammars import (
 from narvl.engine.model_loader import resolve_model_path
 
 logger = logging.getLogger("narvl.engine.planner")
+
+CITY_ABBREVIATIONS: Dict[str, str] = {
+    "hyd": "Hyderabad",
+    "sec": "Secunderabad",
+    "blr": "Bangalore",
+    "mum": "Mumbai",
+    "del": "Delhi",
+    "chn": "Chennai",
+    "kol": "Kolkata",
+    "pune": "Pune",
+    "nyc": "New York",
+    "sf": "San Francisco",
+    "la": "Los Angeles",
+    "chi": "Chicago",
+}
 
 CONFIDENCE_GATE_THRESHOLD = 0.85
 
@@ -73,6 +97,7 @@ class SLMPlanner:
         semantic_types: Dict[str, SemanticClassification],
         fds: List[FunctionalDependency],
         selected_columns: Optional[List[str]] = None,
+        raw_df: Optional[pl.DataFrame] = None,
     ) -> List[Dict[str, Any]]:
         """Synthesize plan deterministically conforming strictly to GBNF schema."""
         steps: List[Dict[str, Any]] = []
@@ -117,26 +142,120 @@ class SLMPlanner:
                 })
                 step_id += 1
 
-        # 2. Check FDs for typo canonicalization
+        # 2. Check FDs for typo canonicalization and consolidate mappings
+        fd_mappings_by_col: Dict[str, Dict[str, str]] = {}
         for fd in fds:
             if sel_set is not None and fd.dependent not in sel_set:
                 continue
             if fd.canonical_mapping:
+                if fd.dependent not in fd_mappings_by_col:
+                    fd_mappings_by_col[fd.dependent] = {}
+                fd_mappings_by_col[fd.dependent].update(fd.canonical_mapping)
+
+        # 3. Semantic Entity Standardization (City, State, Phone)
+        if raw_df is not None:
+            for col in raw_df.columns:
+                if sel_set is not None and col not in sel_set:
+                    continue
+                c_lower = col.lower()
+                sem = semantic_types.get(col)
+                sem_type_str = sem.semantic_type if sem else ""
+
+                # City Standardization
+                if "city" in c_lower or "town" in c_lower or sem_type_str == "City":
+                    city_vals = [str(v).strip() for v in raw_df[col].drop_nulls().unique() if str(v).strip()]
+                    c_map: Dict[str, str] = {}
+                    for val in city_vals:
+                        v_l = val.lower()
+                        if v_l in CITY_ABBREVIATIONS:
+                            can = CITY_ABBREVIATIONS[v_l]
+                            if val != can:
+                                c_map[val] = can
+                        else:
+                            for c_can in COMMON_CITIES:
+                                canonical = c_can.title()
+                                if len(v_l) >= 3 and c_can.startswith(v_l):
+                                    if val != canonical:
+                                        c_map[val] = canonical
+                                    break
+                                elif fuzz.ratio(v_l, c_can) >= 80:
+                                    if val != canonical:
+                                        c_map[val] = canonical
+                                    break
+                    if c_map:
+                        if col not in fd_mappings_by_col:
+                            fd_mappings_by_col[col] = {}
+                        fd_mappings_by_col[col].update(c_map)
+
+                # State Standardization
+                if "state" in c_lower or "province" in c_lower or sem_type_str == "State":
+                    state_vals = [str(v).strip() for v in raw_df[col].drop_nulls().unique() if str(v).strip()]
+                    s_map: Dict[str, str] = {}
+                    for val in state_vals:
+                        v_l = val.lower()
+                        for st_can in (COMMON_INDIAN_STATES | US_STATES):
+                            canonical = st_can.title()
+                            if v_l == st_can or fuzz.ratio(v_l, st_can) >= 80:
+                                if val != canonical:
+                                    s_map[val] = canonical
+                                break
+                    if s_map:
+                        if col not in fd_mappings_by_col:
+                            fd_mappings_by_col[col] = {}
+                        fd_mappings_by_col[col].update(s_map)
+
+                # Phone Standardization
+                if "phone" in c_lower or "mobile" in c_lower or "contact" in c_lower or sem_type_str == "Phone":
+                    phone_vals = [str(v).strip() for v in raw_df[col].drop_nulls().unique() if str(v).strip()]
+                    p_map: Dict[str, Any] = {}
+                    for val in phone_vals:
+                        digits = re.sub(r"\D", "", str(val))
+                        if len(digits) == 10:
+                            canonical = f"+91-{digits}"
+                            if str(val) != canonical:
+                                p_map[str(val)] = canonical
+                        elif len(digits) == 12 and digits.startswith("91"):
+                            canonical = f"+91-{digits[2:]}"
+                            if str(val) != canonical:
+                                p_map[str(val)] = canonical
+                        elif 0 < len(digits) < 10:
+                            p_map[str(val)] = None
+                    if p_map:
+                        if col not in fd_mappings_by_col:
+                            fd_mappings_by_col[col] = {}
+                        fd_mappings_by_col[col].update(p_map)
+
+        # Emit consolidated standardize_values steps with transitive closure
+        for target_col, col_map in fd_mappings_by_col.items():
+            if not col_map:
+                continue
+            # Transitive closure: if A -> B and B -> C, then A -> C
+            resolved_map: Dict[str, Any] = {}
+            for k, v in col_map.items():
+                curr = v
+                depth = 0
+                while curr in col_map and depth < 5:
+                    curr = col_map[curr]
+                    depth += 1
+                if k != curr:
+                    resolved_map[k] = curr
+
+            if resolved_map:
                 steps.append({
                     "step_id": step_id,
-                    "target_column": fd.dependent,
-                    "issue": f"Approximate FD violation with {fd.determinant}: typographical drift",
-                    "rule": f"FD: {fd.determinant} -> {fd.dependent}",
+                    "target_column": target_col,
+                    "issue": f"Typographical, casing drift, and format anomalies in {target_col}",
+                    "rule": f"Standardize {target_col} to canonical entities and formats",
                     "action": "standardize_values",
-                    "parameters": {"mapping": fd.canonical_mapping},
-                    "confidence": float(fd.confidence),
-                    "justification": f"Fuzzy matching resolved canonical root from {fd.determinant} grouping.",
+                    "parameters": {"mapping": resolved_map},
+                    "confidence": 0.98,
+                    "justification": f"Unified semantic knowledge and functional dependencies resolve {target_col} anomalies.",
                     "loss_potential": "none",
-                    "test_criterion": f"consistent_with_{fd.determinant}",
+                    "test_criterion": f"standardized_{target_col.lower()}",
                 })
                 step_id += 1
 
-        # 3. Check column profiles for nulls, bounds, and formatting
+        # 4. Check column profiles for nulls, bounds, and formatting
         columns = summary.get("columns", {})
         for col_name, col_meta in columns.items():
             if sel_set is not None and col_name not in sel_set:
@@ -193,6 +312,32 @@ class SLMPlanner:
                     })
                     step_id += 1
 
+            # Domain bounds for Financial / Amount columns (cannot be negative)
+            if any(k in col_name.lower() for k in ["amount", "salary", "price", "revenue", "cost", "fee", "balance"]):
+                min_v = col_meta.get("min")
+                if min_v is None and raw_df is not None and col_name in raw_df.columns:
+                    try:
+                        clean_num = raw_df[col_name].cast(pl.Float64, strict=False).drop_nulls()
+                        if len(clean_num) > 0:
+                            min_v = float(clean_num.min())
+                    except Exception:
+                        pass
+                if min_v is not None and min_v < 0:
+                    max_v = float(col_meta.get("max", 1e9)) if col_meta.get("max") is not None else 1e9
+                    steps.append({
+                        "step_id": step_id,
+                        "target_column": col_name,
+                        "issue": f"Financial {col_name} values out of domain with negative values (min: {min_v})",
+                        "rule": f"Domain range: {col_name} >= 0",
+                        "action": "clamp_bounds",
+                        "parameters": {"lower": 0.0, "upper": max_v},
+                        "confidence": 0.98,
+                        "justification": f"Financial amounts and salaries cannot be negative; clamp negative anomalies to zero.",
+                        "loss_potential": "low",
+                        "test_criterion": "non_negative",
+                    })
+                    step_id += 1
+
             # Regex replacement for formatting
             sem_type = semantic_types.get(col_name)
             if sem_type and sem_type.semantic_type == "Email":
@@ -238,6 +383,7 @@ class SLMPlanner:
         semantic_types: Optional[Dict[str, SemanticClassification]] = None,
         fds: Optional[List[FunctionalDependency]] = None,
         selected_columns: Optional[List[str]] = None,
+        raw_df: Optional[pl.DataFrame] = None,
     ) -> PlanResult:
         """Generate cleaning plan conforming to GBNF and execute L5 Confidence Gate.
         
@@ -246,6 +392,7 @@ class SLMPlanner:
             semantic_types: Optional mapping of column names to semantic classifications.
             fds: Optional list of discovered functional dependencies.
             selected_columns: Optional list of column names to constrain cleaning steps to.
+            raw_df: Optional input DataFrame to derive semantic entity mappings from.
             
         Returns:
             PlanResult with steps routed to auto_batch and human_review_queue.
@@ -296,7 +443,7 @@ class SLMPlanner:
         # Deterministic constrained fallback reasoning
         if not steps:
             steps = self._generate_deterministic_plan(
-                summary_dict, semantic_types, fds, selected_columns=selected_columns
+                summary_dict, semantic_types, fds, selected_columns=selected_columns, raw_df=raw_df
             )
             raw_output = json.dumps(steps, indent=2)
 
@@ -334,6 +481,7 @@ class SLMPlanner:
         functional_dependencies: Optional[List[Any]] = None,
         fds: Optional[List[FunctionalDependency]] = None,
         selected_columns: Optional[List[str]] = None,
+        raw_df: Optional[pl.DataFrame] = None,
     ) -> PlanResult:
         """Convenience alias for plan with flexible dict and string type resolution."""
         actual_fds = fds or []
@@ -370,4 +518,5 @@ class SLMPlanner:
             semantic_types=converted_types,
             fds=actual_fds,
             selected_columns=selected_columns,
+            raw_df=raw_df,
         )

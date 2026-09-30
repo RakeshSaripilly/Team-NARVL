@@ -64,20 +64,184 @@ class DatasetNormalizer:
         if suffix in [".ndjson", ".jsonl"]:
             return "ndjson"
         if suffix in [".json"]:
-            # Check if it looks like NDJSON (multiple lines starting with '{')
+            # Check if it looks like NDJSON (multiple lines each containing a full JSON object)
             try:
                 with open(path, "rb") as f:
                     first_k = f.read(4096).strip()
                     if first_k.startswith(b"["):
                         return "json"
                     lines = [l.strip() for l in first_k.split(b"\n") if l.strip()]
-                    if len(lines) > 1 and lines[0].startswith(b"{") and lines[1].startswith(b"{"):
+                    if len(lines) > 1 and lines[0].startswith(b"{") and lines[0].endswith(b"}") and lines[1].startswith(b"{"):
                         return "ndjson"
             except Exception:
                 pass
             return "json"
         # Default fallback: check if binary or delimited
         return "csv"
+
+    def _load_ndjson_fallback(self, source: Path) -> pl.DataFrame:
+        """Line-by-line fallback NDJSON reader using Python json parser."""
+        records = []
+        with open(source, "r", encoding="utf-8", errors="replace") as f:
+            for line in f:
+                line_str = line.strip()
+                if not line_str:
+                    continue
+                try:
+                    obj = json.loads(line_str)
+                    if isinstance(obj, dict):
+                        records.append(obj)
+                    elif isinstance(obj, list) and obj and isinstance(obj[0], dict):
+                        records.extend(obj)
+                except Exception:
+                    continue
+        if records:
+            return pl.from_dicts(records)
+        return pl.DataFrame()
+
+    def _load_json(self, source: Path) -> pl.DataFrame:
+        """Robustly load arbitrary JSON into a tabular Polars DataFrame."""
+        # 1. Fast path: pl.read_json
+        try:
+            df = pl.read_json(source)
+            if df.height > 0 and df.width > 0:
+                # If a single row object contained a nested list of dicts, unpack it
+                if df.height == 1:
+                    for col in df.columns:
+                        series = df[col]
+                        if series.dtype == pl.List or isinstance(series[0], (list, pl.Series)):
+                            sample_item = series[0]
+                            if (isinstance(sample_item, list) and len(sample_item) > 0 and isinstance(sample_item[0], dict)) or (isinstance(sample_item, pl.Series) and sample_item.dtype == pl.Struct):
+                                try:
+                                    unwrapped = df.explode(col).unnest(col)
+                                    if unwrapped.height > 1:
+                                        return self._postprocess_dataframe(unwrapped)
+                                except Exception:
+                                    pass
+                return self._postprocess_dataframe(df)
+        except Exception:
+            pass
+
+        # 2. Parse using Python standard json with syntax repair
+        data = None
+        raw_text = ""
+        try:
+            with open(source, "r", encoding="utf-8", errors="replace") as f:
+                raw_text = f.read()
+            data = json.loads(raw_text)
+        except Exception:
+            stripped = raw_text.strip()
+            # Recover outer brace mistake: { { ... }, { ... } } -> [ { ... }, { ... } ]
+            if stripped.startswith("{") and stripped.endswith("}"):
+                inner = stripped[1:-1].strip()
+                if inner.startswith("{"):
+                    try:
+                        data = json.loads(f"[{inner}]")
+                    except Exception:
+                        pass
+
+            # Recover missing outer brackets: { ... }, { ... }
+            if data is None:
+                try:
+                    data = json.loads(f"[{stripped}]")
+                except Exception:
+                    pass
+
+            # Extract objects via raw_decode scan
+            if data is None:
+                decoder = json.JSONDecoder()
+                pos = 0
+                records = []
+                text_to_scan = stripped
+                if stripped.startswith("{") and stripped.find("{", 1) != -1:
+                    first_inner = stripped[1:].lstrip()
+                    if first_inner.startswith("{"):
+                        text_to_scan = first_inner.rstrip("}")
+                while pos < len(text_to_scan):
+                    idx = text_to_scan.find("{", pos)
+                    if idx == -1:
+                        break
+                    try:
+                        obj, end = decoder.raw_decode(text_to_scan, idx)
+                        if isinstance(obj, dict):
+                            records.append(obj)
+                        pos = end
+                    except Exception:
+                        pos = idx + 1
+                if records:
+                    data = records
+
+            # Check if source is actually NDJSON
+            if data is None:
+                try:
+                    return self._load_ndjson_fallback(source)
+                except Exception as e:
+                    raise ValueError(f"Failed to parse JSON file {source.name}: {e}")
+
+        if isinstance(data, list):
+            if not data:
+                return pl.DataFrame()
+            if isinstance(data[0], dict):
+                return self._postprocess_dataframe(pl.from_dicts(data))
+            return self._postprocess_dataframe(pl.DataFrame({"value": data}))
+
+        if isinstance(data, dict):
+            # Check for container keys: data, records, rows, items, results, entities, etc.
+            for key in ["data", "records", "rows", "items", "results", "entities", "entries", "content"]:
+                if key in data and isinstance(data[key], list) and len(data[key]) > 0:
+                    if isinstance(data[key][0], dict):
+                        return self._postprocess_dataframe(pl.from_dicts(data[key]))
+
+            # Check if any key has list of dicts
+            for key, val in data.items():
+                if isinstance(val, list) and len(val) > 0 and isinstance(val[0], dict):
+                    return self._postprocess_dataframe(pl.from_dicts(val))
+
+            # Check if columnar (dict of lists of same length)
+            list_lens = [len(v) for v in data.values() if isinstance(v, list)]
+            if list_lens and all(l == list_lens[0] for l in list_lens) and list_lens[0] > 0:
+                try:
+                    return self._postprocess_dataframe(pl.DataFrame(data))
+                except Exception:
+                    pass
+
+            # Fallback: single record dictionary
+            return self._postprocess_dataframe(pl.from_dicts([data]))
+
+        raise ValueError(f"Unable to convert JSON of type {type(data).__name__} into a DataFrame.")
+
+    def _postprocess_dataframe(self, df: pl.DataFrame) -> pl.DataFrame:
+        """Coerce numeric strings to numbers and strip whitespace from text columns."""
+        if df.height == 0 or df.width == 0:
+            return df
+
+        for c in df.columns:
+            if df[c].dtype == pl.String:
+                c_lower = c.lower()
+                is_code_or_id = any(k in c_lower for k in ["code", "zip", "postal", "phone", "id", "ssn", "ein", "tax", "mobile"])
+                if not is_code_or_id:
+                    # 1. Check if column represents numeric values stored as strings (e.g. "1250.50", "$500")
+                    try:
+                        clean_str = df[c].str.replace_all(r"[\$,]", "").str.strip_chars()
+                        casted = clean_str.cast(pl.Float64, strict=False)
+                        if casted.null_count() == df[c].null_count() and df[c].drop_nulls().len() > 0:
+                            df = df.with_columns(casted.alias(c))
+                            continue
+                    except Exception:
+                        pass
+
+                # 2. Trim whitespace and convert whitespace-only strings to null
+                try:
+                    df = df.with_columns(
+                        pl.when(pl.col(c).str.strip_chars().str.len_bytes() == 0)
+                        .then(None)
+                        .otherwise(pl.col(c).str.strip_chars())
+                        .alias(c)
+                    )
+                except Exception:
+                    pass
+
+        return df
 
     def normalize(
         self,
@@ -147,7 +311,10 @@ class DatasetNormalizer:
             )
 
         if fmt == "ndjson":
-            df = pl.read_ndjson(source, ignore_errors=True)
+            try:
+                df = pl.read_ndjson(source, ignore_errors=True)
+            except Exception:
+                df = self._load_ndjson_fallback(source)
             return NormalizedDataset(
                 df=df,
                 format=fmt,
@@ -156,11 +323,7 @@ class DatasetNormalizer:
             )
 
         if fmt == "json":
-            try:
-                df = pl.read_json(source)
-            except Exception:
-                # Fallback to ndjson if standard read_json fails
-                df = pl.read_ndjson(source, ignore_errors=True)
+            df = self._load_json(source)
             return NormalizedDataset(
                 df=df,
                 format=fmt,

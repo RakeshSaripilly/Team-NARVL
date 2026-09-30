@@ -223,4 +223,45 @@ def test_normalizer_multi_format(tmp_path):
     ds_json = normalizer.normalize(json_file)
     assert ds_json.shape == (2, 2)
     assert ds_json.format == "json"
-    print("\n[Normalizer Test] All multi-format readers verified (TSV, Parquet, NDJSON, JSON).")
+
+    # Multiline JSON object starting with '{'
+    json_obj_file = tmp_path / "sample_obj.json"
+    json_obj_file.write_text('{\n  "id": 101,\n  "name": "Alice",\n  "active": true\n}\n', encoding="utf-8")
+    ds_obj = normalizer.normalize(json_obj_file)
+    assert ds_obj.shape == (1, 3)
+    assert ds_obj.format == "json"
+
+    # JSON object with container key ("data" / "records")
+    json_records_file = tmp_path / "sample_container.json"
+    json_records_file.write_text('{\n  "status": "success",\n  "data": [\n    {"id": 1, "score": 90},\n    {"id": 2, "score": 95}\n  ]\n}', encoding="utf-8")
+    ds_container = normalizer.normalize(json_records_file)
+    assert ds_container.shape[0] == 2
+    assert "score" in ds_container.df.columns
+    assert ds_container.format == "json"
+    print("\n[Normalizer Test] All multi-format readers verified (TSV, Parquet, NDJSON, JSON, Object JSON).")
+
+
+def test_shield_sanitizes_json_starting_with_bracket_and_brace(tmp_path):
+    """Test that StreamingShield sanitizes both array and object JSON without delimiter bombing or corruption."""
+    shield = StreamingShield()
+    normalizer = DatasetNormalizer()
+
+    # 1. JSON file starting with '{' and null bytes
+    dirty_json = tmp_path / "dirty_object.json"
+    dirty_json.write_bytes(b'{\n  "doc_id": "doc_001",\n  "title": "Report\x00Title",\n  "version": 1\n}')
+
+    clean_path, quarantined = shield.sanitize_file(dirty_json, quarantine_log=tmp_path / "quarantine.log")
+    assert quarantined == 0
+    df = normalizer.load_file(clean_path)
+    assert df.shape == (1, 3)
+    assert df["title"][0] == "ReportTitle"
+    assert "\x00" not in df["title"][0]
+
+    # 2. JSON file starting with '[' and multiline formatting
+    array_json = tmp_path / "multiline_array.json"
+    array_json.write_text('[\n  {\n    "item": "A",\n    "cost": 10\n  },\n  {\n    "item": "B",\n    "cost": 20\n  }\n]', encoding="utf-8")
+    clean_arr, q_arr = shield.sanitize_file(array_json, quarantine_log=tmp_path / "quarantine.log")
+    assert q_arr == 0
+    df_arr = normalizer.load_file(clean_arr)
+    assert df_arr.shape == (2, 2)
+

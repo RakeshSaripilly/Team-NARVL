@@ -71,7 +71,8 @@ class DualTestSynthesizer:
                 col_constraints[target]["range"] = (lower, upper)
             if action in ["knn_impute", "impute_median", "impute_mean", "impute_mode"] or "non_null" in test_crit:
                 col_constraints[target]["non_null"] = True
-            if "email" in test_crit.lower() or action == "regex_replace":
+            is_email_target = "email" in str(target).lower()
+            if is_email_target and ("email_regex" in test_crit.lower() or "valid_email" in test_crit.lower() or action == "regex_replace"):
                 col_constraints[target]["email_regex"] = True
 
         for col_name in df.columns:
@@ -131,7 +132,8 @@ class DualTestSynthesizer:
                     "kwargs": {"column": target},
                 })
 
-            if "email" in test_crit.lower() or action == "regex_replace":
+            is_email_target = "email" in str(target).lower()
+            if is_email_target and ("email_regex" in test_crit.lower() or "valid_email" in test_crit.lower() or action == "regex_replace"):
                 expectations.append({
                     "expectation_type": "expect_column_values_to_match_regex",
                     "kwargs": {
@@ -281,7 +283,8 @@ class DualTestSynthesizer:
                 invalid_mask = invalid_mask | series.is_null()
 
             # Email regex check
-            if "email" in test_crit.lower() or action == "regex_replace":
+            is_email_target = "email" in str(target).lower()
+            if is_email_target and ("email_regex" in test_crit.lower() or "valid_email" in test_crit.lower() or action == "regex_replace"):
                 series = df.get_column(target)
                 if series.dtype in [pl.String, pl.Categorical]:
                     str_s = series.cast(pl.String)

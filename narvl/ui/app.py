@@ -454,6 +454,7 @@ def screen_4_plan_builder() -> None:
                 functional_dependencies=[fd.__dict__ for fd in st.session_state.fds],
                 semantic_types={k: v.predicted_type for k, v in st.session_state.semantic_types.items()},
                 selected_columns=st.session_state.selected_columns,
+                raw_df=st.session_state.raw_df,
             )
             st.session_state.plan_steps = pipeline.steps
 
