@@ -61,11 +61,29 @@ class DatasetProfiler:
         start_time = time.perf_counter()
         n_rows, n_cols = df.shape
 
+        # Check for candidate primary keys or identifier columns
+        id_candidates = [
+            c for c in df.columns 
+            if any(k in c.lower() for k in ["id", "key", "uuid", "guid", "code", "pk", "num"])
+            or df[c].n_unique() == n_rows
+        ]
+        has_id_col = len(id_candidates) > 0
+
+        # Calculate theoretical state space (max possible combinations across columns)
+        cards = [df[c].n_unique() for c in df.columns]
+        state_space = 1
+        for c in cards:
+            state_space = min(state_space * min(c, 10000), 10**9)
+        is_event_log = (not has_id_col) and (state_space < n_rows) and (n_rows > 500)
+
         # 1. Dataset-level metrics
         if n_rows > 0:
-            dup_count = df.is_duplicated().sum()
+            redundant_rows = n_rows - df.unique().height
         else:
-            dup_count = 0
+            redundant_rows = 0
+
+        # In an event log without an ID key, repeated feature combinations are valid discrete events
+        dup_count = 0 if is_event_log else redundant_rows
 
         summary: Dict[str, Any] = {
             "meta": {
@@ -73,6 +91,10 @@ class DatasetProfiler:
                 "cols": n_cols,
                 "duplicates": int(dup_count),
                 "dup_pct": round((dup_count / n_rows) * 100, 2) if n_rows > 0 else 0.0,
+                "repeated_tuples": int(redundant_rows),
+                "is_event_log": is_event_log,
+                "has_primary_key": has_id_col,
+                "state_space": state_space,
             },
             "columns": {},
         }

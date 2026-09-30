@@ -94,14 +94,18 @@ class FunctionalDependencyMiner:
                 leader_val, _ = cluster[0]
                 s1 = str(val).strip()
                 s2 = str(leader_val).strip()
-                sim = fuzz.ratio(s1.lower(), s2.lower())
-                # 1-edit typo (e.g. Telengana vs Telangana = 88.9%) or ratio >= threshold
-                is_similar = (sim >= self.fuzzy_similarity_threshold or sim >= 85.0)
-                if not is_similar and abs(len(s1) - len(s2)) <= 1:
-                    # Check 1-char substitution/insertion
-                    diffs = sum(c1 != c2 for c1, c2 in zip(s1.lower(), s2.lower()))
-                    if diffs <= 1:
-                        is_similar = True
+                # Digits / numbers are not typographical errors of each other
+                if s1.isdigit() or s2.isdigit():
+                    is_similar = (s1 == s2)
+                else:
+                    sim = fuzz.ratio(s1.lower(), s2.lower())
+                    # 1-edit typo (e.g. Telengana vs Telangana = 88.9%) or ratio >= threshold
+                    is_similar = (sim >= self.fuzzy_similarity_threshold or sim >= 85.0)
+                    if not is_similar and abs(len(s1) - len(s2)) <= 1 and min(len(s1), len(s2)) >= 4:
+                        # Check 1-char substitution/insertion only for words with length >= 4
+                        diffs = sum(c1 != c2 for c1, c2 in zip(s1.lower(), s2.lower()))
+                        if diffs <= 1:
+                            is_similar = True
 
                 if is_similar:
                     cluster.append((val, count))
@@ -149,6 +153,11 @@ class FunctionalDependencyMiner:
             )
 
         # 2. Approximate / Fuzzy FD check
+        # Fuzzy string typo clustering only applies to string/categorical text columns
+        y_dtype = clean_df[col_y].dtype
+        if y_dtype.is_numeric() or y_dtype == pl.Boolean or y_dtype.is_temporal():
+            return None
+
         # Group by (X, Y) and count occurrences
         xy_pairs = (
             clean_df.group_by([col_x, col_y])

@@ -79,20 +79,41 @@ class SLMPlanner:
 
         meta = summary.get("meta", {})
         dup_count = meta.get("duplicates", 0)
+        dup_pct = meta.get("dup_pct", 0.0)
+        columns_dict = summary.get("columns", {})
+        has_id_col = any("id" in c.lower() or "key" in c.lower() or "code" in c.lower() for c in columns_dict)
+
         if dup_count > 0:
-            steps.append({
-                "step_id": step_id,
-                "target_column": "ALL",
-                "issue": f"Detected {dup_count} exact duplicate rows",
-                "rule": "Row uniqueness constraint",
-                "action": "deduplicate_exact",
-                "parameters": {"keep": "first"},
-                "confidence": 0.99,
-                "justification": "Exact duplicates distort aggregate statistics and variance.",
-                "loss_potential": "low",
-                "test_criterion": "no_duplicate_primary_keys",
-            })
-            step_id += 1
+            if dup_pct > 15.0 and not has_id_col:
+                # Without a unique identifier, high repetition indicates non-keyed transaction/event records.
+                # Deduplicating would trigger catastrophic volumetric loss (>15%) and breach the safety gate.
+                steps.append({
+                    "step_id": step_id,
+                    "target_column": "ALL",
+                    "issue": f"High repetition ({dup_pct:.1f}%) detected without unique ID column",
+                    "rule": "Preserve transaction event logs without identifier key",
+                    "action": "deduplicate_exact",
+                    "parameters": {"keep": "first"},
+                    "confidence": 0.40,  # Routes to Human Review Queue (<0.85)
+                    "justification": f"No primary key found; repeated feature tuples represent valid discrete events. Dropping would breach 15% Volumetric Loss Barrier.",
+                    "loss_potential": "high",
+                    "test_criterion": "verify_transaction_uniqueness",
+                })
+                step_id += 1
+            else:
+                steps.append({
+                    "step_id": step_id,
+                    "target_column": "ALL",
+                    "issue": f"Detected {dup_count} exact duplicate rows",
+                    "rule": "Row uniqueness constraint",
+                    "action": "deduplicate_exact",
+                    "parameters": {"keep": "first"},
+                    "confidence": 0.99,
+                    "justification": "Exact duplicates distort aggregate statistics and variance.",
+                    "loss_potential": "low",
+                    "test_criterion": "no_duplicate_primary_keys",
+                })
+                step_id += 1
 
         # 2. Check FDs for typo canonicalization
         for fd in fds:

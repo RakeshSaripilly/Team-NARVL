@@ -181,6 +181,14 @@ def screen_1_upload() -> None:
                 normalizer = FormatNormalizer()
                 df = normalizer.load_file(clean_path)
                 st.session_state.raw_df = df
+                st.session_state.profile = None
+                st.session_state.semantic_types = {}
+                st.session_state.fds = []
+                st.session_state.plan_steps = []
+                st.session_state.active_steps = []
+                st.session_state.cleaned_df = None
+                st.session_state.loss_assessment = None
+                st.session_state.validation_result = None
 
                 st.success(f"Successfully ingested {df.height:,} rows across {df.width} columns!")
                 if quarantine_rows > 0:
@@ -204,6 +212,14 @@ def screen_1_upload() -> None:
                 "Salary": [75000.0, 92000.0, None, 110000.0, 68000.0, 75000.0],
             })
             st.session_state.raw_df = demo_df
+            st.session_state.profile = None
+            st.session_state.semantic_types = {}
+            st.session_state.fds = []
+            st.session_state.plan_steps = []
+            st.session_state.active_steps = []
+            st.session_state.cleaned_df = None
+            st.session_state.loss_assessment = None
+            st.session_state.validation_result = None
             st.rerun()
 
 
@@ -225,18 +241,31 @@ def screen_2_profile() -> None:
     profile = st.session_state.profile
     meta = profile.get("meta", {})
     cols = profile.get("columns", {})
+    is_event_log = meta.get("is_event_log", False)
 
     # Overview Metrics
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Total Records", f"{meta.get('rows', 0):,}")
     m2.metric("Total Features", f"{meta.get('cols', 0):,}")
-    m3.metric("Duplicate Rows", f"{meta.get('duplicates', 0):,} ({meta.get('dup_pct', 0.0):.1f}%)")
+    
+    if is_event_log:
+        m3.metric("Data Archetype", "Event Log (No PK)", help="Discrete event stream without surrogate key; repeated tuples represent natural transaction occurrences.")
+        dup_penalty = 0.0
+    else:
+        m3.metric("Duplicate Rows", f"{meta.get('duplicates', 0):,} ({meta.get('dup_pct', 0.0):.1f}%)")
+        dup_penalty = meta.get("dup_pct", 0.0) * 0.5
     
     # Calculate Data Health Score
     null_rates = [v.get("null_pct", 0.0) for v in cols.values()]
     avg_null = np.mean(null_rates) if null_rates else 0.0
-    quality_score = max(0, int(100 - (avg_null * 0.5) - (meta.get("dup_pct", 0.0) * 0.5)))
+    quality_score = max(0, min(100, int(100 - (avg_null * 0.5) - dup_penalty)))
     m4.metric("Quality Score", f"{quality_score} / 100")
+
+    if is_event_log:
+        st.info(
+            f"ℹ️ **Discrete Transaction Log Detected**: Dataset contains {meta.get('rows', 0):,} rows across {meta.get('cols', 0)} non-keyed columns "
+            f"(state space: {meta.get('state_space', 0):,} distinct combinations). Repeated feature tuples are recognized as valid independent events and are not penalized."
+        )
 
     st.markdown("### Feature Profiles & Anomaly Detection")
     profile_rows = []
@@ -336,7 +365,8 @@ def screen_4_plan_builder() -> None:
             st.markdown(f"**Step {step_id}: {action.upper()} on `{col}`** | {badge}", unsafe_allow_html=True)
             c1, c2 = st.columns([1, 4])
             with c1:
-                include = st.checkbox(f"Execute Step {step_id}", value=True, key=f"step_chk_{step_id}")
+                default_chk = (conf >= 0.85 and step.get("loss_potential") != "high")
+                include = st.checkbox(f"Execute Step {step_id}", value=default_chk, key=f"step_chk_{step_id}")
             with c2:
                 st.write(f"**Rule**: {step.get('rule')}")
                 st.write(f"**Justification**: {step.get('justification')}")
