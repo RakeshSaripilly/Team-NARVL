@@ -3,11 +3,11 @@
     "version_id": 0,
     "parent_id": null,
     "operation": "EXTRACT",
-    "timestamp": "2026-09-30T15:38:29.191701+00:00",
-    "data_snapshot_path": "C:\\Team-NARVL\\doc_extension\\data\\delta_document\\fe975e75-1b7f-4b00-bbad-5b2f26cf3926\\snapshot_v0.json",
+    "timestamp": "2026-09-30T19:09:19.018018+00:00",
+    "data_snapshot_path": "C:\\Users\\Anirudh Potukuchi\\Desktop\\Team-NARVL\\doc_extension\\data\\delta_document\\c94c4872-e531-45cc-99dc-90d908147e53\\snapshot_v0.json",
     "entities": [
       {
-        "entity_id": "ent_987ecb51",
+        "entity_id": "ent_4253f28f",
         "type": "Email",
         "value": "rajesh.kumar@acme.com",
         "normalized_value": "rajesh.kumar@acme.com",
@@ -16,14 +16,14 @@
           200
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.99,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_d899d596",
+        "entity_id": "ent_f8d65d18",
         "type": "Phone",
         "value": "9876543210",
         "normalized_value": "+91-98765-43210",
@@ -32,14 +32,14 @@
           171
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.96,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_471662aa",
+        "entity_id": "ent_bc206608",
         "type": "Date",
         "value": "15/03/2023",
         "normalized_value": "2023-03-15",
@@ -48,14 +48,14 @@
           257
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.92,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_14cc41f4",
+        "entity_id": "ent_e8bc7f8e",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -64,34 +64,14 @@
           284
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.94,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_39787ec8",
-        "type": "CustomerName",
-        "value": "Rajesh Kumar",
-        "normalized_value": "Rajesh Kumar",
-        "source_span": [
-          133,
-          145
-        ],
-        "source_page": 1,
-        "record_id": "p1_b2",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_987ecb51",
-          "ent_d899d596",
-          "ent_471662aa",
-          "ent_14cc41f4",
-          "ent_b8139291"
-        ]
-      },
-      {
-        "entity_id": "ent_b8139291",
+        "entity_id": "ent_26704bde",
         "type": "City",
         "value": "Hyd",
         "normalized_value": "Hyderabad",
@@ -100,14 +80,14 @@
           210
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.96,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_26c55715",
+        "entity_id": "ent_a789579f",
         "type": "Date",
         "value": "2023-03-15",
         "normalized_value": "2023-03-15",
@@ -116,14 +96,14 @@
           422
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.92,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_39a3f988",
+        "entity_id": "ent_20e1fab2",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -132,33 +112,14 @@
           449
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.94,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_ecc94c8c",
-        "type": "CustomerName",
-        "value": "Rajesh Kumar",
-        "normalized_value": "Rajesh Kumar",
-        "source_span": [
-          316,
-          328
-        ],
-        "source_page": 1,
-        "record_id": "p1_b3",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_26c55715",
-          "ent_39a3f988",
-          "ent_a35b791d",
-          "ent_80b7f6d1"
-        ]
-      },
-      {
-        "entity_id": "ent_a35b791d",
+        "entity_id": "ent_bbc2769f",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -167,14 +128,14 @@
           375
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.96,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_80b7f6d1",
+        "entity_id": "ent_27339369",
         "type": "State",
         "value": "Telangana",
         "normalized_value": "Telangana",
@@ -183,14 +144,14 @@
           392
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.95,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_e69597a6",
+        "entity_id": "ent_e6932e57",
         "type": "Email",
         "value": "priya.sharma@enterprise.org",
         "normalized_value": "priya.sharma@enterprise.org",
@@ -199,14 +160,14 @@
           558
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.99,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_c846909e",
+        "entity_id": "ent_eb44b2b1",
         "type": "Phone",
         "value": "+91 9123456780",
         "normalized_value": "+91-91234-56780",
@@ -215,14 +176,14 @@
           523
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.96,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_dfb26a04",
+        "entity_id": "ent_b4f7cc3b",
         "type": "Date",
         "value": "04-20-2022",
         "normalized_value": "2022-04-20",
@@ -231,14 +192,14 @@
           615
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.92,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_03dae1bc",
+        "entity_id": "ent_735cd2ce",
         "type": "Amount",
         "value": "$3,400.50",
         "normalized_value": "$3,400.50",
@@ -247,51 +208,14 @@
           642
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.94,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_5c8f9f7a",
-        "type": "CustomerName",
-        "value": "Priya Sharma",
-        "normalized_value": "Priya Sharma",
-        "source_span": [
-          481,
-          493
-        ],
-        "source_page": 1,
-        "record_id": "p1_b4",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_e69597a6",
-          "ent_c846909e",
-          "ent_dfb26a04",
-          "ent_03dae1bc",
-          "ent_33d52a4e",
-          "ent_8cb861bd"
-        ]
-      },
-      {
-        "entity_id": "ent_33d52a4e",
-        "type": "State",
-        "value": "Telangana",
-        "normalized_value": "Telangana",
-        "source_span": [
-          576,
-          585
-        ],
-        "source_page": 1,
-        "record_id": "p1_b4",
-        "confidence": 0.95,
-        "relationships": [
-          "ent_5c8f9f7a"
-        ]
-      },
-      {
-        "entity_id": "ent_8cb861bd",
+        "entity_id": "ent_545a0f59",
         "type": "City",
         "value": "HYD",
         "normalized_value": "Hyderabad",
@@ -300,14 +224,30 @@
           568
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.96,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_5ad582a3",
+        "entity_id": "ent_a46a66a7",
+        "type": "State",
+        "value": "Telangana",
+        "normalized_value": "Telangana",
+        "source_span": [
+          576,
+          585
+        ],
+        "source_page": 1,
+        "record_id": "p1_b7",
+        "confidence": 0.95,
+        "relationships": [
+          "tbl_ent_f76c7589"
+        ]
+      },
+      {
+        "entity_id": "ent_216e77aa",
         "type": "Phone",
         "value": "9988776655",
         "normalized_value": "+91-99887-76655",
@@ -316,14 +256,12 @@
           710
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.96,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_5ac60bc9",
+        "entity_id": "ent_c290c16b",
         "type": "Date",
         "value": "12/01/2024",
         "normalized_value": "2024-01-12",
@@ -332,14 +270,12 @@
           771
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.92,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_a60c74b5",
+        "entity_id": "ent_eb9ea759",
         "type": "Amount",
         "value": "$520.00",
         "normalized_value": "$520.00",
@@ -348,34 +284,12 @@
           796
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.94,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_853bf2bc",
-        "type": "CustomerName",
-        "value": "Amit Patel",
-        "normalized_value": "Amit Patel",
-        "source_span": [
-          674,
-          684
-        ],
-        "source_page": 1,
-        "record_id": "p1_b5",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_5ad582a3",
-          "ent_5ac60bc9",
-          "ent_a60c74b5",
-          "ent_738e6070",
-          "ent_3858bfda"
-        ]
-      },
-      {
-        "entity_id": "ent_738e6070",
+        "entity_id": "ent_eb282d3e",
         "type": "City",
         "value": "Ahmedabad",
         "normalized_value": "Ahmedabad",
@@ -384,14 +298,12 @@
           726
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.96,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_3858bfda",
+        "entity_id": "ent_9f9decbb",
         "type": "State",
         "value": "Gujarat",
         "normalized_value": "Gujarat",
@@ -400,14 +312,12 @@
           741
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.95,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_25c40232",
+        "entity_id": "ent_a26cfa44",
         "type": "Email",
         "value": "sjenkins@techcorp.io",
         "normalized_value": "sjenkins@techcorp.io",
@@ -416,14 +326,12 @@
           901
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.99,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_5cca47b9",
+        "entity_id": "ent_280f9025",
         "type": "Phone",
         "value": "+1-555-234-5678",
         "normalized_value": "+1-555-234-5678",
@@ -432,14 +340,12 @@
           873
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.96,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_098159d9",
+        "entity_id": "ent_5b48a6a5",
         "type": "Date",
         "value": "2024-02-18",
         "normalized_value": "2024-02-18",
@@ -448,14 +354,12 @@
           969
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.92,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_8e820d20",
+        "entity_id": "ent_f0102749",
         "type": "Amount",
         "value": "$9,800.00",
         "normalized_value": "$9,800.00",
@@ -464,34 +368,12 @@
           996
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.94,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_6b6a6d97",
-        "type": "CustomerName",
-        "value": "Sarah Jenkins",
-        "normalized_value": "Sarah Jenkins",
-        "source_span": [
-          829,
-          842
-        ],
-        "source_page": 1,
-        "record_id": "p1_b6",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_25c40232",
-          "ent_5cca47b9",
-          "ent_098159d9",
-          "ent_8e820d20",
-          "ent_21c07de0"
-        ]
-      },
-      {
-        "entity_id": "ent_21c07de0",
+        "entity_id": "ent_55ce7729",
         "type": "State",
         "value": "California",
         "normalized_value": "California",
@@ -500,14 +382,12 @@
           939
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.95,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_8dc5bcfb",
+        "entity_id": "ent_5e53a499",
         "type": "Phone",
         "value": "9988776655",
         "normalized_value": "+91-99887-76655",
@@ -516,14 +396,12 @@
           1064
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.96,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_1e94a1a0",
+        "entity_id": "ent_83fc9f78",
         "type": "Date",
         "value": "2024-01-12",
         "normalized_value": "2024-01-12",
@@ -532,14 +410,12 @@
           1125
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.92,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_bb1a0927",
+        "entity_id": "ent_6343f710",
         "type": "Amount",
         "value": "$520.00",
         "normalized_value": "$520.00",
@@ -548,34 +424,12 @@
           1150
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.94,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_eebd7013",
-        "type": "CustomerName",
-        "value": "Amit Patel",
-        "normalized_value": "Amit Patel",
-        "source_span": [
-          1028,
-          1038
-        ],
-        "source_page": 1,
-        "record_id": "p1_b7",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_8dc5bcfb",
-          "ent_1e94a1a0",
-          "ent_bb1a0927",
-          "ent_c6923cb8",
-          "ent_cf12dc3d"
-        ]
-      },
-      {
-        "entity_id": "ent_c6923cb8",
+        "entity_id": "ent_3fef44d6",
         "type": "City",
         "value": "Ahmedabad",
         "normalized_value": "Ahmedabad",
@@ -584,14 +438,12 @@
           1080
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.96,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_cf12dc3d",
+        "entity_id": "ent_c0968160",
         "type": "State",
         "value": "Gujarat",
         "normalized_value": "Gujarat",
@@ -600,14 +452,12 @@
           1095
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.95,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "tbl_ent_6bfb76d3",
+        "entity_id": "tbl_ent_3379392e",
         "type": "CustomerName",
         "value": "Rajesh Kumar",
         "normalized_value": "Rajesh Kumar",
@@ -619,15 +469,15 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_16aef1c6",
-          "tbl_ent_8446fe8a",
-          "tbl_ent_5e83a577",
-          "tbl_ent_b6e7d1a8",
-          "tbl_ent_ea3e7b40"
+          "tbl_ent_a59d1fd1",
+          "tbl_ent_582b8539",
+          "tbl_ent_bc0afcea",
+          "tbl_ent_46204962",
+          "tbl_ent_6cfeba41"
         ]
       },
       {
-        "entity_id": "tbl_ent_16aef1c6",
+        "entity_id": "tbl_ent_a59d1fd1",
         "type": "Phone",
         "value": "9876543210",
         "normalized_value": "+91-98765-43210",
@@ -639,11 +489,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_8446fe8a",
+        "entity_id": "tbl_ent_582b8539",
         "type": "City",
         "value": "Hyd",
         "normalized_value": "Hyderabad",
@@ -655,11 +505,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_5e83a577",
+        "entity_id": "tbl_ent_bc0afcea",
         "type": "InvoiceNo",
         "value": "INV-2024-001",
         "normalized_value": "INV-2024-001",
@@ -671,11 +521,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_b6e7d1a8",
+        "entity_id": "tbl_ent_46204962",
         "type": "Date",
         "value": "15/03/2024",
         "normalized_value": "2024-03-15",
@@ -687,11 +537,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_ea3e7b40",
+        "entity_id": "tbl_ent_6cfeba41",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -703,11 +553,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_6d559e50",
+        "entity_id": "tbl_ent_1fe161a1",
         "type": "CustomerName",
         "value": "Priya Sharma",
         "normalized_value": "Priya Sharma",
@@ -719,15 +569,15 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_2f81cb67",
-          "tbl_ent_2a6afd8f",
-          "tbl_ent_7170d138",
-          "tbl_ent_d4f79e39",
-          "tbl_ent_f2038936"
+          "tbl_ent_8671ca0f",
+          "tbl_ent_1bb47716",
+          "tbl_ent_1a63cd73",
+          "tbl_ent_dcdcb46a",
+          "tbl_ent_41392940"
         ]
       },
       {
-        "entity_id": "tbl_ent_2f81cb67",
+        "entity_id": "tbl_ent_8671ca0f",
         "type": "Phone",
         "value": "+91 9123456780",
         "normalized_value": "+91-91234-56780",
@@ -739,11 +589,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_2a6afd8f",
+        "entity_id": "tbl_ent_1bb47716",
         "type": "City",
         "value": "HYD",
         "normalized_value": "Hyderabad",
@@ -755,11 +605,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_7170d138",
+        "entity_id": "tbl_ent_1a63cd73",
         "type": "InvoiceNo",
         "value": "INV-2024-002",
         "normalized_value": "INV-2024-002",
@@ -771,11 +621,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_d4f79e39",
+        "entity_id": "tbl_ent_dcdcb46a",
         "type": "Date",
         "value": "20/04/2024",
         "normalized_value": "2024-04-20",
@@ -787,11 +637,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_f2038936",
+        "entity_id": "tbl_ent_41392940",
         "type": "Amount",
         "value": "$3,400.50",
         "normalized_value": "$3,400.50",
@@ -803,11 +653,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_c485925a",
+        "entity_id": "tbl_ent_c67041e1",
         "type": "CustomerName",
         "value": "Sarah Jenkins",
         "normalized_value": "Sarah Jenkins",
@@ -819,15 +669,19 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_b0d5a9a0",
-          "tbl_ent_27d29bdb",
-          "tbl_ent_8eadb20e",
-          "tbl_ent_d5df2474",
-          "tbl_ent_da43c6e6"
+          "tbl_ent_62dbe8a7",
+          "tbl_ent_9fe10bf6",
+          "tbl_ent_f6a81b11",
+          "tbl_ent_7dacffca",
+          "tbl_ent_7cf9567f",
+          "ent_4253f28f",
+          "ent_f8d65d18",
+          "ent_bc206608",
+          "ent_26704bde"
         ]
       },
       {
-        "entity_id": "tbl_ent_b0d5a9a0",
+        "entity_id": "tbl_ent_62dbe8a7",
         "type": "Phone",
         "value": "555-234-5678",
         "normalized_value": "+1-555-234-5678",
@@ -839,11 +693,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_27d29bdb",
+        "entity_id": "tbl_ent_9fe10bf6",
         "type": "City",
         "value": "San Francisco",
         "normalized_value": "San Francisco",
@@ -855,11 +709,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_8eadb20e",
+        "entity_id": "tbl_ent_f6a81b11",
         "type": "InvoiceNo",
         "value": "INV-2024-003",
         "normalized_value": "INV-2024-003",
@@ -871,11 +725,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_d5df2474",
+        "entity_id": "tbl_ent_7dacffca",
         "type": "Date",
         "value": "2024-02-18",
         "normalized_value": "2024-02-18",
@@ -887,11 +741,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_da43c6e6",
+        "entity_id": "tbl_ent_7cf9567f",
         "type": "Amount",
         "value": "$9,800.00",
         "normalized_value": "$9,800.00",
@@ -903,11 +757,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_a0bc3c6d",
+        "entity_id": "tbl_ent_f76c7589",
         "type": "CustomerName",
         "value": "Suresh Reddy",
         "normalized_value": "Suresh Reddy",
@@ -919,15 +773,26 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_51bee7cb",
-          "tbl_ent_d088390c",
-          "tbl_ent_94b63cb0",
-          "tbl_ent_fd377346",
-          "tbl_ent_949b178b"
+          "tbl_ent_2e48adad",
+          "tbl_ent_d7c002e8",
+          "tbl_ent_6a741d07",
+          "tbl_ent_759b85bd",
+          "tbl_ent_16230f15",
+          "ent_e8bc7f8e",
+          "ent_a789579f",
+          "ent_20e1fab2",
+          "ent_bbc2769f",
+          "ent_27339369",
+          "ent_e6932e57",
+          "ent_eb44b2b1",
+          "ent_b4f7cc3b",
+          "ent_735cd2ce",
+          "ent_545a0f59",
+          "ent_a46a66a7"
         ]
       },
       {
-        "entity_id": "tbl_ent_51bee7cb",
+        "entity_id": "tbl_ent_2e48adad",
         "type": "Phone",
         "value": "9440123456",
         "normalized_value": "+91-94401-23456",
@@ -939,11 +804,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_d088390c",
+        "entity_id": "tbl_ent_d7c002e8",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -955,11 +820,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_94b63cb0",
+        "entity_id": "tbl_ent_6a741d07",
         "type": "InvoiceNo",
         "value": "INV-2024-004",
         "normalized_value": "INV-2024-004",
@@ -971,11 +836,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_fd377346",
+        "entity_id": "tbl_ent_759b85bd",
         "type": "Date",
         "value": "05-11-2023",
         "normalized_value": "2023-11-05",
@@ -987,11 +852,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_949b178b",
+        "entity_id": "tbl_ent_16230f15",
         "type": "Amount",
         "value": "$750.25",
         "normalized_value": "$750.25",
@@ -1003,7 +868,7 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       }
     ],
@@ -1013,11 +878,11 @@
     "version_id": 1,
     "parent_id": 0,
     "operation": "NORMALIZE",
-    "timestamp": "2026-09-30T15:38:29.202438+00:00",
-    "data_snapshot_path": "C:\\Team-NARVL\\doc_extension\\data\\delta_document\\fe975e75-1b7f-4b00-bbad-5b2f26cf3926\\snapshot_v1.json",
+    "timestamp": "2026-09-30T19:09:19.025339+00:00",
+    "data_snapshot_path": "C:\\Users\\Anirudh Potukuchi\\Desktop\\Team-NARVL\\doc_extension\\data\\delta_document\\c94c4872-e531-45cc-99dc-90d908147e53\\snapshot_v1.json",
     "entities": [
       {
-        "entity_id": "ent_987ecb51",
+        "entity_id": "ent_4253f28f",
         "type": "Email",
         "value": "rajesh.kumar@acme.com",
         "normalized_value": "rajesh.kumar@acme.com",
@@ -1026,14 +891,14 @@
           200
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.99,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_d899d596",
+        "entity_id": "ent_f8d65d18",
         "type": "Phone",
         "value": "+91-98765-43210",
         "normalized_value": "+91-98765-43210",
@@ -1042,14 +907,14 @@
           171
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.96,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_471662aa",
+        "entity_id": "ent_bc206608",
         "type": "Date",
         "value": "2023-03-15",
         "normalized_value": "2023-03-15",
@@ -1058,14 +923,14 @@
           257
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.92,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_14cc41f4",
+        "entity_id": "ent_e8bc7f8e",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -1074,34 +939,14 @@
           284
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.94,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_39787ec8",
-        "type": "CustomerName",
-        "value": "Rajesh Kumar",
-        "normalized_value": "Rajesh Kumar",
-        "source_span": [
-          133,
-          145
-        ],
-        "source_page": 1,
-        "record_id": "p1_b2",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_987ecb51",
-          "ent_d899d596",
-          "ent_471662aa",
-          "ent_14cc41f4",
-          "ent_b8139291"
-        ]
-      },
-      {
-        "entity_id": "ent_b8139291",
+        "entity_id": "ent_26704bde",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -1110,14 +955,14 @@
           210
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.96,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_26c55715",
+        "entity_id": "ent_a789579f",
         "type": "Date",
         "value": "2023-03-15",
         "normalized_value": "2023-03-15",
@@ -1126,14 +971,14 @@
           422
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.92,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_39a3f988",
+        "entity_id": "ent_20e1fab2",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -1142,33 +987,14 @@
           449
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.94,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_ecc94c8c",
-        "type": "CustomerName",
-        "value": "Rajesh Kumar",
-        "normalized_value": "Rajesh Kumar",
-        "source_span": [
-          316,
-          328
-        ],
-        "source_page": 1,
-        "record_id": "p1_b3",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_26c55715",
-          "ent_39a3f988",
-          "ent_a35b791d",
-          "ent_80b7f6d1"
-        ]
-      },
-      {
-        "entity_id": "ent_a35b791d",
+        "entity_id": "ent_bbc2769f",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -1177,14 +1003,14 @@
           375
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.96,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_80b7f6d1",
+        "entity_id": "ent_27339369",
         "type": "State",
         "value": "Telangana",
         "normalized_value": "Telangana",
@@ -1193,14 +1019,14 @@
           392
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.95,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_e69597a6",
+        "entity_id": "ent_e6932e57",
         "type": "Email",
         "value": "priya.sharma@enterprise.org",
         "normalized_value": "priya.sharma@enterprise.org",
@@ -1209,14 +1035,14 @@
           558
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.99,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_c846909e",
+        "entity_id": "ent_eb44b2b1",
         "type": "Phone",
         "value": "+91-91234-56780",
         "normalized_value": "+91-91234-56780",
@@ -1225,14 +1051,14 @@
           523
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.96,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_dfb26a04",
+        "entity_id": "ent_b4f7cc3b",
         "type": "Date",
         "value": "2022-04-20",
         "normalized_value": "2022-04-20",
@@ -1241,14 +1067,14 @@
           615
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.92,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_03dae1bc",
+        "entity_id": "ent_735cd2ce",
         "type": "Amount",
         "value": "$3,400.50",
         "normalized_value": "$3,400.50",
@@ -1257,51 +1083,14 @@
           642
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.94,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_5c8f9f7a",
-        "type": "CustomerName",
-        "value": "Priya Sharma",
-        "normalized_value": "Priya Sharma",
-        "source_span": [
-          481,
-          493
-        ],
-        "source_page": 1,
-        "record_id": "p1_b4",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_e69597a6",
-          "ent_c846909e",
-          "ent_dfb26a04",
-          "ent_03dae1bc",
-          "ent_33d52a4e",
-          "ent_8cb861bd"
-        ]
-      },
-      {
-        "entity_id": "ent_33d52a4e",
-        "type": "State",
-        "value": "Telangana",
-        "normalized_value": "Telangana",
-        "source_span": [
-          576,
-          585
-        ],
-        "source_page": 1,
-        "record_id": "p1_b4",
-        "confidence": 0.95,
-        "relationships": [
-          "ent_5c8f9f7a"
-        ]
-      },
-      {
-        "entity_id": "ent_8cb861bd",
+        "entity_id": "ent_545a0f59",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -1310,14 +1099,30 @@
           568
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.96,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_5ad582a3",
+        "entity_id": "ent_a46a66a7",
+        "type": "State",
+        "value": "Telangana",
+        "normalized_value": "Telangana",
+        "source_span": [
+          576,
+          585
+        ],
+        "source_page": 1,
+        "record_id": "p1_b7",
+        "confidence": 0.95,
+        "relationships": [
+          "tbl_ent_f76c7589"
+        ]
+      },
+      {
+        "entity_id": "ent_216e77aa",
         "type": "Phone",
         "value": "+91-99887-76655",
         "normalized_value": "+91-99887-76655",
@@ -1326,14 +1131,12 @@
           710
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.96,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_5ac60bc9",
+        "entity_id": "ent_c290c16b",
         "type": "Date",
         "value": "2024-01-12",
         "normalized_value": "2024-01-12",
@@ -1342,14 +1145,12 @@
           771
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.92,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_a60c74b5",
+        "entity_id": "ent_eb9ea759",
         "type": "Amount",
         "value": "$520.00",
         "normalized_value": "$520.00",
@@ -1358,34 +1159,12 @@
           796
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.94,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_853bf2bc",
-        "type": "CustomerName",
-        "value": "Amit Patel",
-        "normalized_value": "Amit Patel",
-        "source_span": [
-          674,
-          684
-        ],
-        "source_page": 1,
-        "record_id": "p1_b5",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_5ad582a3",
-          "ent_5ac60bc9",
-          "ent_a60c74b5",
-          "ent_738e6070",
-          "ent_3858bfda"
-        ]
-      },
-      {
-        "entity_id": "ent_738e6070",
+        "entity_id": "ent_eb282d3e",
         "type": "City",
         "value": "Ahmedabad",
         "normalized_value": "Ahmedabad",
@@ -1394,14 +1173,12 @@
           726
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.96,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_3858bfda",
+        "entity_id": "ent_9f9decbb",
         "type": "State",
         "value": "Gujarat",
         "normalized_value": "Gujarat",
@@ -1410,14 +1187,12 @@
           741
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.95,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_25c40232",
+        "entity_id": "ent_a26cfa44",
         "type": "Email",
         "value": "sjenkins@techcorp.io",
         "normalized_value": "sjenkins@techcorp.io",
@@ -1426,14 +1201,12 @@
           901
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.99,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_5cca47b9",
+        "entity_id": "ent_280f9025",
         "type": "Phone",
         "value": "+1-555-234-5678",
         "normalized_value": "+1-555-234-5678",
@@ -1442,14 +1215,12 @@
           873
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.96,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_098159d9",
+        "entity_id": "ent_5b48a6a5",
         "type": "Date",
         "value": "2024-02-18",
         "normalized_value": "2024-02-18",
@@ -1458,14 +1229,12 @@
           969
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.92,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_8e820d20",
+        "entity_id": "ent_f0102749",
         "type": "Amount",
         "value": "$9,800.00",
         "normalized_value": "$9,800.00",
@@ -1474,34 +1243,12 @@
           996
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.94,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_6b6a6d97",
-        "type": "CustomerName",
-        "value": "Sarah Jenkins",
-        "normalized_value": "Sarah Jenkins",
-        "source_span": [
-          829,
-          842
-        ],
-        "source_page": 1,
-        "record_id": "p1_b6",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_25c40232",
-          "ent_5cca47b9",
-          "ent_098159d9",
-          "ent_8e820d20",
-          "ent_21c07de0"
-        ]
-      },
-      {
-        "entity_id": "ent_21c07de0",
+        "entity_id": "ent_55ce7729",
         "type": "State",
         "value": "California",
         "normalized_value": "California",
@@ -1510,14 +1257,12 @@
           939
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.95,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_8dc5bcfb",
+        "entity_id": "ent_5e53a499",
         "type": "Phone",
         "value": "+91-99887-76655",
         "normalized_value": "+91-99887-76655",
@@ -1526,14 +1271,12 @@
           1064
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.96,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_1e94a1a0",
+        "entity_id": "ent_83fc9f78",
         "type": "Date",
         "value": "2024-01-12",
         "normalized_value": "2024-01-12",
@@ -1542,14 +1285,12 @@
           1125
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.92,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_bb1a0927",
+        "entity_id": "ent_6343f710",
         "type": "Amount",
         "value": "$520.00",
         "normalized_value": "$520.00",
@@ -1558,34 +1299,12 @@
           1150
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.94,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_eebd7013",
-        "type": "CustomerName",
-        "value": "Amit Patel",
-        "normalized_value": "Amit Patel",
-        "source_span": [
-          1028,
-          1038
-        ],
-        "source_page": 1,
-        "record_id": "p1_b7",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_8dc5bcfb",
-          "ent_1e94a1a0",
-          "ent_bb1a0927",
-          "ent_c6923cb8",
-          "ent_cf12dc3d"
-        ]
-      },
-      {
-        "entity_id": "ent_c6923cb8",
+        "entity_id": "ent_3fef44d6",
         "type": "City",
         "value": "Ahmedabad",
         "normalized_value": "Ahmedabad",
@@ -1594,14 +1313,12 @@
           1080
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.96,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_cf12dc3d",
+        "entity_id": "ent_c0968160",
         "type": "State",
         "value": "Gujarat",
         "normalized_value": "Gujarat",
@@ -1610,14 +1327,12 @@
           1095
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.95,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "tbl_ent_6bfb76d3",
+        "entity_id": "tbl_ent_3379392e",
         "type": "CustomerName",
         "value": "Rajesh Kumar",
         "normalized_value": "Rajesh Kumar",
@@ -1629,15 +1344,15 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_16aef1c6",
-          "tbl_ent_8446fe8a",
-          "tbl_ent_5e83a577",
-          "tbl_ent_b6e7d1a8",
-          "tbl_ent_ea3e7b40"
+          "tbl_ent_a59d1fd1",
+          "tbl_ent_582b8539",
+          "tbl_ent_bc0afcea",
+          "tbl_ent_46204962",
+          "tbl_ent_6cfeba41"
         ]
       },
       {
-        "entity_id": "tbl_ent_16aef1c6",
+        "entity_id": "tbl_ent_a59d1fd1",
         "type": "Phone",
         "value": "+91-98765-43210",
         "normalized_value": "+91-98765-43210",
@@ -1649,11 +1364,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_8446fe8a",
+        "entity_id": "tbl_ent_582b8539",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -1665,11 +1380,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_5e83a577",
+        "entity_id": "tbl_ent_bc0afcea",
         "type": "InvoiceNo",
         "value": "INV-2024-001",
         "normalized_value": "INV-2024-001",
@@ -1681,11 +1396,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_b6e7d1a8",
+        "entity_id": "tbl_ent_46204962",
         "type": "Date",
         "value": "2024-03-15",
         "normalized_value": "2024-03-15",
@@ -1697,11 +1412,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_ea3e7b40",
+        "entity_id": "tbl_ent_6cfeba41",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -1713,11 +1428,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_6d559e50",
+        "entity_id": "tbl_ent_1fe161a1",
         "type": "CustomerName",
         "value": "Priya Sharma",
         "normalized_value": "Priya Sharma",
@@ -1729,15 +1444,15 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_2f81cb67",
-          "tbl_ent_2a6afd8f",
-          "tbl_ent_7170d138",
-          "tbl_ent_d4f79e39",
-          "tbl_ent_f2038936"
+          "tbl_ent_8671ca0f",
+          "tbl_ent_1bb47716",
+          "tbl_ent_1a63cd73",
+          "tbl_ent_dcdcb46a",
+          "tbl_ent_41392940"
         ]
       },
       {
-        "entity_id": "tbl_ent_2f81cb67",
+        "entity_id": "tbl_ent_8671ca0f",
         "type": "Phone",
         "value": "+91-91234-56780",
         "normalized_value": "+91-91234-56780",
@@ -1749,11 +1464,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_2a6afd8f",
+        "entity_id": "tbl_ent_1bb47716",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -1765,11 +1480,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_7170d138",
+        "entity_id": "tbl_ent_1a63cd73",
         "type": "InvoiceNo",
         "value": "INV-2024-002",
         "normalized_value": "INV-2024-002",
@@ -1781,11 +1496,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_d4f79e39",
+        "entity_id": "tbl_ent_dcdcb46a",
         "type": "Date",
         "value": "2024-04-20",
         "normalized_value": "2024-04-20",
@@ -1797,11 +1512,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_f2038936",
+        "entity_id": "tbl_ent_41392940",
         "type": "Amount",
         "value": "$3,400.50",
         "normalized_value": "$3,400.50",
@@ -1813,11 +1528,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_c485925a",
+        "entity_id": "tbl_ent_c67041e1",
         "type": "CustomerName",
         "value": "Sarah Jenkins",
         "normalized_value": "Sarah Jenkins",
@@ -1829,15 +1544,19 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_b0d5a9a0",
-          "tbl_ent_27d29bdb",
-          "tbl_ent_8eadb20e",
-          "tbl_ent_d5df2474",
-          "tbl_ent_da43c6e6"
+          "tbl_ent_62dbe8a7",
+          "tbl_ent_9fe10bf6",
+          "tbl_ent_f6a81b11",
+          "tbl_ent_7dacffca",
+          "tbl_ent_7cf9567f",
+          "ent_4253f28f",
+          "ent_f8d65d18",
+          "ent_bc206608",
+          "ent_26704bde"
         ]
       },
       {
-        "entity_id": "tbl_ent_b0d5a9a0",
+        "entity_id": "tbl_ent_62dbe8a7",
         "type": "Phone",
         "value": "+1-555-234-5678",
         "normalized_value": "+1-555-234-5678",
@@ -1849,11 +1568,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_27d29bdb",
+        "entity_id": "tbl_ent_9fe10bf6",
         "type": "City",
         "value": "San Francisco",
         "normalized_value": "San Francisco",
@@ -1865,11 +1584,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_8eadb20e",
+        "entity_id": "tbl_ent_f6a81b11",
         "type": "InvoiceNo",
         "value": "INV-2024-003",
         "normalized_value": "INV-2024-003",
@@ -1881,11 +1600,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_d5df2474",
+        "entity_id": "tbl_ent_7dacffca",
         "type": "Date",
         "value": "2024-02-18",
         "normalized_value": "2024-02-18",
@@ -1897,11 +1616,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_da43c6e6",
+        "entity_id": "tbl_ent_7cf9567f",
         "type": "Amount",
         "value": "$9,800.00",
         "normalized_value": "$9,800.00",
@@ -1913,11 +1632,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_a0bc3c6d",
+        "entity_id": "tbl_ent_f76c7589",
         "type": "CustomerName",
         "value": "Suresh Reddy",
         "normalized_value": "Suresh Reddy",
@@ -1929,15 +1648,26 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_51bee7cb",
-          "tbl_ent_d088390c",
-          "tbl_ent_94b63cb0",
-          "tbl_ent_fd377346",
-          "tbl_ent_949b178b"
+          "tbl_ent_2e48adad",
+          "tbl_ent_d7c002e8",
+          "tbl_ent_6a741d07",
+          "tbl_ent_759b85bd",
+          "tbl_ent_16230f15",
+          "ent_e8bc7f8e",
+          "ent_a789579f",
+          "ent_20e1fab2",
+          "ent_bbc2769f",
+          "ent_27339369",
+          "ent_e6932e57",
+          "ent_eb44b2b1",
+          "ent_b4f7cc3b",
+          "ent_735cd2ce",
+          "ent_545a0f59",
+          "ent_a46a66a7"
         ]
       },
       {
-        "entity_id": "tbl_ent_51bee7cb",
+        "entity_id": "tbl_ent_2e48adad",
         "type": "Phone",
         "value": "+91-94401-23456",
         "normalized_value": "+91-94401-23456",
@@ -1949,11 +1679,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_d088390c",
+        "entity_id": "tbl_ent_d7c002e8",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -1965,11 +1695,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_94b63cb0",
+        "entity_id": "tbl_ent_6a741d07",
         "type": "InvoiceNo",
         "value": "INV-2024-004",
         "normalized_value": "INV-2024-004",
@@ -1981,11 +1711,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_fd377346",
+        "entity_id": "tbl_ent_759b85bd",
         "type": "Date",
         "value": "2023-11-05",
         "normalized_value": "2023-11-05",
@@ -1997,11 +1727,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_949b178b",
+        "entity_id": "tbl_ent_16230f15",
         "type": "Amount",
         "value": "$750.25",
         "normalized_value": "$750.25",
@@ -2013,7 +1743,7 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       }
     ],
@@ -2023,11 +1753,11 @@
     "version_id": 2,
     "parent_id": 1,
     "operation": "RESOLVE_AND_DEDUPLICATE",
-    "timestamp": "2026-09-30T15:38:29.212325+00:00",
-    "data_snapshot_path": "C:\\Team-NARVL\\doc_extension\\data\\delta_document\\fe975e75-1b7f-4b00-bbad-5b2f26cf3926\\snapshot_v2.json",
+    "timestamp": "2026-09-30T19:09:19.031374+00:00",
+    "data_snapshot_path": "C:\\Users\\Anirudh Potukuchi\\Desktop\\Team-NARVL\\doc_extension\\data\\delta_document\\c94c4872-e531-45cc-99dc-90d908147e53\\snapshot_v2.json",
     "entities": [
       {
-        "entity_id": "ent_987ecb51",
+        "entity_id": "ent_4253f28f",
         "type": "Email",
         "value": "rajesh.kumar@acme.com",
         "normalized_value": "rajesh.kumar@acme.com",
@@ -2036,14 +1766,14 @@
           200
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.99,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_d899d596",
+        "entity_id": "ent_f8d65d18",
         "type": "Phone",
         "value": "+91-98765-43210",
         "normalized_value": "+91-98765-43210",
@@ -2052,14 +1782,14 @@
           171
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.96,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_471662aa",
+        "entity_id": "ent_bc206608",
         "type": "Date",
         "value": "2023-03-15",
         "normalized_value": "2023-03-15",
@@ -2068,14 +1798,14 @@
           257
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.92,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_14cc41f4",
+        "entity_id": "ent_e8bc7f8e",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -2084,34 +1814,14 @@
           284
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.94,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_39787ec8",
-        "type": "CustomerName",
-        "value": "Rajesh Kumar",
-        "normalized_value": "Rajesh Kumar",
-        "source_span": [
-          133,
-          145
-        ],
-        "source_page": 1,
-        "record_id": "p1_b2",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_987ecb51",
-          "ent_d899d596",
-          "ent_471662aa",
-          "ent_14cc41f4",
-          "ent_b8139291"
-        ]
-      },
-      {
-        "entity_id": "ent_b8139291",
+        "entity_id": "ent_26704bde",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -2120,14 +1830,14 @@
           210
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.96,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_26c55715",
+        "entity_id": "ent_a789579f",
         "type": "Date",
         "value": "2023-03-15",
         "normalized_value": "2023-03-15",
@@ -2136,14 +1846,14 @@
           422
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.92,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_39a3f988",
+        "entity_id": "ent_20e1fab2",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -2152,14 +1862,14 @@
           449
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.94,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_a35b791d",
+        "entity_id": "ent_bbc2769f",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -2168,14 +1878,14 @@
           375
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.96,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_80b7f6d1",
+        "entity_id": "ent_27339369",
         "type": "State",
         "value": "Telangana",
         "normalized_value": "Telangana",
@@ -2184,14 +1894,14 @@
           392
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.95,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_e69597a6",
+        "entity_id": "ent_e6932e57",
         "type": "Email",
         "value": "priya.sharma@enterprise.org",
         "normalized_value": "priya.sharma@enterprise.org",
@@ -2200,14 +1910,14 @@
           558
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.99,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_c846909e",
+        "entity_id": "ent_eb44b2b1",
         "type": "Phone",
         "value": "+91-91234-56780",
         "normalized_value": "+91-91234-56780",
@@ -2216,14 +1926,14 @@
           523
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.96,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_dfb26a04",
+        "entity_id": "ent_b4f7cc3b",
         "type": "Date",
         "value": "2022-04-20",
         "normalized_value": "2022-04-20",
@@ -2232,14 +1942,14 @@
           615
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.92,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_03dae1bc",
+        "entity_id": "ent_735cd2ce",
         "type": "Amount",
         "value": "$3,400.50",
         "normalized_value": "$3,400.50",
@@ -2248,51 +1958,14 @@
           642
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.94,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_5c8f9f7a",
-        "type": "CustomerName",
-        "value": "Priya Sharma",
-        "normalized_value": "Priya Sharma",
-        "source_span": [
-          481,
-          493
-        ],
-        "source_page": 1,
-        "record_id": "p1_b4",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_e69597a6",
-          "ent_c846909e",
-          "ent_dfb26a04",
-          "ent_03dae1bc",
-          "ent_33d52a4e",
-          "ent_8cb861bd"
-        ]
-      },
-      {
-        "entity_id": "ent_33d52a4e",
-        "type": "State",
-        "value": "Telangana",
-        "normalized_value": "Telangana",
-        "source_span": [
-          576,
-          585
-        ],
-        "source_page": 1,
-        "record_id": "p1_b4",
-        "confidence": 0.95,
-        "relationships": [
-          "ent_5c8f9f7a"
-        ]
-      },
-      {
-        "entity_id": "ent_8cb861bd",
+        "entity_id": "ent_545a0f59",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -2301,14 +1974,30 @@
           568
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.96,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_5ad582a3",
+        "entity_id": "ent_a46a66a7",
+        "type": "State",
+        "value": "Telangana",
+        "normalized_value": "Telangana",
+        "source_span": [
+          576,
+          585
+        ],
+        "source_page": 1,
+        "record_id": "p1_b7",
+        "confidence": 0.95,
+        "relationships": [
+          "tbl_ent_f76c7589"
+        ]
+      },
+      {
+        "entity_id": "ent_216e77aa",
         "type": "Phone",
         "value": "+91-99887-76655",
         "normalized_value": "+91-99887-76655",
@@ -2317,14 +2006,12 @@
           710
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.96,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_5ac60bc9",
+        "entity_id": "ent_c290c16b",
         "type": "Date",
         "value": "2024-01-12",
         "normalized_value": "2024-01-12",
@@ -2333,14 +2020,12 @@
           771
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.92,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_a60c74b5",
+        "entity_id": "ent_eb9ea759",
         "type": "Amount",
         "value": "$520.00",
         "normalized_value": "$520.00",
@@ -2349,34 +2034,12 @@
           796
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.94,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_853bf2bc",
-        "type": "CustomerName",
-        "value": "Amit Patel",
-        "normalized_value": "Amit Patel",
-        "source_span": [
-          674,
-          684
-        ],
-        "source_page": 1,
-        "record_id": "p1_b5",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_5ad582a3",
-          "ent_5ac60bc9",
-          "ent_a60c74b5",
-          "ent_738e6070",
-          "ent_3858bfda"
-        ]
-      },
-      {
-        "entity_id": "ent_738e6070",
+        "entity_id": "ent_eb282d3e",
         "type": "City",
         "value": "Ahmedabad",
         "normalized_value": "Ahmedabad",
@@ -2385,14 +2048,12 @@
           726
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.96,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_3858bfda",
+        "entity_id": "ent_9f9decbb",
         "type": "State",
         "value": "Gujarat",
         "normalized_value": "Gujarat",
@@ -2401,14 +2062,12 @@
           741
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.95,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_25c40232",
+        "entity_id": "ent_a26cfa44",
         "type": "Email",
         "value": "sjenkins@techcorp.io",
         "normalized_value": "sjenkins@techcorp.io",
@@ -2417,14 +2076,12 @@
           901
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.99,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_5cca47b9",
+        "entity_id": "ent_280f9025",
         "type": "Phone",
         "value": "+1-555-234-5678",
         "normalized_value": "+1-555-234-5678",
@@ -2433,14 +2090,12 @@
           873
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.96,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_098159d9",
+        "entity_id": "ent_5b48a6a5",
         "type": "Date",
         "value": "2024-02-18",
         "normalized_value": "2024-02-18",
@@ -2449,14 +2104,12 @@
           969
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.92,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_8e820d20",
+        "entity_id": "ent_f0102749",
         "type": "Amount",
         "value": "$9,800.00",
         "normalized_value": "$9,800.00",
@@ -2465,34 +2118,12 @@
           996
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.94,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_6b6a6d97",
-        "type": "CustomerName",
-        "value": "Sarah Jenkins",
-        "normalized_value": "Sarah Jenkins",
-        "source_span": [
-          829,
-          842
-        ],
-        "source_page": 1,
-        "record_id": "p1_b6",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_25c40232",
-          "ent_5cca47b9",
-          "ent_098159d9",
-          "ent_8e820d20",
-          "ent_21c07de0"
-        ]
-      },
-      {
-        "entity_id": "ent_21c07de0",
+        "entity_id": "ent_55ce7729",
         "type": "State",
         "value": "California",
         "normalized_value": "California",
@@ -2501,14 +2132,12 @@
           939
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.95,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_8dc5bcfb",
+        "entity_id": "ent_5e53a499",
         "type": "Phone",
         "value": "+91-99887-76655",
         "normalized_value": "+91-99887-76655",
@@ -2517,14 +2146,12 @@
           1064
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.96,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_1e94a1a0",
+        "entity_id": "ent_83fc9f78",
         "type": "Date",
         "value": "2024-01-12",
         "normalized_value": "2024-01-12",
@@ -2533,14 +2160,12 @@
           1125
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.92,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_bb1a0927",
+        "entity_id": "ent_6343f710",
         "type": "Amount",
         "value": "$520.00",
         "normalized_value": "$520.00",
@@ -2549,14 +2174,12 @@
           1150
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.94,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_c6923cb8",
+        "entity_id": "ent_3fef44d6",
         "type": "City",
         "value": "Ahmedabad",
         "normalized_value": "Ahmedabad",
@@ -2565,14 +2188,12 @@
           1080
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.96,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_cf12dc3d",
+        "entity_id": "ent_c0968160",
         "type": "State",
         "value": "Gujarat",
         "normalized_value": "Gujarat",
@@ -2581,14 +2202,32 @@
           1095
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.95,
+        "relationships": []
+      },
+      {
+        "entity_id": "tbl_ent_3379392e",
+        "type": "CustomerName",
+        "value": "Rajesh Kumar",
+        "normalized_value": "Rajesh Kumar",
+        "source_span": [
+          0,
+          12
+        ],
+        "source_page": 1,
+        "record_id": "tbl_0_r_0",
+        "confidence": 0.98,
         "relationships": [
-          "ent_eebd7013"
+          "tbl_ent_a59d1fd1",
+          "tbl_ent_582b8539",
+          "tbl_ent_bc0afcea",
+          "tbl_ent_46204962",
+          "tbl_ent_6cfeba41"
         ]
       },
       {
-        "entity_id": "tbl_ent_16aef1c6",
+        "entity_id": "tbl_ent_a59d1fd1",
         "type": "Phone",
         "value": "+91-98765-43210",
         "normalized_value": "+91-98765-43210",
@@ -2600,11 +2239,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_8446fe8a",
+        "entity_id": "tbl_ent_582b8539",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -2616,11 +2255,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_5e83a577",
+        "entity_id": "tbl_ent_bc0afcea",
         "type": "InvoiceNo",
         "value": "INV-2024-001",
         "normalized_value": "INV-2024-001",
@@ -2632,11 +2271,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_b6e7d1a8",
+        "entity_id": "tbl_ent_46204962",
         "type": "Date",
         "value": "2024-03-15",
         "normalized_value": "2024-03-15",
@@ -2648,11 +2287,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_ea3e7b40",
+        "entity_id": "tbl_ent_6cfeba41",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -2664,11 +2303,31 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_2f81cb67",
+        "entity_id": "tbl_ent_1fe161a1",
+        "type": "CustomerName",
+        "value": "Priya Sharma",
+        "normalized_value": "Priya Sharma",
+        "source_span": [
+          100,
+          112
+        ],
+        "source_page": 1,
+        "record_id": "tbl_0_r_1",
+        "confidence": 0.98,
+        "relationships": [
+          "tbl_ent_8671ca0f",
+          "tbl_ent_1bb47716",
+          "tbl_ent_1a63cd73",
+          "tbl_ent_dcdcb46a",
+          "tbl_ent_41392940"
+        ]
+      },
+      {
+        "entity_id": "tbl_ent_8671ca0f",
         "type": "Phone",
         "value": "+91-91234-56780",
         "normalized_value": "+91-91234-56780",
@@ -2680,11 +2339,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_2a6afd8f",
+        "entity_id": "tbl_ent_1bb47716",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -2696,11 +2355,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_7170d138",
+        "entity_id": "tbl_ent_1a63cd73",
         "type": "InvoiceNo",
         "value": "INV-2024-002",
         "normalized_value": "INV-2024-002",
@@ -2712,11 +2371,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_d4f79e39",
+        "entity_id": "tbl_ent_dcdcb46a",
         "type": "Date",
         "value": "2024-04-20",
         "normalized_value": "2024-04-20",
@@ -2728,11 +2387,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_f2038936",
+        "entity_id": "tbl_ent_41392940",
         "type": "Amount",
         "value": "$3,400.50",
         "normalized_value": "$3,400.50",
@@ -2744,11 +2403,35 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_b0d5a9a0",
+        "entity_id": "tbl_ent_c67041e1",
+        "type": "CustomerName",
+        "value": "Sarah Jenkins",
+        "normalized_value": "Sarah Jenkins",
+        "source_span": [
+          200,
+          213
+        ],
+        "source_page": 1,
+        "record_id": "tbl_0_r_2",
+        "confidence": 0.98,
+        "relationships": [
+          "tbl_ent_62dbe8a7",
+          "tbl_ent_9fe10bf6",
+          "tbl_ent_f6a81b11",
+          "tbl_ent_7dacffca",
+          "tbl_ent_7cf9567f",
+          "ent_4253f28f",
+          "ent_f8d65d18",
+          "ent_bc206608",
+          "ent_26704bde"
+        ]
+      },
+      {
+        "entity_id": "tbl_ent_62dbe8a7",
         "type": "Phone",
         "value": "+1-555-234-5678",
         "normalized_value": "+1-555-234-5678",
@@ -2760,11 +2443,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_27d29bdb",
+        "entity_id": "tbl_ent_9fe10bf6",
         "type": "City",
         "value": "San Francisco",
         "normalized_value": "San Francisco",
@@ -2776,11 +2459,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_8eadb20e",
+        "entity_id": "tbl_ent_f6a81b11",
         "type": "InvoiceNo",
         "value": "INV-2024-003",
         "normalized_value": "INV-2024-003",
@@ -2792,11 +2475,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_d5df2474",
+        "entity_id": "tbl_ent_7dacffca",
         "type": "Date",
         "value": "2024-02-18",
         "normalized_value": "2024-02-18",
@@ -2808,11 +2491,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_da43c6e6",
+        "entity_id": "tbl_ent_7cf9567f",
         "type": "Amount",
         "value": "$9,800.00",
         "normalized_value": "$9,800.00",
@@ -2824,11 +2507,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_a0bc3c6d",
+        "entity_id": "tbl_ent_f76c7589",
         "type": "CustomerName",
         "value": "Suresh Reddy",
         "normalized_value": "Suresh Reddy",
@@ -2840,15 +2523,26 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_51bee7cb",
-          "tbl_ent_d088390c",
-          "tbl_ent_94b63cb0",
-          "tbl_ent_fd377346",
-          "tbl_ent_949b178b"
+          "tbl_ent_2e48adad",
+          "tbl_ent_d7c002e8",
+          "tbl_ent_6a741d07",
+          "tbl_ent_759b85bd",
+          "tbl_ent_16230f15",
+          "ent_e8bc7f8e",
+          "ent_a789579f",
+          "ent_20e1fab2",
+          "ent_bbc2769f",
+          "ent_27339369",
+          "ent_e6932e57",
+          "ent_eb44b2b1",
+          "ent_b4f7cc3b",
+          "ent_735cd2ce",
+          "ent_545a0f59",
+          "ent_a46a66a7"
         ]
       },
       {
-        "entity_id": "tbl_ent_51bee7cb",
+        "entity_id": "tbl_ent_2e48adad",
         "type": "Phone",
         "value": "+91-94401-23456",
         "normalized_value": "+91-94401-23456",
@@ -2860,11 +2554,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_d088390c",
+        "entity_id": "tbl_ent_d7c002e8",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -2876,11 +2570,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_94b63cb0",
+        "entity_id": "tbl_ent_6a741d07",
         "type": "InvoiceNo",
         "value": "INV-2024-004",
         "normalized_value": "INV-2024-004",
@@ -2892,11 +2586,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_fd377346",
+        "entity_id": "tbl_ent_759b85bd",
         "type": "Date",
         "value": "2023-11-05",
         "normalized_value": "2023-11-05",
@@ -2908,11 +2602,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_949b178b",
+        "entity_id": "tbl_ent_16230f15",
         "type": "Amount",
         "value": "$750.25",
         "normalized_value": "$750.25",
@@ -2924,7 +2618,7 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       }
     ],
@@ -2934,11 +2628,11 @@
     "version_id": 3,
     "parent_id": 2,
     "operation": "VALIDATE",
-    "timestamp": "2026-09-30T15:38:29.220412+00:00",
-    "data_snapshot_path": "C:\\Team-NARVL\\doc_extension\\data\\delta_document\\fe975e75-1b7f-4b00-bbad-5b2f26cf3926\\snapshot_v3.json",
+    "timestamp": "2026-09-30T19:09:19.036243+00:00",
+    "data_snapshot_path": "C:\\Users\\Anirudh Potukuchi\\Desktop\\Team-NARVL\\doc_extension\\data\\delta_document\\c94c4872-e531-45cc-99dc-90d908147e53\\snapshot_v3.json",
     "entities": [
       {
-        "entity_id": "ent_987ecb51",
+        "entity_id": "ent_4253f28f",
         "type": "Email",
         "value": "rajesh.kumar@acme.com",
         "normalized_value": "rajesh.kumar@acme.com",
@@ -2947,14 +2641,14 @@
           200
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.99,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_d899d596",
+        "entity_id": "ent_f8d65d18",
         "type": "Phone",
         "value": "+91-98765-43210",
         "normalized_value": "+91-98765-43210",
@@ -2963,14 +2657,14 @@
           171
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.96,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_471662aa",
+        "entity_id": "ent_bc206608",
         "type": "Date",
         "value": "2023-03-15",
         "normalized_value": "2023-03-15",
@@ -2979,14 +2673,14 @@
           257
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.92,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_14cc41f4",
+        "entity_id": "ent_e8bc7f8e",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -2995,34 +2689,14 @@
           284
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.94,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_39787ec8",
-        "type": "CustomerName",
-        "value": "Rajesh Kumar",
-        "normalized_value": "Rajesh Kumar",
-        "source_span": [
-          133,
-          145
-        ],
-        "source_page": 1,
-        "record_id": "p1_b2",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_987ecb51",
-          "ent_d899d596",
-          "ent_471662aa",
-          "ent_14cc41f4",
-          "ent_b8139291"
-        ]
-      },
-      {
-        "entity_id": "ent_b8139291",
+        "entity_id": "ent_26704bde",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -3031,14 +2705,14 @@
           210
         ],
         "source_page": 1,
-        "record_id": "p1_b2",
+        "record_id": "p1_b3",
         "confidence": 0.96,
         "relationships": [
-          "ent_39787ec8"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "ent_26c55715",
+        "entity_id": "ent_a789579f",
         "type": "Date",
         "value": "2023-03-15",
         "normalized_value": "2023-03-15",
@@ -3047,14 +2721,14 @@
           422
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.92,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_39a3f988",
+        "entity_id": "ent_20e1fab2",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -3063,14 +2737,14 @@
           449
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.94,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_a35b791d",
+        "entity_id": "ent_bbc2769f",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -3079,14 +2753,14 @@
           375
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.96,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_80b7f6d1",
+        "entity_id": "ent_27339369",
         "type": "State",
         "value": "Telangana",
         "normalized_value": "Telangana",
@@ -3095,14 +2769,14 @@
           392
         ],
         "source_page": 1,
-        "record_id": "p1_b3",
+        "record_id": "p1_b5",
         "confidence": 0.95,
         "relationships": [
-          "ent_ecc94c8c"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_e69597a6",
+        "entity_id": "ent_e6932e57",
         "type": "Email",
         "value": "priya.sharma@enterprise.org",
         "normalized_value": "priya.sharma@enterprise.org",
@@ -3111,14 +2785,14 @@
           558
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.99,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_c846909e",
+        "entity_id": "ent_eb44b2b1",
         "type": "Phone",
         "value": "+91-91234-56780",
         "normalized_value": "+91-91234-56780",
@@ -3127,14 +2801,14 @@
           523
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.96,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_dfb26a04",
+        "entity_id": "ent_b4f7cc3b",
         "type": "Date",
         "value": "2022-04-20",
         "normalized_value": "2022-04-20",
@@ -3143,14 +2817,14 @@
           615
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.92,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_03dae1bc",
+        "entity_id": "ent_735cd2ce",
         "type": "Amount",
         "value": "$3,400.50",
         "normalized_value": "$3,400.50",
@@ -3159,51 +2833,14 @@
           642
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.94,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_5c8f9f7a",
-        "type": "CustomerName",
-        "value": "Priya Sharma",
-        "normalized_value": "Priya Sharma",
-        "source_span": [
-          481,
-          493
-        ],
-        "source_page": 1,
-        "record_id": "p1_b4",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_e69597a6",
-          "ent_c846909e",
-          "ent_dfb26a04",
-          "ent_03dae1bc",
-          "ent_33d52a4e",
-          "ent_8cb861bd"
-        ]
-      },
-      {
-        "entity_id": "ent_33d52a4e",
-        "type": "State",
-        "value": "Telangana",
-        "normalized_value": "Telangana",
-        "source_span": [
-          576,
-          585
-        ],
-        "source_page": 1,
-        "record_id": "p1_b4",
-        "confidence": 0.95,
-        "relationships": [
-          "ent_5c8f9f7a"
-        ]
-      },
-      {
-        "entity_id": "ent_8cb861bd",
+        "entity_id": "ent_545a0f59",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -3212,14 +2849,30 @@
           568
         ],
         "source_page": 1,
-        "record_id": "p1_b4",
+        "record_id": "p1_b7",
         "confidence": 0.96,
         "relationships": [
-          "ent_5c8f9f7a"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "ent_5ad582a3",
+        "entity_id": "ent_a46a66a7",
+        "type": "State",
+        "value": "Telangana",
+        "normalized_value": "Telangana",
+        "source_span": [
+          576,
+          585
+        ],
+        "source_page": 1,
+        "record_id": "p1_b7",
+        "confidence": 0.95,
+        "relationships": [
+          "tbl_ent_f76c7589"
+        ]
+      },
+      {
+        "entity_id": "ent_216e77aa",
         "type": "Phone",
         "value": "+91-99887-76655",
         "normalized_value": "+91-99887-76655",
@@ -3228,14 +2881,12 @@
           710
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.96,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_5ac60bc9",
+        "entity_id": "ent_c290c16b",
         "type": "Date",
         "value": "2024-01-12",
         "normalized_value": "2024-01-12",
@@ -3244,14 +2895,12 @@
           771
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.92,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_a60c74b5",
+        "entity_id": "ent_eb9ea759",
         "type": "Amount",
         "value": "$520.00",
         "normalized_value": "$520.00",
@@ -3260,34 +2909,12 @@
           796
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.94,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_853bf2bc",
-        "type": "CustomerName",
-        "value": "Amit Patel",
-        "normalized_value": "Amit Patel",
-        "source_span": [
-          674,
-          684
-        ],
-        "source_page": 1,
-        "record_id": "p1_b5",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_5ad582a3",
-          "ent_5ac60bc9",
-          "ent_a60c74b5",
-          "ent_738e6070",
-          "ent_3858bfda"
-        ]
-      },
-      {
-        "entity_id": "ent_738e6070",
+        "entity_id": "ent_eb282d3e",
         "type": "City",
         "value": "Ahmedabad",
         "normalized_value": "Ahmedabad",
@@ -3296,14 +2923,12 @@
           726
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.96,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_3858bfda",
+        "entity_id": "ent_9f9decbb",
         "type": "State",
         "value": "Gujarat",
         "normalized_value": "Gujarat",
@@ -3312,14 +2937,12 @@
           741
         ],
         "source_page": 1,
-        "record_id": "p1_b5",
+        "record_id": "p1_b9",
         "confidence": 0.95,
-        "relationships": [
-          "ent_853bf2bc"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_25c40232",
+        "entity_id": "ent_a26cfa44",
         "type": "Email",
         "value": "sjenkins@techcorp.io",
         "normalized_value": "sjenkins@techcorp.io",
@@ -3328,14 +2951,12 @@
           901
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.99,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_5cca47b9",
+        "entity_id": "ent_280f9025",
         "type": "Phone",
         "value": "+1-555-234-5678",
         "normalized_value": "+1-555-234-5678",
@@ -3344,14 +2965,12 @@
           873
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.96,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_098159d9",
+        "entity_id": "ent_5b48a6a5",
         "type": "Date",
         "value": "2024-02-18",
         "normalized_value": "2024-02-18",
@@ -3360,14 +2979,12 @@
           969
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.92,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_8e820d20",
+        "entity_id": "ent_f0102749",
         "type": "Amount",
         "value": "$9,800.00",
         "normalized_value": "$9,800.00",
@@ -3376,34 +2993,12 @@
           996
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.94,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_6b6a6d97",
-        "type": "CustomerName",
-        "value": "Sarah Jenkins",
-        "normalized_value": "Sarah Jenkins",
-        "source_span": [
-          829,
-          842
-        ],
-        "source_page": 1,
-        "record_id": "p1_b6",
-        "confidence": 0.98,
-        "relationships": [
-          "ent_25c40232",
-          "ent_5cca47b9",
-          "ent_098159d9",
-          "ent_8e820d20",
-          "ent_21c07de0"
-        ]
-      },
-      {
-        "entity_id": "ent_21c07de0",
+        "entity_id": "ent_55ce7729",
         "type": "State",
         "value": "California",
         "normalized_value": "California",
@@ -3412,14 +3007,12 @@
           939
         ],
         "source_page": 1,
-        "record_id": "p1_b6",
+        "record_id": "p1_b11",
         "confidence": 0.95,
-        "relationships": [
-          "ent_6b6a6d97"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_8dc5bcfb",
+        "entity_id": "ent_5e53a499",
         "type": "Phone",
         "value": "+91-99887-76655",
         "normalized_value": "+91-99887-76655",
@@ -3428,14 +3021,12 @@
           1064
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.96,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_1e94a1a0",
+        "entity_id": "ent_83fc9f78",
         "type": "Date",
         "value": "2024-01-12",
         "normalized_value": "2024-01-12",
@@ -3444,14 +3035,12 @@
           1125
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.92,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_bb1a0927",
+        "entity_id": "ent_6343f710",
         "type": "Amount",
         "value": "$520.00",
         "normalized_value": "$520.00",
@@ -3460,14 +3049,12 @@
           1150
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.94,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_c6923cb8",
+        "entity_id": "ent_3fef44d6",
         "type": "City",
         "value": "Ahmedabad",
         "normalized_value": "Ahmedabad",
@@ -3476,14 +3063,12 @@
           1080
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.96,
-        "relationships": [
-          "ent_eebd7013"
-        ]
+        "relationships": []
       },
       {
-        "entity_id": "ent_cf12dc3d",
+        "entity_id": "ent_c0968160",
         "type": "State",
         "value": "Gujarat",
         "normalized_value": "Gujarat",
@@ -3492,14 +3077,32 @@
           1095
         ],
         "source_page": 1,
-        "record_id": "p1_b7",
+        "record_id": "p1_b13",
         "confidence": 0.95,
+        "relationships": []
+      },
+      {
+        "entity_id": "tbl_ent_3379392e",
+        "type": "CustomerName",
+        "value": "Rajesh Kumar",
+        "normalized_value": "Rajesh Kumar",
+        "source_span": [
+          0,
+          12
+        ],
+        "source_page": 1,
+        "record_id": "tbl_0_r_0",
+        "confidence": 0.98,
         "relationships": [
-          "ent_eebd7013"
+          "tbl_ent_a59d1fd1",
+          "tbl_ent_582b8539",
+          "tbl_ent_bc0afcea",
+          "tbl_ent_46204962",
+          "tbl_ent_6cfeba41"
         ]
       },
       {
-        "entity_id": "tbl_ent_16aef1c6",
+        "entity_id": "tbl_ent_a59d1fd1",
         "type": "Phone",
         "value": "+91-98765-43210",
         "normalized_value": "+91-98765-43210",
@@ -3511,11 +3114,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_8446fe8a",
+        "entity_id": "tbl_ent_582b8539",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -3527,11 +3130,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_5e83a577",
+        "entity_id": "tbl_ent_bc0afcea",
         "type": "InvoiceNo",
         "value": "INV-2024-001",
         "normalized_value": "INV-2024-001",
@@ -3543,11 +3146,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_b6e7d1a8",
+        "entity_id": "tbl_ent_46204962",
         "type": "Date",
         "value": "2024-03-15",
         "normalized_value": "2024-03-15",
@@ -3559,11 +3162,11 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_ea3e7b40",
+        "entity_id": "tbl_ent_6cfeba41",
         "type": "Amount",
         "value": "$1,250.00",
         "normalized_value": "$1,250.00",
@@ -3575,11 +3178,31 @@
         "record_id": "tbl_0_r_0",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6bfb76d3"
+          "tbl_ent_3379392e"
         ]
       },
       {
-        "entity_id": "tbl_ent_2f81cb67",
+        "entity_id": "tbl_ent_1fe161a1",
+        "type": "CustomerName",
+        "value": "Priya Sharma",
+        "normalized_value": "Priya Sharma",
+        "source_span": [
+          100,
+          112
+        ],
+        "source_page": 1,
+        "record_id": "tbl_0_r_1",
+        "confidence": 0.98,
+        "relationships": [
+          "tbl_ent_8671ca0f",
+          "tbl_ent_1bb47716",
+          "tbl_ent_1a63cd73",
+          "tbl_ent_dcdcb46a",
+          "tbl_ent_41392940"
+        ]
+      },
+      {
+        "entity_id": "tbl_ent_8671ca0f",
         "type": "Phone",
         "value": "+91-91234-56780",
         "normalized_value": "+91-91234-56780",
@@ -3591,11 +3214,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_2a6afd8f",
+        "entity_id": "tbl_ent_1bb47716",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -3607,11 +3230,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_7170d138",
+        "entity_id": "tbl_ent_1a63cd73",
         "type": "InvoiceNo",
         "value": "INV-2024-002",
         "normalized_value": "INV-2024-002",
@@ -3623,11 +3246,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_d4f79e39",
+        "entity_id": "tbl_ent_dcdcb46a",
         "type": "Date",
         "value": "2024-04-20",
         "normalized_value": "2024-04-20",
@@ -3639,11 +3262,11 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_f2038936",
+        "entity_id": "tbl_ent_41392940",
         "type": "Amount",
         "value": "$3,400.50",
         "normalized_value": "$3,400.50",
@@ -3655,11 +3278,35 @@
         "record_id": "tbl_0_r_1",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_6d559e50"
+          "tbl_ent_1fe161a1"
         ]
       },
       {
-        "entity_id": "tbl_ent_b0d5a9a0",
+        "entity_id": "tbl_ent_c67041e1",
+        "type": "CustomerName",
+        "value": "Sarah Jenkins",
+        "normalized_value": "Sarah Jenkins",
+        "source_span": [
+          200,
+          213
+        ],
+        "source_page": 1,
+        "record_id": "tbl_0_r_2",
+        "confidence": 0.98,
+        "relationships": [
+          "tbl_ent_62dbe8a7",
+          "tbl_ent_9fe10bf6",
+          "tbl_ent_f6a81b11",
+          "tbl_ent_7dacffca",
+          "tbl_ent_7cf9567f",
+          "ent_4253f28f",
+          "ent_f8d65d18",
+          "ent_bc206608",
+          "ent_26704bde"
+        ]
+      },
+      {
+        "entity_id": "tbl_ent_62dbe8a7",
         "type": "Phone",
         "value": "+1-555-234-5678",
         "normalized_value": "+1-555-234-5678",
@@ -3671,11 +3318,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_27d29bdb",
+        "entity_id": "tbl_ent_9fe10bf6",
         "type": "City",
         "value": "San Francisco",
         "normalized_value": "San Francisco",
@@ -3687,11 +3334,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_8eadb20e",
+        "entity_id": "tbl_ent_f6a81b11",
         "type": "InvoiceNo",
         "value": "INV-2024-003",
         "normalized_value": "INV-2024-003",
@@ -3703,11 +3350,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_d5df2474",
+        "entity_id": "tbl_ent_7dacffca",
         "type": "Date",
         "value": "2024-02-18",
         "normalized_value": "2024-02-18",
@@ -3719,11 +3366,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_da43c6e6",
+        "entity_id": "tbl_ent_7cf9567f",
         "type": "Amount",
         "value": "$9,800.00",
         "normalized_value": "$9,800.00",
@@ -3735,11 +3382,11 @@
         "record_id": "tbl_0_r_2",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_c485925a"
+          "tbl_ent_c67041e1"
         ]
       },
       {
-        "entity_id": "tbl_ent_a0bc3c6d",
+        "entity_id": "tbl_ent_f76c7589",
         "type": "CustomerName",
         "value": "Suresh Reddy",
         "normalized_value": "Suresh Reddy",
@@ -3751,15 +3398,26 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_51bee7cb",
-          "tbl_ent_d088390c",
-          "tbl_ent_94b63cb0",
-          "tbl_ent_fd377346",
-          "tbl_ent_949b178b"
+          "tbl_ent_2e48adad",
+          "tbl_ent_d7c002e8",
+          "tbl_ent_6a741d07",
+          "tbl_ent_759b85bd",
+          "tbl_ent_16230f15",
+          "ent_e8bc7f8e",
+          "ent_a789579f",
+          "ent_20e1fab2",
+          "ent_bbc2769f",
+          "ent_27339369",
+          "ent_e6932e57",
+          "ent_eb44b2b1",
+          "ent_b4f7cc3b",
+          "ent_735cd2ce",
+          "ent_545a0f59",
+          "ent_a46a66a7"
         ]
       },
       {
-        "entity_id": "tbl_ent_51bee7cb",
+        "entity_id": "tbl_ent_2e48adad",
         "type": "Phone",
         "value": "+91-94401-23456",
         "normalized_value": "+91-94401-23456",
@@ -3771,11 +3429,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_d088390c",
+        "entity_id": "tbl_ent_d7c002e8",
         "type": "City",
         "value": "Hyderabad",
         "normalized_value": "Hyderabad",
@@ -3787,11 +3445,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_94b63cb0",
+        "entity_id": "tbl_ent_6a741d07",
         "type": "InvoiceNo",
         "value": "INV-2024-004",
         "normalized_value": "INV-2024-004",
@@ -3803,11 +3461,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_fd377346",
+        "entity_id": "tbl_ent_759b85bd",
         "type": "Date",
         "value": "2023-11-05",
         "normalized_value": "2023-11-05",
@@ -3819,11 +3477,11 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       },
       {
-        "entity_id": "tbl_ent_949b178b",
+        "entity_id": "tbl_ent_16230f15",
         "type": "Amount",
         "value": "$750.25",
         "normalized_value": "$750.25",
@@ -3835,7 +3493,7 @@
         "record_id": "tbl_0_r_3",
         "confidence": 0.98,
         "relationships": [
-          "tbl_ent_a0bc3c6d"
+          "tbl_ent_f76c7589"
         ]
       }
     ],

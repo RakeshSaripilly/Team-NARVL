@@ -164,6 +164,13 @@ def entities_to_records_dataframe(entities: List[StructuredEntity], graph: Optio
         elif c_data.get("city") == "San Francisco" and not c_data.get("state"):
             c_data["state"] = "California"
 
+    if len(customers) == 1:
+        single_c = next(iter(customers.values()))
+        for ent in entities:
+            col = ent.type.lower()
+            if col in single_c and single_c[col] is None:
+                single_c[col] = ent.normalized_value or ent.value
+
     rows = list(customers.values())
     return pl.DataFrame(rows)
 

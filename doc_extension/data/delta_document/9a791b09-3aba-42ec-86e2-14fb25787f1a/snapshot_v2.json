@@ -1,0 +1,79 @@
+{
+  "version_id": 2,
+  "parent_id": 1,
+  "doc_id": "9a791b09-3aba-42ec-86e2-14fb25787f1a",
+  "operation": "RESOLVE_AND_DEDUPLICATE",
+  "timestamp": "2026-09-30T19:22:14.929619+00:00",
+  "entities": [
+    {
+      "entity_id": "ent_b55f4538",
+      "type": "Email",
+      "value": "anand.joshi@auditcorp.in",
+      "normalized_value": "anand.joshi@auditcorp.in",
+      "source_span": [
+        225,
+        249
+      ],
+      "source_page": 1,
+      "record_id": "p1_b0",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "entity_id": "ent_fe7f4a5b",
+      "type": "Phone",
+      "value": "+91-98765-01234",
+      "normalized_value": "+91-98765-01234",
+      "source_span": [
+        213,
+        223
+      ],
+      "source_page": 1,
+      "record_id": "p1_b0",
+      "confidence": 0.96,
+      "relationships": []
+    },
+    {
+      "entity_id": "ent_9442ccc2",
+      "type": "Date",
+      "value": "2024-03-14",
+      "normalized_value": "2024-03-14",
+      "source_span": [
+        263,
+        273
+      ],
+      "source_page": 1,
+      "record_id": "p1_b0",
+      "confidence": 0.92,
+      "relationships": []
+    },
+    {
+      "entity_id": "ent_4eed509e",
+      "type": "City",
+      "value": "Hyderabad",
+      "normalized_value": "Hyderabad",
+      "source_span": [
+        153,
+        156
+      ],
+      "source_page": 1,
+      "record_id": "p1_b0",
+      "confidence": 0.96,
+      "relationships": []
+    },
+    {
+      "entity_id": "ent_bc094609",
+      "type": "City",
+      "value": "Hyderabad",
+      "normalized_value": "Hyderabad",
+      "source_span": [
+        169,
+        178
+      ],
+      "source_page": 2,
+      "record_id": "p2_b0",
+      "confidence": 0.96,
+      "relationships": []
+    }
+  ]
+}

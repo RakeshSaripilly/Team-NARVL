@@ -324,7 +324,9 @@ class EntityExtractor:
                         row_record_id = f"tbl_{t_idx}_r_{r_idx}"
                         ph_match = PHONE_RE.search(row_str)
                         dt_match = DATE_RE.search(row_str)
-                        am_match = re.search(r"(?:\$[\d,]+(?:\.\d{2})?|,\d{3}\.\d{2}|\b\d{2,}(?:\.\d{2})?\b)", row_str)
+                        # Amount is positioned after the date (or after phone/city if date is absent)
+                        after_date_str = row_str[dt_match.end():].strip() if dt_match else (row_str[ph_match.end():].strip() if ph_match else row_str)
+                        am_match = re.search(r"(?:[\$€£₹]\s*)?(?:[1-9]\d{0,2}(?:,\d{3})*|\d+|,\d{3})(?:\.\d{2})?", after_date_str)
 
                         name_str = ""
                         if ph_match:
@@ -395,9 +397,14 @@ class EntityExtractor:
                                     confidence=0.98,
                                 )
                             )
-                        if am_match:
+                        if am_match and am_match.group(0).strip():
                             am_val = am_match.group(0).strip()
-                            clean_am = f"${am_val.lstrip(',')}" if not am_val.startswith("$") else am_val
+                            if am_val.startswith(","):
+                                clean_am = f"$1{am_val}" if len(am_val.split(".")[0]) == 4 else f"${am_val.lstrip(',')}"
+                            elif am_val.startswith("$"):
+                                clean_am = am_val
+                            else:
+                                clean_am = f"${am_val}"
                             entities.append(
                                 StructuredEntity(
                                     entity_id=f"tbl_ent_{uuid.uuid4().hex[:8]}",

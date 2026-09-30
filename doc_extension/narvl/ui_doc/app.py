@@ -7,8 +7,13 @@ Features Screen 0: Unstructured Document Ingestion (PDF / DOCX / TXT).
 from __future__ import annotations
 
 from pathlib import Path
+import sys
 import tempfile
 import streamlit as st
+
+_DOC_EXT_DIR = Path(__file__).resolve().parent.parent.parent
+if str(_DOC_EXT_DIR) not in sys.path:
+    sys.path.insert(0, str(_DOC_EXT_DIR))
 
 from narvl.document.pipeline import DocumentCleaningPipeline
 

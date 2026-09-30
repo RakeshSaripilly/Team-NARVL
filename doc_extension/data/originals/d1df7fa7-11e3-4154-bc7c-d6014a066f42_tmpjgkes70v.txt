@@ -1,0 +1,63 @@
+# ENTERPRISE CUSTOMER ACCOUNTS DISPATCH REPORT
+# CONFIDENTIAL - INTERNAL USE ONLY
+
+SECTION: ACTIVE CUSTOMER PROFILES
+
+Customer Name: Rajesh Kumar
+Contact Phone: 9876543210
+Email: rajesh.kumar@acme.com
+City: Hyd
+State: Telengana
+Registration Date: 15/03/2023
+Account Balance: $1,250.00
+Status: ACTIVE
+
+Customer Name: Rajesh Kumar
+Contact Phone: +91-98765-43210
+City: Hyderabad
+State: Telangana
+Registration Date: 2023-03-15
+Account Balance: $1,250.00
+Status: ACTIVE
+
+Customer Name: Priya Sharma
+Contact Phone: +91 9123456780
+Email: priya.sharma@enterprise.org
+City: HYD
+State: Telangana
+Registration Date: 04-20-2022
+Account Balance: $3,400.50
+Status: ACTIVE
+
+Customer Name: Amit Patel
+Contact Phone: 9988776655
+City: Ahmedabad
+State: Gujarat
+Registration Date: 12/01/2024
+Account Balance: $520.00
+Status: PENDING
+
+Customer Name: Sarah Jenkins
+Contact Phone: +1-555-234-5678
+Email: sjenkins@techcorp.io
+City: San Francisco
+State: California
+Registration Date: 2024-02-18
+Account Balance: $9,800.00
+Status: ACTIVE
+
+Customer Name: Amit Patel
+Contact Phone: 9988776655
+City: Ahmedabad
+State: Gujarat
+Registration Date: 2024-01-12
+Account Balance: $520.00
+Status: PENDING
+
+SECTION: BATCH TRANSACTION LOGS
+
+| Customer Name | Phone Number | City | Invoice No | Date | Amount |
+| Rajesh Kumar | 9876543210 | Hyd | INV-2024-001 | 15/03/2024 | $1,250.00 |
+| Priya Sharma | +91 9123456780 | HYD | INV-2024-002 | 20/04/2024 | $3,400.50 |
+| Sarah Jenkins | 555-234-5678 | San Francisco | INV-2024-003 | 2024-02-18 | $9,800.00 |
+| Suresh Reddy | 9440123456 | Hyderabad | INV-2024-004 | 05-11-2023 | $750.25 |
