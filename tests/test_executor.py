@@ -246,3 +246,125 @@ def test_delta_lake_3_step_dag_and_reversibility_rollback(tmp_path):
     assert "digital_signature" in manifest
     print(f"  Signed Provenance JSON emitted: {json_report}")
     print(f"  Executive Provenance HTML emitted: {html_report}")
+
+
+def test_executor_with_validation_filtering_and_ge_export(tmp_path):
+    """Test 5.3: Executor filtering of validation failures and GE suite JSON export."""
+    delta_uri = tmp_path / "delta_store_filtered"
+    raw_df = pl.DataFrame({
+        "id": [1, 2, 3],
+        "name": ["Alice", "Bob", "Charlie"],
+        "age": [28, -5, 45],  # Row 2 has invalid age (-5)
+    })
+
+    plan_steps = [
+        {
+            "step_id": 1,
+            "target_column": "age",
+            "action": "clamp_bounds",
+            "parameters": {"lower": 0, "upper": 120},
+            "test_criterion": "between_0_and_120",
+        },
+    ]
+
+    # Corrupt executor step intentionally or execute with filter_validation_failures=True
+    executor = ReversibleExecutor(table_uri=delta_uri)
+    
+    # Ingest without step 1 clamp to simulate a record that violates bounds
+    synth = DualTestSynthesizer(plan_steps)
+    cleaned_df, val_res = synth.filter_and_validate(raw_df)
+    assert val_res.removed_records_count == 1
+    assert cleaned_df.height == 2
+    assert cleaned_df["id"].to_list() == [1, 3]
+
+    # Test GE suite export
+    ge_file = tmp_path / "narvl_cleaning_suite.json"
+    exported_path = synth.export_ge_suite(ge_file, df=raw_df)
+    assert exported_path.exists()
+    import json
+    suite_data = json.loads(exported_path.read_text(encoding="utf-8"))
+    assert "expectations" in suite_data
+    assert suite_data["expectation_suite_name"] == "narvl_cleaning_suite"
+
+
+def test_resolve_nulls_imputes_or_removes_unresolvable():
+    """Test 5.4: resolve_nulls replaces nulls where possible and purges unresolvable records."""
+    from narvl.core.executor import resolve_nulls
+
+    df = pl.DataFrame({
+        "ID": [101, 102, None, 104, 105],                  # ID is null in row 2 -> cannot impute ID!
+        "Age": [20.0, 30.0, 40.0, None, 50.0],             # Age is null in row 3 -> numeric -> median is 35.0!
+        "Department": ["HR", "IT", "Finance", "IT", None],  # Dept is null in row 4 -> mode is "IT"!
+        "Email": ["a@x.com", "b@x.com", "c@x.com", "d@x.com", None],  # Email is null in row 4 -> cannot impute Email!
+    })
+
+    cleaned_df, summary = resolve_nulls(df)
+
+    # Imputed Age with median (35.0)
+    assert "Age" in summary["imputed"]
+    assert summary["imputed"]["Age"]["strategy"] == "median"
+    assert summary["imputed"]["Age"]["fill_value"] == 35.0
+
+    # Imputed Department with mode ("IT")
+    assert "Department" in summary["imputed"]
+    assert summary["imputed"]["Department"]["strategy"] == "mode"
+    assert summary["imputed"]["Department"]["fill_value"] == "IT"
+
+    # ID null (row 2) and Email null (row 4) cannot be imputed -> 2 rows removed
+    assert summary["removed_rows"] == 2
+    assert cleaned_df.height == 3
+    assert cleaned_df["ID"].to_list() == [101, 102, 104]
+    assert cleaned_df["Age"].to_list() == [20.0, 30.0, 35.0]
+    assert cleaned_df["Department"].to_list() == ["HR", "IT", "IT"]
+    assert cleaned_df["Email"].to_list() == ["a@x.com", "b@x.com", "d@x.com"]
+
+    # Verify 0 nulls remain across entire dataframe
+    assert cleaned_df.null_count().sum_horizontal()[0] == 0
+
+
+def test_executor_column_selection_and_null_resolution(tmp_path):
+    """Test 5.5: ReversibleExecutor targets specified columns and executes null resolution policy."""
+    delta_uri = tmp_path / "delta_store_cols"
+
+    raw_df = pl.DataFrame({
+        "id": [1, 2, 3, 4],
+        "age": [25, 45, None, 180],
+        "salary": [50000.0, None, 75000.0, 80000.0],
+    })
+
+    plan_steps = [
+        {
+            "step_id": 1,
+            "target_column": "age",
+            "action": "clamp_bounds",
+            "parameters": {"lower": 0, "upper": 120},
+            "test_criterion": "between_0_and_120",
+        },
+        {
+            "step_id": 2,
+            "target_column": "salary",
+            "action": "clamp_bounds",
+            "parameters": {"lower": 10000, "upper": 200000},
+            "test_criterion": "between_10000_and_200000",
+        },
+    ]
+
+    executor = ReversibleExecutor(table_uri=delta_uri)
+
+    # Process ONLY 'age', leave 'salary' untouched
+    res = executor.execute_plan(
+        raw_df,
+        plan_steps=plan_steps,
+        target_columns=["age"],
+        resolve_nulls_policy=True,
+    )
+
+    # Age was clamped (180 -> 120) and null was replaced with median (45)
+    assert res.cleaned_df["age"].max() == 120
+    assert res.cleaned_df["age"].null_count() == 0
+
+    # Salary was NOT in target_columns, so its null is preserved (not dropped or imputed)
+    assert res.cleaned_df["salary"].null_count() == 1
+    assert res.cleaned_df.height == 4
+
+

@@ -197,6 +197,36 @@ class DatasetProfiler:
             duration_seconds=duration,
         )
 
+    def get_columns_with_anomalies(
+        self,
+        summary_or_df: Union[Dict[str, Any], DatasetProfile, pl.DataFrame],
+    ) -> List[str]:
+        """Identify columns having nulls, zero variance, or domain boundary anomalies."""
+        if isinstance(summary_or_df, pl.DataFrame):
+            profile = self.profile(summary_or_df)
+            summary = profile.summary_dict
+        elif isinstance(summary_or_df, DatasetProfile):
+            summary = summary_or_df.summary_dict
+        else:
+            summary = summary_or_df
+
+        columns = summary.get("columns", {})
+        flagged: List[str] = []
+        for col_name, cinfo in columns.items():
+            has_nulls = cinfo.get("null_pct", 0.0) > 0.0
+            is_zero_var = cinfo.get("zero_var", False)
+            min_v = cinfo.get("min")
+            max_v = cinfo.get("max")
+            out_of_bounds = False
+            if min_v is not None and max_v is not None:
+                if "age" in col_name.lower() and (min_v < 0 or max_v > 120):
+                    out_of_bounds = True
+            if has_nulls or is_zero_var or out_of_bounds:
+                flagged.append(col_name)
+
+        return flagged
+
 
 # Alias for backwards compatibility
 FastProfiler = DatasetProfiler
+

@@ -43,16 +43,20 @@ class DualTestSynthesizer:
         self,
         df: pl.DataFrame,
         plan_steps: Optional[List[Dict[str, Any]]] = None,
+        target_columns: Optional[List[str]] = None,
     ) -> pa_pl.DataFrameSchema:
         """Construct Pandera DataFrameSchema from dataframe schema and cleaning plan."""
         steps = plan_steps if plan_steps is not None else self.plan_steps
         columns: Dict[str, pa_pl.Column] = {}
+        target_set = set(target_columns) if target_columns is not None else None
 
         # Scan plan steps for constraints
         col_constraints: Dict[str, Dict[str, Any]] = {}
         for s in steps:
             target = s.get("target_column")
             if not target or target == "ALL":
+                continue
+            if target_set is not None and target not in target_set:
                 continue
             if target not in col_constraints:
                 col_constraints[target] = {}
@@ -62,8 +66,10 @@ class DualTestSynthesizer:
             test_crit = s.get("test_criterion", "")
 
             if action == "clamp_bounds" or "between" in test_crit:
-                col_constraints[target]["range"] = (params.get("lower", 0), params.get("upper", 120))
-            if action == "knn_impute" or "non_null" in test_crit:
+                lower = params.get("lower", params.get("min_value", 0))
+                upper = params.get("upper", params.get("max_value", 120))
+                col_constraints[target]["range"] = (lower, upper)
+            if action in ["knn_impute", "impute_median", "impute_mean", "impute_mode"] or "non_null" in test_crit:
                 col_constraints[target]["non_null"] = True
             if "email" in test_crit.lower() or action == "regex_replace":
                 col_constraints[target]["email_regex"] = True
@@ -89,31 +95,37 @@ class DualTestSynthesizer:
         self,
         df: pl.DataFrame,
         plan_steps: Optional[List[Dict[str, Any]]] = None,
+        target_columns: Optional[List[str]] = None,
         suite_name: str = "narvl_cleaning_suite",
     ) -> Dict[str, Any]:
         """Synthesize Great Expectations expectation suite dictionary."""
         steps = plan_steps if plan_steps is not None else self.plan_steps
         expectations: List[Dict[str, Any]] = []
+        target_set = set(target_columns) if target_columns is not None else None
 
         for s in steps:
             target = s.get("target_column")
             if not target or target == "ALL":
+                continue
+            if target_set is not None and target not in target_set:
                 continue
             action = s.get("action")
             params = s.get("parameters", {})
             test_crit = s.get("test_criterion", "")
 
             if action == "clamp_bounds" or "between" in test_crit:
+                min_v = params.get("lower", params.get("min_value", 0))
+                max_v = params.get("upper", params.get("max_value", 120))
                 expectations.append({
                     "expectation_type": "expect_column_values_to_be_between",
                     "kwargs": {
                         "column": target,
-                        "min_value": params.get("lower", 0),
-                        "max_value": params.get("upper", 120),
+                        "min_value": min_v,
+                        "max_value": max_v,
                     },
                 })
 
-            if action == "knn_impute" or "non_null" in test_crit:
+            if action in ["knn_impute", "impute_median", "impute_mean", "impute_mode"] or "non_null" in test_crit:
                 expectations.append({
                     "expectation_type": "expect_column_values_to_not_be_null",
                     "kwargs": {"column": target},
@@ -228,6 +240,7 @@ class DualTestSynthesizer:
         self,
         df: pl.DataFrame,
         plan_steps: Optional[List[Dict[str, Any]]] = None,
+        target_columns: Optional[List[str]] = None,
     ) -> Tuple[pl.DataFrame, pl.DataFrame, int]:
         """Identify and remove records failing Pandera schema checks or Great Expectations.
 
@@ -239,11 +252,14 @@ class DualTestSynthesizer:
 
         steps = plan_steps if plan_steps is not None else self.plan_steps
         invalid_mask = pl.repeat(False, n=df.height, dtype=pl.Boolean)
+        target_set = set(target_columns) if target_columns is not None else None
 
         # 1. Evaluate checks from plan constraints (Range, Non-null, Regex)
         for s in steps:
             target = s.get("target_column")
             if not target or target == "ALL" or target not in df.columns:
+                continue
+            if target_set is not None and target not in target_set:
                 continue
 
             action = s.get("action")
@@ -252,15 +268,15 @@ class DualTestSynthesizer:
 
             # Range bounds check
             if action == "clamp_bounds" or "between" in test_crit:
-                lower = params.get("lower", 0)
-                upper = params.get("upper", 120)
+                lower = params.get("lower", params.get("min_value", 0))
+                upper = params.get("upper", params.get("max_value", 120))
                 series = df.get_column(target)
                 if series.dtype.is_numeric():
                     out_of_range = (series < lower) | (series > upper)
                     invalid_mask = invalid_mask | out_of_range.fill_null(False)
 
             # Non-null check
-            if action == "knn_impute" or "non_null" in test_crit:
+            if action in ["knn_impute", "impute_median", "impute_mean", "impute_mode"] or "non_null" in test_crit:
                 series = df.get_column(target)
                 invalid_mask = invalid_mask | series.is_null()
 
@@ -273,12 +289,14 @@ class DualTestSynthesizer:
                     invalid_mask = invalid_mask | non_matching.fill_null(False)
 
         # 2. Evaluate expectations from Great Expectations suite
-        ge_suite = self.build_ge_suite(df, plan_steps=steps)
+        ge_suite = self.build_ge_suite(df, plan_steps=steps, target_columns=target_columns)
         for exp in ge_suite.get("expectations", []):
             etype = exp["expectation_type"]
             kwargs = exp["kwargs"]
             col = kwargs.get("column")
             if not col or col not in df.columns:
+                continue
+            if target_set is not None and col not in target_set:
                 continue
             series = df.get_column(col)
 
@@ -299,20 +317,58 @@ class DualTestSynthesizer:
                     non_m = str_s.is_not_null() & (~str_s.str.contains(pat))
                     invalid_mask = invalid_mask | non_m.fill_null(False)
 
+        # 3. Direct Pandera Schema failure cases extraction
+        try:
+            schema = self.build_pandera_schema(df, plan_steps=steps, target_columns=target_columns)
+            schema.validate(df, lazy=True)
+        except Exception as exc:
+            fc = getattr(exc, "failure_cases", None)
+            if isinstance(fc, pl.DataFrame) and "index" in fc.columns:
+                bad_indices = fc.get_column("index").drop_nulls().to_list()
+                if bad_indices:
+                    invalid_mask = invalid_mask | pl.int_range(0, df.height).is_in(bad_indices)
+            elif isinstance(fc, pd.DataFrame) and "index" in fc.columns:
+                bad_indices = fc["index"].dropna().tolist()
+                if bad_indices:
+                    invalid_mask = invalid_mask | pl.int_range(0, df.height).is_in(bad_indices)
+
         valid_df = df.filter(~invalid_mask)
         quarantined_df = df.filter(invalid_mask)
         removed_count = quarantined_df.height
 
         return valid_df, quarantined_df, removed_count
 
+    def export_ge_suite(
+        self,
+        output_path: Union[str, Path],
+        df: Optional[pl.DataFrame] = None,
+        plan_steps: Optional[List[Dict[str, Any]]] = None,
+        target_columns: Optional[List[str]] = None,
+        suite_name: str = "narvl_cleaning_suite",
+    ) -> Path:
+        """Export Great Expectations expectation suite to a JSON file."""
+        target_path = Path(output_path)
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        suite = self.build_ge_suite(
+            df=df if df is not None else pl.DataFrame(),
+            plan_steps=plan_steps,
+            target_columns=target_columns,
+            suite_name=suite_name,
+        )
+        target_path.write_text(json.dumps(suite, indent=2), encoding="utf-8")
+        return target_path
+
     def filter_and_validate(
         self,
         df: pl.DataFrame,
         plan_steps: Optional[List[Dict[str, Any]]] = None,
+        target_columns: Optional[List[str]] = None,
     ) -> Tuple[pl.DataFrame, DualValidationResult]:
         """Filter out records failing Pandera or GE, and validate the resulting dataset."""
-        valid_df, quarantined_df, removed_count = self.filter_valid_records(df, plan_steps=plan_steps)
-        val_result = self.validate_dataset(valid_df, plan_steps=plan_steps)
+        valid_df, quarantined_df, removed_count = self.filter_valid_records(
+            df, plan_steps=plan_steps, target_columns=target_columns
+        )
+        val_result = self.validate_dataset(valid_df, plan_steps=plan_steps, target_columns=target_columns)
         val_result.removed_records_count = removed_count
         val_result.quarantined_df = quarantined_df
         val_result.cleaned_df = valid_df
@@ -323,6 +379,7 @@ class DualTestSynthesizer:
         df: pl.DataFrame,
         plan_steps: Optional[List[Dict[str, Any]]] = None,
         filter_failing_records: bool = False,
+        target_columns: Optional[List[str]] = None,
     ) -> DualValidationResult:
         """Run both Pandera and Great Expectations suites simultaneously.
 
@@ -333,7 +390,9 @@ class DualTestSynthesizer:
         removed_count = 0
 
         if filter_failing_records:
-            target_df, quarantined_df, removed_count = self.filter_valid_records(df, plan_steps=plan_steps)
+            target_df, quarantined_df, removed_count = self.filter_valid_records(
+                df, plan_steps=plan_steps, target_columns=target_columns
+            )
 
         pan_passed, pan_errs = self.validate_with_pandera(target_df, plan_steps=plan_steps)
         ge_passed, ge_summary = self.validate_with_great_expectations(target_df, plan_steps=plan_steps)

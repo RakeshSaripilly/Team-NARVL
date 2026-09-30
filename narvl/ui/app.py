@@ -140,6 +140,12 @@ def init_session_state() -> None:
         st.session_state.provenance_json = None
     if "provenance_html" not in st.session_state:
         st.session_state.provenance_html = None
+    if "selected_columns" not in st.session_state:
+        st.session_state.selected_columns = []
+    if "resolve_nulls_policy" not in st.session_state:
+        st.session_state.resolve_nulls_policy = True
+    if "null_resolution_summary" not in st.session_state:
+        st.session_state.null_resolution_summary = None
 
 
 def render_sidebar() -> str:
@@ -218,6 +224,9 @@ def screen_1_upload() -> None:
                 st.session_state.cleaned_df = None
                 st.session_state.loss_assessment = None
                 st.session_state.validation_result = None
+                st.session_state.selected_columns = list(df.columns)
+                st.session_state.resolve_nulls_policy = True
+                st.session_state.null_resolution_summary = None
 
                 st.success(f"Successfully ingested {df.height:,} rows across {df.width} columns!")
                 if quarantine_rows > 0:
@@ -249,6 +258,9 @@ def screen_1_upload() -> None:
             st.session_state.cleaned_df = None
             st.session_state.loss_assessment = None
             st.session_state.validation_result = None
+            st.session_state.selected_columns = list(demo_df.columns)
+            st.session_state.resolve_nulls_policy = True
+            st.session_state.null_resolution_summary = None
             st.rerun()
 
 
@@ -311,6 +323,47 @@ def screen_2_profile() -> None:
         })
     st.table(profile_rows)
 
+    # Column Selection for Cleaning Pipeline
+    st.markdown("---")
+    st.markdown("### 🎯 Specify Columns to Process")
+    st.write(
+        "Choose which columns will be targeted for cleaning, null resolution, domain clamping, and validation. "
+        "Unselected columns will remain untouched in their raw state."
+    )
+
+    all_cols = list(cols.keys()) if cols else list(df.columns)
+    if not st.session_state.selected_columns:
+        st.session_state.selected_columns = list(all_cols)
+
+    c_b1, c_b2, c_b3 = st.columns([1, 1.8, 1])
+    with c_b1:
+        if st.button("✅ Select All", key="btn_sel_all"):
+            st.session_state.selected_columns = list(all_cols)
+            st.session_state.plan_steps = []
+            st.rerun()
+    with c_b2:
+        if st.button("⚠️ Select Columns with Issues Only", key="btn_sel_issues"):
+            anomalous = profiler.get_columns_with_anomalies(st.session_state.profile or df)
+            st.session_state.selected_columns = anomalous if anomalous else list(all_cols)
+            st.session_state.plan_steps = []
+            st.rerun()
+    with c_b3:
+        if st.button("❌ Clear Selection", key="btn_clear_sel"):
+            st.session_state.selected_columns = []
+            st.session_state.plan_steps = []
+            st.rerun()
+
+    new_sel = st.multiselect(
+        "Active Target Columns for Cleaning Pipeline:",
+        options=all_cols,
+        default=st.session_state.selected_columns,
+        help="Only selected features will be processed by the DAG, imputed, and validated.",
+        key="ms_profile_target_cols",
+    )
+    if new_sel != st.session_state.selected_columns:
+        st.session_state.selected_columns = new_sel
+        st.session_state.plan_steps = []
+
 
 def screen_3_reasoning() -> None:
     """Screen 3: AI Semantic Reasoning & Approximate FD Discovery."""
@@ -370,12 +423,37 @@ def screen_4_plan_builder() -> None:
     df = st.session_state.raw_df
     planner = SLMPlanner()
 
+    all_cols = list(df.columns)
+    if not st.session_state.selected_columns:
+        st.session_state.selected_columns = list(all_cols)
+
+    with st.expander("⚙️ Target Column Scope & Null Value Policy", expanded=False):
+        c_sc1, c_sc2 = st.columns([2, 1])
+        with c_sc1:
+            chosen = st.multiselect(
+                "Columns to Process in Pipeline:",
+                options=all_cols,
+                default=st.session_state.selected_columns,
+                key="plan_builder_cols",
+            )
+            if chosen != st.session_state.selected_columns:
+                st.session_state.selected_columns = chosen
+                st.session_state.plan_steps = []
+                st.rerun()
+        with c_sc2:
+            st.session_state.resolve_nulls_policy = st.checkbox(
+                "⚡ Auto-Resolve Null Values",
+                value=st.session_state.get("resolve_nulls_policy", True),
+                help="Replaces nulls with median (numeric) or mode (categorical) where appropriate. Rows with unresolvable nulls (IDs, emails, empty columns) are removed.",
+            )
+
     if not st.session_state.plan_steps:
         with st.spinner("Generating SLM cleaning plan via constrained GBNF reasoning..."):
             pipeline = planner.generate_plan(
                 profile_summary=st.session_state.profile or {},
                 functional_dependencies=[fd.__dict__ for fd in st.session_state.fds],
                 semantic_types={k: v.predicted_type for k, v in st.session_state.semantic_types.items()},
+                selected_columns=st.session_state.selected_columns,
             )
             st.session_state.plan_steps = pipeline.steps
 
@@ -464,20 +542,45 @@ def screen_6_stepper() -> None:
     with col_btn1:
         if st.button("🚀 Execute Approved DAG Pipeline"):
             with st.spinner("Applying vectorized Polars DAG to Delta Lake..."):
-                cleaned_df, report = executor.execute_plan(steps)
+                target_cols = st.session_state.get("selected_columns", None)
+                resolve_policy = st.session_state.get("resolve_nulls_policy", True)
+                sem_types = {k: v.predicted_type for k, v in st.session_state.semantic_types.items()}
+
+                cleaned_df, report = executor.execute_plan(
+                    steps,
+                    target_columns=target_cols,
+                    resolve_nulls_policy=resolve_policy,
+                    semantic_types=sem_types,
+                    filter_validation_failures=True,
+                )
                 # Post-processing: Remove records failing Pandera or Great Expectations validation
                 synthesizer = DualTestSynthesizer(steps)
+<<<<<<< Updated upstream
                 if hasattr(synthesizer, "filter_and_validate"):
                     filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df)
                 else:
                     val_res = synthesizer.validate_dataset(cleaned_df)
                     filtered_df = cleaned_df
+=======
+                filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df, target_columns=target_cols)
+>>>>>>> Stashed changes
                 st.session_state.cleaned_df = filtered_df
                 st.session_state.validation_result = val_res
+
                 msg = f"Successfully committed v{report.get('final_version')} with {len(steps)} applied steps!"
+<<<<<<< Updated upstream
                 removed_cnt = getattr(val_res, "removed_records_count", 0)
                 if removed_cnt > 0:
                     msg += f" (Safely removed {removed_cnt:,} records failing Pandera / GE validation)"
+=======
+                null_res = report.get("null_resolution", {})
+                null_imputed = null_res.get("total_nulls_imputed", 0)
+                null_dropped = null_res.get("removed_rows", 0)
+                if null_imputed > 0 or null_dropped > 0:
+                    msg += f" [Null Policy: Imputed {null_imputed:,} values, removed {null_dropped:,} unresolvable rows]"
+                if val_res.removed_records_count > 0:
+                    msg += f" (Safely removed {val_res.removed_records_count:,} records failing Pandera / GE validation)"
+>>>>>>> Stashed changes
                 st.success(msg)
                 st.rerun()
 
@@ -504,10 +607,14 @@ def screen_7_validation() -> None:
         return
 
     steps = getattr(st.session_state, "active_steps", st.session_state.plan_steps)
+    target_cols = st.session_state.get("selected_columns", None)
     synthesizer = DualTestSynthesizer(steps)
 
     with st.spinner("Running automated Pandera schema checks and Great Expectations checkpoint..."):
-        res = synthesizer.validate_dataset(target_df)
+        prev_removed = getattr(st.session_state.validation_result, "removed_records_count", 0)
+        res = synthesizer.validate_dataset(target_df, target_columns=target_cols)
+        if prev_removed > 0:
+            res.removed_records_count = prev_removed
         st.session_state.validation_result = res
 
     if getattr(st.session_state.validation_result, "removed_records_count", 0) > 0:

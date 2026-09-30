@@ -32,12 +32,18 @@ def run_clean_pipeline(
     delta_dir: Optional[Path] = None,
     report_dir: Optional[Path] = None,
     auto_approve: bool = False,
+    columns: Optional[str] = None,
+    resolve_nulls: bool = True,
 ) -> int:
     """Execute end-to-end agentic cleaning pipeline on the input dataset."""
+    selected_columns = [c.strip() for c in columns.split(",") if c.strip()] if columns else None
     print(f"\n=======================================================")
     print(f"[*] NARVL: Autonomous Agentic Data Cleaning Engine")
     print(f"=======================================================")
     print(f"[*] Input dataset: {input_file}")
+    if selected_columns:
+        print(f"[*] Target columns to process: {', '.join(selected_columns)}")
+    print(f"[*] Auto-resolve nulls policy: {resolve_nulls}")
 
     if not input_file.exists():
         print(f"[ERROR] File does not exist: {input_file}", file=sys.stderr)
@@ -92,6 +98,7 @@ def run_clean_pipeline(
         profile_summary=profile_summary,
         functional_dependencies=[fd.__dict__ for fd in fds],
         semantic_types={k: v.predicted_type for k, v in types_found.items()},
+        selected_columns=selected_columns,
     )
     print(f"  [+] Inferred {len(plan.steps)} pipeline steps:")
     for s in plan.steps:
@@ -101,7 +108,11 @@ def run_clean_pipeline(
     # 5. L4 4D Loss Estimator & Speculative Utility Barrier
     print("\n[Stage 5/7] Simulating 4D Information Loss & Speculative Utility Barrier...")
     executor = ReversibleExecutor(raw_df, delta_table_path=delta_dir)
-    candidate_df, _ = executor.execute_plan(plan.steps)
+    candidate_df, _ = executor.execute_plan(
+        plan.steps,
+        target_columns=selected_columns,
+        resolve_nulls_policy=resolve_nulls,
+    )
 
     loss_estimator = LossEstimator()
     assessment = loss_estimator.assess(raw_df, candidate_df)
@@ -122,7 +133,7 @@ def run_clean_pipeline(
     # 6. L5 Dual Test Synthesizer (Pandera + Great Expectations)
     print("\n[Stage 6/7] Synthesizing & Executing Pandera + Great Expectations Suites...")
     test_gen = DualTestSynthesizer(plan.steps)
-    val_result = test_gen.validate_dataset(candidate_df)
+    val_result = test_gen.validate_dataset(candidate_df, target_columns=selected_columns)
     print(f"  [+] Pandera Schema Passed: {val_result.pandera_passed}")
     print(f"  [+] Great Expectations Passed: {val_result.ge_passed}")
 
@@ -133,10 +144,18 @@ def run_clean_pipeline(
 
     # 7. Commit & Provenance Audit Report
     print("\n[Stage 7/7] Committing to Delta Lake & Signing Provenance Audit...")
-    cleaned_df, report = executor.execute_plan(plan.steps)
+    cleaned_df, report = executor.execute_plan(
+        plan.steps,
+        target_columns=selected_columns,
+        resolve_nulls_policy=resolve_nulls,
+        filter_validation_failures=True,
+    )
 
     # Post-processing: Remove records failing Pandera or Great Expectations validation
-    cleaned_df, val_result = test_gen.filter_and_validate(cleaned_df)
+    cleaned_df, val_result = test_gen.filter_and_validate(cleaned_df, target_columns=selected_columns)
+    null_info = report.get("null_resolution", {})
+    if null_info.get("total_nulls_imputed", 0) > 0 or null_info.get("removed_rows", 0) > 0:
+        print(f"  [+] Null Policy: Imputed {null_info.get('total_nulls_imputed', 0)} null(s), removed {null_info.get('removed_rows', 0)} unresolvable record(s).")
     if val_result.removed_records_count > 0:
         print(f"  [!] Post-processing: Removed {val_result.removed_records_count} record(s) failing Pandera / GE validation.")
 
@@ -181,6 +200,8 @@ def main(args: Optional[List[str]] = None) -> int:
     clean_parser.add_argument("--delta-dir", type=Path, default=None, help="Directory to store Delta Lake table")
     clean_parser.add_argument("--report-dir", type=Path, default=None, help="Directory to store provenance reports")
     clean_parser.add_argument("--auto-approve", action="store_true", help="Auto-approve steps despite safety gate warnings")
+    clean_parser.add_argument("--columns", type=str, default=None, help="Comma-separated list of target columns to process (e.g. Age,Salary,Email)")
+    clean_parser.add_argument("--no-resolve-nulls", dest="resolve_nulls", action="store_false", default=True, help="Disable automated null replacement/removal")
 
     # Command: ui
     ui_parser = subparsers.add_parser("ui", help="Launch Streamlit CleanPilot Web UI")
@@ -200,6 +221,8 @@ def main(args: Optional[List[str]] = None) -> int:
             delta_dir=parsed.delta_dir,
             report_dir=parsed.report_dir,
             auto_approve=parsed.auto_approve,
+            columns=parsed.columns,
+            resolve_nulls=parsed.resolve_nulls,
         )
     elif parsed.command == "ui":
         ui_script = Path(__file__).parent / "ui" / "app.py"

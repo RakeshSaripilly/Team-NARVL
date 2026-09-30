@@ -65,6 +65,8 @@ class CleanRequestPayload(BaseModel):
     records: List[Dict[str, Any]]
     auto_approve: bool = False
     target_loss_limit: float = 0.15
+    selected_columns: Optional[List[str]] = None
+    resolve_nulls: bool = True
 
 
 class RollbackRequest(BaseModel):
@@ -293,10 +295,15 @@ def clean_dataset_api(
         profile_summary=profile_summary,
         functional_dependencies=[fd.__dict__ for fd in fds],
         semantic_types={k: v.predicted_type for k, v in types_found.items()},
+        selected_columns=payload.selected_columns,
     )
 
     # 4. 4D Loss & Speculative Utility Barrier
-    candidate_df, _ = executor.execute_plan(plan.steps)
+    candidate_df, _ = executor.execute_plan(
+        plan.steps,
+        target_columns=payload.selected_columns,
+        resolve_nulls_policy=payload.resolve_nulls,
+    )
     estimator = LossEstimator()
     assessment = estimator.assess(raw_df, candidate_df)
 
@@ -313,9 +320,14 @@ def clean_dataset_api(
         )
 
     # 5. Commit DAG & Post-Processing Validation Filtering
-    cleaned_df, report = executor.execute_plan(plan.steps)
+    cleaned_df, report = executor.execute_plan(
+        plan.steps,
+        target_columns=payload.selected_columns,
+        resolve_nulls_policy=payload.resolve_nulls,
+        filter_validation_failures=True,
+    )
     test_gen = DualTestSynthesizer(plan.steps)
-    cleaned_df, val_result = test_gen.filter_and_validate(cleaned_df)
+    cleaned_df, val_result = test_gen.filter_and_validate(cleaned_df, target_columns=payload.selected_columns)
 
     # 7. Provenance Report
     prov_rep = ProvenanceReporter()

@@ -72,10 +72,12 @@ class SLMPlanner:
         summary: Dict[str, Any],
         semantic_types: Dict[str, SemanticClassification],
         fds: List[FunctionalDependency],
+        selected_columns: Optional[List[str]] = None,
     ) -> List[Dict[str, Any]]:
         """Synthesize plan deterministically conforming strictly to GBNF schema."""
         steps: List[Dict[str, Any]] = []
         step_id = 1
+        sel_set = set(selected_columns) if selected_columns is not None else None
 
         meta = summary.get("meta", {})
         dup_count = meta.get("duplicates", 0)
@@ -117,6 +119,8 @@ class SLMPlanner:
 
         # 2. Check FDs for typo canonicalization
         for fd in fds:
+            if sel_set is not None and fd.dependent not in sel_set:
+                continue
             if fd.canonical_mapping:
                 steps.append({
                     "step_id": step_id,
@@ -135,6 +139,8 @@ class SLMPlanner:
         # 3. Check column profiles for nulls, bounds, and formatting
         columns = summary.get("columns", {})
         for col_name, col_meta in columns.items():
+            if sel_set is not None and col_name not in sel_set:
+                continue
             null_pct = col_meta.get("null_pct", 0.0)
             col_type = col_meta.get("type", "")
 
@@ -212,11 +218,26 @@ class SLMPlanner:
 
         return steps
 
+    def filter_plan_by_columns(
+        self,
+        steps: List[Dict[str, Any]],
+        selected_columns: Optional[List[str]] = None,
+    ) -> List[Dict[str, Any]]:
+        """Filter plan steps to only include actions targeting specified columns (or 'ALL')."""
+        if selected_columns is None:
+            return steps
+        sel_set = set(selected_columns)
+        return [
+            s for s in steps
+            if s.get("target_column") == "ALL" or s.get("target_column") in sel_set
+        ]
+
     def plan(
         self,
         profile_summary: Union[str, Dict[str, Any]],
         semantic_types: Optional[Dict[str, SemanticClassification]] = None,
         fds: Optional[List[FunctionalDependency]] = None,
+        selected_columns: Optional[List[str]] = None,
     ) -> PlanResult:
         """Generate cleaning plan conforming to GBNF and execute L5 Confidence Gate.
         
@@ -224,6 +245,7 @@ class SLMPlanner:
             profile_summary: Compact profile summary dict or JSON string.
             semantic_types: Optional mapping of column names to semantic classifications.
             fds: Optional list of discovered functional dependencies.
+            selected_columns: Optional list of column names to constrain cleaning steps to.
             
         Returns:
             PlanResult with steps routed to auto_batch and human_review_queue.
@@ -273,8 +295,14 @@ class SLMPlanner:
 
         # Deterministic constrained fallback reasoning
         if not steps:
-            steps = self._generate_deterministic_plan(summary_dict, semantic_types, fds)
+            steps = self._generate_deterministic_plan(
+                summary_dict, semantic_types, fds, selected_columns=selected_columns
+            )
             raw_output = json.dumps(steps, indent=2)
+
+        # Filter steps by selected_columns if specified
+        if selected_columns is not None:
+            steps = self.filter_plan_by_columns(steps, selected_columns)
 
         # Validate against GBNF schema
         validate_cleaning_plan(steps)
@@ -305,6 +333,7 @@ class SLMPlanner:
         semantic_types: Optional[Dict[str, Any]] = None,
         functional_dependencies: Optional[List[Any]] = None,
         fds: Optional[List[FunctionalDependency]] = None,
+        selected_columns: Optional[List[str]] = None,
     ) -> PlanResult:
         """Convenience alias for plan with flexible dict and string type resolution."""
         actual_fds = fds or []
@@ -336,4 +365,9 @@ class SLMPlanner:
                     )
                 else:
                     converted_types[k] = v
-        return self.plan(profile_summary=profile_summary, semantic_types=converted_types, fds=actual_fds)
+        return self.plan(
+            profile_summary=profile_summary,
+            semantic_types=converted_types,
+            fds=actual_fds,
+            selected_columns=selected_columns,
+        )

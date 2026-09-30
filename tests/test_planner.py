@@ -185,3 +185,27 @@ def test_confidence_governance_gate_ambiguous_nulls(mock_profile_summary):
     assert "ALL" in auto_targets or "age" in auto_targets or "state_name" in auto_targets
     for s in result.auto_batch:
         assert s["confidence"] >= 0.85
+
+
+def test_planner_column_selection(mock_profile_summary):
+    """Test 3.3: Planner constraints planning strictly to selected columns."""
+    planner = SLMPlanner()
+    fds = [
+        FunctionalDependency(
+            determinant="postal_code",
+            dependent="state_name",
+            is_exact=False,
+            confidence=0.98,
+            canonical_mapping={"Telengana": "Telangana"},
+        )
+    ]
+
+    # Constrain to only 'age'
+    result_age = planner.generate_plan(mock_profile_summary, fds=fds, selected_columns=["age"])
+    targets = [s["target_column"] for s in result_age.steps]
+    # Should only contain 'age' and possibly 'ALL' (for deduplication)
+    assert "age" in targets
+    assert "income_bracket" not in targets
+    assert "state_name" not in targets
+    assert "customer_email" not in targets
+
