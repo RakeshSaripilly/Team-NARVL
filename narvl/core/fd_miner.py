@@ -20,7 +20,17 @@ from typing import Any, Dict, List, Optional, Tuple
 import polars as pl
 from rapidfuzz import fuzz
 
+from narvl.core.semantic_typer import (
+    COMMON_CITIES,
+    COMMON_INDIAN_STATES,
+    US_STATES,
+)
+
 logger = logging.getLogger("narvl.core.fd_miner")
+
+KNOWN_CANONICAL_ENTITIES = {
+    s.lower() for s in (COMMON_INDIAN_STATES | US_STATES | COMMON_CITIES)
+}
 
 
 @dataclass
@@ -66,8 +76,14 @@ class FunctionalDependencyMiner:
         if not value_counts:
             return {}, 0
 
-        # Sort values by frequency descending (dominant candidate is first)
-        sorted_items = sorted(value_counts.items(), key=lambda kv: kv[1], reverse=True)
+        # Sort values by priority: count -> known canonical entity -> string length -> determinism
+        def _candidate_rank(item: Tuple[str, int]) -> Tuple[int, int, int, str]:
+            val, cnt = item
+            clean_str = str(val).strip().lower()
+            is_known = 1 if clean_str in KNOWN_CANONICAL_ENTITIES else 0
+            return (cnt, is_known, len(clean_str), str(val))
+
+        sorted_items = sorted(value_counts.items(), key=_candidate_rank, reverse=True)
         clusters: List[List[Tuple[str, int]]] = []
         mapping: Dict[str, str] = {}
 
@@ -138,7 +154,7 @@ class FunctionalDependencyMiner:
             clean_df.group_by([col_x, col_y])
             .len()
             .rename({"len": "count"})
-            .sort([col_x, "count"], descending=[False, True])
+            .sort([col_x, "count", col_y], descending=[False, True, False])
         )
 
         # Organize by X: {x_val: {y_val: count}}

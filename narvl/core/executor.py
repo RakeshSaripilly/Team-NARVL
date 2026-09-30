@@ -108,6 +108,15 @@ class ReversibleExecutor:
             pattern = params.get("pattern", "")
             replacement = params.get("replacement", "")
             lowercase = params.get("lowercase", False)
+            nullify_invalid = params.get("nullify_invalid", False) or params.get("nullify_non_matching", False)
+            valid_pattern = params.get("valid_pattern")
+            test_criterion = str(step.get("test_criterion", "")).lower()
+
+            # Auto-detect email RFC validation if criterion or target indicates email regex
+            if not valid_pattern and ("email" in test_criterion or "email" in str(target_col).lower()):
+                valid_pattern = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+                nullify_invalid = True
+
             res_df = df
             if pattern:
                 res_df = res_df.with_columns(
@@ -116,6 +125,13 @@ class ReversibleExecutor:
             if lowercase:
                 res_df = res_df.with_columns(
                     pl.col(target_col).cast(pl.String).str.to_lowercase()
+                )
+            if (nullify_invalid or valid_pattern) and valid_pattern:
+                res_df = res_df.with_columns(
+                    pl.when(pl.col(target_col).str.contains(valid_pattern))
+                    .then(pl.col(target_col))
+                    .otherwise(None)
+                    .alias(target_col)
                 )
             return res_df
 
