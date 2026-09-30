@@ -10,6 +10,10 @@ from pathlib import Path
 import sys
 from typing import List, Optional
 
+_DOC_EXT_DIR = Path(__file__).resolve().parent.parent
+if str(_DOC_EXT_DIR) not in sys.path:
+    sys.path.insert(0, str(_DOC_EXT_DIR))
+
 from narvl.document.exporters import DocumentExporter
 from narvl.document.pipeline import DocumentCleaningPipeline
 

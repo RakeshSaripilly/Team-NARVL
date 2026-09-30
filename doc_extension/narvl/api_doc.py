@@ -11,8 +11,13 @@ from __future__ import annotations
 import os
 from pathlib import Path
 import shutil
+import sys
 import tempfile
 from typing import Any, Dict, List, Optional
+
+_DOC_EXT_DIR = Path(__file__).resolve().parent.parent
+if str(_DOC_EXT_DIR) not in sys.path:
+    sys.path.insert(0, str(_DOC_EXT_DIR))
 
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile, status
 from pydantic import BaseModel
