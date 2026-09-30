@@ -211,9 +211,23 @@ class DatasetNormalizer:
         raise ValueError(f"Unable to convert JSON of type {type(data).__name__} into a DataFrame.")
 
     def _postprocess_dataframe(self, df: pl.DataFrame) -> pl.DataFrame:
-        """Coerce numeric strings to numbers and strip whitespace from text columns."""
+        """Coerce numeric strings to numbers, strip whitespace from text columns, and unnest struct columns."""
         if df.height == 0 or df.width == 0:
             return df
+
+        # 0. Unnest struct columns (e.g. from nested JSON objects)
+        struct_cols = [c for c in df.columns if isinstance(df[c].dtype, pl.Struct) or df[c].dtype == pl.Struct]
+        for sc in struct_cols:
+            try:
+                field_names = [f.name for f in df[sc].dtype.fields]
+                existing_other_cols = set(df.columns) - {sc}
+                if any(fn in existing_other_cols for fn in field_names):
+                    renamed_expr = pl.col(sc).struct.rename_fields([f"{sc}_{fn}" for fn in field_names])
+                    df = df.with_columns(renamed_expr).unnest(sc)
+                else:
+                    df = df.unnest(sc)
+            except Exception:
+                pass
 
         for c in df.columns:
             if df[c].dtype == pl.String:
