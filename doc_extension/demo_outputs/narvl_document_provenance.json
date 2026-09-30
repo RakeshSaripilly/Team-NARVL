@@ -1,258 +1,174 @@
 {
   "narvl_version": "0.1.0",
-  "run_id": "0f083a49-00b7-4a5b-8d7b-3b7e7c94534d",
-  "dataset_name": "fe975e75-1b7f-4b00-bbad-5b2f26cf3926",
-  "timestamp_utc": "2026-09-30T15:38:29.392379+00:00",
+  "run_id": "7633c0d7-bfec-4415-8c34-fde52a522ed3",
+  "dataset_name": "c94c4872-e531-45cc-99dc-90d908147e53",
+  "timestamp_utc": "2026-09-30T19:09:19.145636+00:00",
   "lineage": {
     "raw_shape": [
-      55,
+      54,
       6
     ],
     "clean_shape": [
-      5,
+      4,
       8
     ],
-    "input_hash_sha256": "18e806bfb94d782bd2ab8a87bd6e7828639d8b6b7ec0f67091f40dfd44e159de",
-    "output_hash_sha256": "65eee94dcce1d506a4c52e5d52b306c5377fe8d8395bba6c920a15b8bb60a371"
+    "input_hash_sha256": "643930f9cf67cd7fd5d0a87ee904546e5d2e4b45a41ae31e0aeb3b13451159a3",
+    "output_hash_sha256": "4097381cdc21589c58adc8e14dcc7434420f1647c350224e0822692f19771112"
   },
   "pipeline_steps": [
     {
       "step_id": 1,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.98,
-      "justification": "Canonicalize semantic variant 'HYD' to standard 'Hyderabad'"
-    },
-    {
-      "step_id": 2,
       "target_column": "Email",
       "action": "fill",
       "confidence": 0.7,
       "justification": "Missing required field Email"
+    },
+    {
+      "step_id": 2,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'"
     },
     {
       "step_id": 3,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'"
+      "justification": "Standardize formatting for Phone: '555-234-5678' -> '+1-555-234-5678'"
     },
     {
       "step_id": 4,
       "target_column": "Entity",
       "action": "deduplicate",
       "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Sarah Jenkins'"
+      "justification": "Deduplicate redundant Phone record '9876543210'"
     },
     {
       "step_id": 5,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '555-234-5678' -> '+1-555-234-5678'"
+      "justification": "Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'"
     },
     {
       "step_id": 6,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'"
-    },
-    {
-      "step_id": 7,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Rajesh Kumar'"
-    },
-    {
-      "step_id": 8,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
       "justification": "Standardize formatting for Date: '12/01/2024' -> '2024-01-12'"
     },
     {
-      "step_id": 9,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant Phone record '+1-555-234-5678'"
-    },
-    {
-      "step_id": 10,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'"
-    },
-    {
-      "step_id": 11,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
-    },
-    {
-      "step_id": 12,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'"
-    },
-    {
-      "step_id": 13,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
-    },
-    {
-      "step_id": 14,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Date: '20/04/2024' -> '2024-04-20'"
-    },
-    {
-      "step_id": 15,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Priya Sharma'"
-    },
-    {
-      "step_id": 16,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Date: '15/03/2024' -> '2024-03-15'"
-    },
-    {
-      "step_id": 17,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Date: '04-20-2022' -> '2022-04-20'"
-    },
-    {
-      "step_id": 18,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant Phone record '9876543210'"
-    },
-    {
-      "step_id": 19,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'"
-    },
-    {
-      "step_id": 20,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9440123456' -> '+91-94401-23456'"
-    },
-    {
-      "step_id": 21,
+      "step_id": 7,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.98,
       "justification": "Canonicalize semantic variant 'Hyd' to standard 'Hyderabad'"
     },
     {
-      "step_id": 22,
+      "step_id": 8,
       "target_column": "Entity",
       "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'"
+      "confidence": 0.98,
+      "justification": "Canonicalize semantic variant 'HYD' to standard 'Hyderabad'"
     },
     {
-      "step_id": 23,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant Phone record '9988776655'"
-    },
-    {
-      "step_id": 24,
-      "target_column": "Phone",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Phone"
-    },
-    {
-      "step_id": 25,
+      "step_id": 9,
       "target_column": "Entity",
       "action": "deduplicate",
       "confidence": 0.88,
       "justification": "Deduplicate redundant Phone record '+91 9123456780'"
     },
     {
-      "step_id": 26,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
-    },
-    {
-      "step_id": 27,
+      "step_id": 10,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
-      "justification": "Standardize formatting for Date: '05-11-2023' -> '2023-11-05'"
+      "justification": "Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'"
     },
     {
-      "step_id": 28,
+      "step_id": 11,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
       "justification": "Standardize formatting for Date: '15/03/2023' -> '2023-03-15'"
     },
     {
-      "step_id": 29,
+      "step_id": 12,
       "target_column": "Email",
       "action": "fill",
       "confidence": 0.7,
       "justification": "Missing required field Email"
     },
     {
-      "step_id": 30,
+      "step_id": 13,
       "target_column": "Entity",
       "action": "deduplicate",
       "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Rajesh Kumar'"
+      "justification": "Deduplicate redundant Phone record '+1-555-234-5678'"
     },
     {
-      "step_id": 31,
+      "step_id": 14,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'"
+    },
+    {
+      "step_id": 15,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Date: '20/04/2024' -> '2024-04-20'"
+    },
+    {
+      "step_id": 16,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Date: '04-20-2022' -> '2022-04-20'"
+    },
+    {
+      "step_id": 17,
       "target_column": "Entity",
       "action": "deduplicate",
       "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Amit Patel'"
+      "justification": "Deduplicate redundant Phone record '9988776655'"
     },
     {
-      "step_id": 32,
+      "step_id": 18,
       "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Rajesh Kumar'"
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '9440123456' -> '+91-94401-23456'"
     },
     {
-      "step_id": 33,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
+      "step_id": 19,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Date: '15/03/2024' -> '2024-03-15'"
     },
     {
-      "step_id": 34,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
+      "step_id": 20,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'"
+    },
+    {
+      "step_id": 21,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'"
+    },
+    {
+      "step_id": 22,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Date: '05-11-2023' -> '2023-11-05'"
     }
   ],
   "loss_profile": {
@@ -268,247 +184,163 @@
     "ge_passed": true,
     "is_fully_validated": true
   },
-  "digital_signature": "bb53b134e63868c658691dd9ce4834bca761a8caada9cfb303c7b5a44ba100f9",
+  "digital_signature": "d58d29008e19f69938feff0f9536deadd7657224988e204a3552517ebf53bf68",
   "signature_algorithm": "HMAC-SHA256",
-  "signature": "bb53b134e63868c658691dd9ce4834bca761a8caada9cfb303c7b5a44ba100f9",
+  "signature": "d58d29008e19f69938feff0f9536deadd7657224988e204a3552517ebf53bf68",
   "pipeline_provenance": [
     {
       "step_id": 1,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.98,
-      "justification": "Canonicalize semantic variant 'HYD' to standard 'Hyderabad'"
-    },
-    {
-      "step_id": 2,
       "target_column": "Email",
       "action": "fill",
       "confidence": 0.7,
       "justification": "Missing required field Email"
+    },
+    {
+      "step_id": 2,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'"
     },
     {
       "step_id": 3,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'"
+      "justification": "Standardize formatting for Phone: '555-234-5678' -> '+1-555-234-5678'"
     },
     {
       "step_id": 4,
       "target_column": "Entity",
       "action": "deduplicate",
       "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Sarah Jenkins'"
+      "justification": "Deduplicate redundant Phone record '9876543210'"
     },
     {
       "step_id": 5,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '555-234-5678' -> '+1-555-234-5678'"
+      "justification": "Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'"
     },
     {
       "step_id": 6,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'"
-    },
-    {
-      "step_id": 7,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Rajesh Kumar'"
-    },
-    {
-      "step_id": 8,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
       "justification": "Standardize formatting for Date: '12/01/2024' -> '2024-01-12'"
     },
     {
-      "step_id": 9,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant Phone record '+1-555-234-5678'"
-    },
-    {
-      "step_id": 10,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'"
-    },
-    {
-      "step_id": 11,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
-    },
-    {
-      "step_id": 12,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'"
-    },
-    {
-      "step_id": 13,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
-    },
-    {
-      "step_id": 14,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Date: '20/04/2024' -> '2024-04-20'"
-    },
-    {
-      "step_id": 15,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Priya Sharma'"
-    },
-    {
-      "step_id": 16,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Date: '15/03/2024' -> '2024-03-15'"
-    },
-    {
-      "step_id": 17,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Date: '04-20-2022' -> '2022-04-20'"
-    },
-    {
-      "step_id": 18,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant Phone record '9876543210'"
-    },
-    {
-      "step_id": 19,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'"
-    },
-    {
-      "step_id": 20,
-      "target_column": "Entity",
-      "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '9440123456' -> '+91-94401-23456'"
-    },
-    {
-      "step_id": 21,
+      "step_id": 7,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.98,
       "justification": "Canonicalize semantic variant 'Hyd' to standard 'Hyderabad'"
     },
     {
-      "step_id": 22,
+      "step_id": 8,
       "target_column": "Entity",
       "action": "standardize",
-      "confidence": 0.95,
-      "justification": "Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'"
+      "confidence": 0.98,
+      "justification": "Canonicalize semantic variant 'HYD' to standard 'Hyderabad'"
     },
     {
-      "step_id": 23,
-      "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant Phone record '9988776655'"
-    },
-    {
-      "step_id": 24,
-      "target_column": "Phone",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Phone"
-    },
-    {
-      "step_id": 25,
+      "step_id": 9,
       "target_column": "Entity",
       "action": "deduplicate",
       "confidence": 0.88,
       "justification": "Deduplicate redundant Phone record '+91 9123456780'"
     },
     {
-      "step_id": 26,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
-    },
-    {
-      "step_id": 27,
+      "step_id": 10,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
-      "justification": "Standardize formatting for Date: '05-11-2023' -> '2023-11-05'"
+      "justification": "Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'"
     },
     {
-      "step_id": 28,
+      "step_id": 11,
       "target_column": "Entity",
       "action": "standardize",
       "confidence": 0.95,
       "justification": "Standardize formatting for Date: '15/03/2023' -> '2023-03-15'"
     },
     {
-      "step_id": 29,
+      "step_id": 12,
       "target_column": "Email",
       "action": "fill",
       "confidence": 0.7,
       "justification": "Missing required field Email"
     },
     {
-      "step_id": 30,
+      "step_id": 13,
       "target_column": "Entity",
       "action": "deduplicate",
       "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Rajesh Kumar'"
+      "justification": "Deduplicate redundant Phone record '+1-555-234-5678'"
     },
     {
-      "step_id": 31,
+      "step_id": 14,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'"
+    },
+    {
+      "step_id": 15,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Date: '20/04/2024' -> '2024-04-20'"
+    },
+    {
+      "step_id": 16,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Date: '04-20-2022' -> '2022-04-20'"
+    },
+    {
+      "step_id": 17,
       "target_column": "Entity",
       "action": "deduplicate",
       "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Amit Patel'"
+      "justification": "Deduplicate redundant Phone record '9988776655'"
     },
     {
-      "step_id": 32,
+      "step_id": 18,
       "target_column": "Entity",
-      "action": "deduplicate",
-      "confidence": 0.88,
-      "justification": "Deduplicate redundant CustomerName record 'Rajesh Kumar'"
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '9440123456' -> '+91-94401-23456'"
     },
     {
-      "step_id": 33,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
+      "step_id": 19,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Date: '15/03/2024' -> '2024-03-15'"
     },
     {
-      "step_id": 34,
-      "target_column": "Email",
-      "action": "fill",
-      "confidence": 0.7,
-      "justification": "Missing required field Email"
+      "step_id": 20,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'"
+    },
+    {
+      "step_id": 21,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'"
+    },
+    {
+      "step_id": 22,
+      "target_column": "Entity",
+      "action": "standardize",
+      "confidence": 0.95,
+      "justification": "Standardize formatting for Date: '05-11-2023' -> '2023-11-05'"
     }
   ]
 }

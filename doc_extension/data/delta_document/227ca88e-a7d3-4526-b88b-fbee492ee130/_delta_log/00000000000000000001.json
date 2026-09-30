@@ -1,0 +1,15 @@
+{
+  "commitInfo": {
+    "timestamp": 1790795601800,
+    "operation": "NORMALIZE",
+    "version": 1,
+    "readVersion": 0,
+    "isBlindAppend": false
+  },
+  "add": {
+    "path": "snapshot_v1.json",
+    "size": 12325,
+    "modificationTime": 1790795601800,
+    "dataChange": true
+  }
+}
