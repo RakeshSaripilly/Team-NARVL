@@ -148,6 +148,14 @@ def init_session_state() -> None:
         st.session_state.null_resolution_summary = None
 
 
+def set_selected_columns(columns: List[str]) -> None:
+    """Keep the shared target selection and both column widgets synchronized."""
+    selected = list(dict.fromkeys(columns))
+    st.session_state.selected_columns = selected
+    st.session_state.ms_profile_target_cols = selected
+    st.session_state.plan_builder_cols = selected
+
+
 def render_sidebar() -> str:
     """Render sidebar navigation and air-gapped system status."""
     st.sidebar.markdown("## ⚡ **NARVL CleanPilot**")
@@ -224,7 +232,7 @@ def screen_1_upload() -> None:
                 st.session_state.cleaned_df = None
                 st.session_state.loss_assessment = None
                 st.session_state.validation_result = None
-                st.session_state.selected_columns = list(df.columns)
+                set_selected_columns(list(df.columns))
                 st.session_state.resolve_nulls_policy = True
                 st.session_state.null_resolution_summary = None
 
@@ -258,7 +266,7 @@ def screen_1_upload() -> None:
             st.session_state.cleaned_df = None
             st.session_state.loss_assessment = None
             st.session_state.validation_result = None
-            st.session_state.selected_columns = list(demo_df.columns)
+            set_selected_columns(list(demo_df.columns))
             st.session_state.resolve_nulls_policy = True
             st.session_state.null_resolution_summary = None
             st.rerun()
@@ -332,24 +340,21 @@ def screen_2_profile() -> None:
     )
 
     all_cols = list(cols.keys()) if cols else list(df.columns)
-    if not st.session_state.selected_columns:
-        st.session_state.selected_columns = list(all_cols)
-
     c_b1, c_b2, c_b3 = st.columns([1, 1.8, 1])
     with c_b1:
         if st.button("✅ Select All", key="btn_sel_all"):
-            st.session_state.selected_columns = list(all_cols)
+            set_selected_columns(all_cols)
             st.session_state.plan_steps = []
             st.rerun()
     with c_b2:
         if st.button("⚠️ Select Columns with Issues Only", key="btn_sel_issues"):
             anomalous = profiler.get_columns_with_anomalies(st.session_state.profile or df)
-            st.session_state.selected_columns = anomalous if anomalous else list(all_cols)
+            set_selected_columns(anomalous)
             st.session_state.plan_steps = []
             st.rerun()
     with c_b3:
         if st.button("❌ Clear Selection", key="btn_clear_sel"):
-            st.session_state.selected_columns = []
+            set_selected_columns([])
             st.session_state.plan_steps = []
             st.rerun()
 
@@ -361,7 +366,7 @@ def screen_2_profile() -> None:
         key="ms_profile_target_cols",
     )
     if new_sel != st.session_state.selected_columns:
-        st.session_state.selected_columns = new_sel
+        set_selected_columns(new_sel)
         st.session_state.plan_steps = []
 
 
@@ -424,9 +429,6 @@ def screen_4_plan_builder() -> None:
     planner = SLMPlanner()
 
     all_cols = list(df.columns)
-    if not st.session_state.selected_columns:
-        st.session_state.selected_columns = list(all_cols)
-
     with st.expander("⚙️ Target Column Scope & Null Value Policy", expanded=False):
         c_sc1, c_sc2 = st.columns([2, 1])
         with c_sc1:
@@ -437,7 +439,7 @@ def screen_4_plan_builder() -> None:
                 key="plan_builder_cols",
             )
             if chosen != st.session_state.selected_columns:
-                st.session_state.selected_columns = chosen
+                set_selected_columns(chosen)
                 st.session_state.plan_steps = []
                 st.rerun()
         with c_sc2:
