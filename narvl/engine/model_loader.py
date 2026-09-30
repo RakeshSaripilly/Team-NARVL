@@ -138,7 +138,7 @@ def load_llama_model(
         Llama model instance.
     """
     try:
-        from llama_cpp import Llama
+        from llama_cpp import Llama  # type: ignore
     except ImportError as err:
         raise ImportError(
             "llama-cpp-python is required to load SLM models. "
