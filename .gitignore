@@ -25,6 +25,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+*.vscode
+cleanpilot_navigation_walkthrough.md
 
 # Delta Lake local logs & tables
 *_delta/
