@@ -1,0 +1,15 @@
+{
+  "commitInfo": {
+    "timestamp": 1790794988624,
+    "operation": "ROLLBACK_TO_VERSION_0",
+    "version": 4,
+    "readVersion": 3,
+    "isBlindAppend": false
+  },
+  "add": {
+    "path": "snapshot_v4.json",
+    "size": 17535,
+    "modificationTime": 1790794988624,
+    "dataChange": true
+  }
+}

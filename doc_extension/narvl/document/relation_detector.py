@@ -78,6 +78,8 @@ class RelationDetector:
                         best_name.relationships.append(attr.entity_id)
                     if best_name.entity_id not in attr.relationships:
                         attr.relationships.append(best_name.entity_id)
+            else:
+                unassigned.extend(attributes)
 
         # 2. Handle unassigned entities via page proximity
         if unassigned:
@@ -86,7 +88,7 @@ class RelationDetector:
                 page_groups.setdefault(ent.source_page, []).append(ent)
 
             for page_num, p_ents in page_groups.items():
-                names = [e for e in p_ents if e.type == "CustomerName"]
+                names = [e for e in entities if e.source_page == page_num and e.type == "CustomerName"]
                 attributes = [e for e in p_ents if e.type in ["Phone", "Email", "Address", "City", "State", "InvoiceNo", "Date", "Amount", "PostalCode"]]
 
                 if len(names) == 1:

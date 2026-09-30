@@ -139,7 +139,23 @@ def entities_to_records_dataframe(entities: List[StructuredEntity], graph: Optio
         if canon_name:
             _ensure_customer(canon_name)
 
-    # 3. Canonical state inference if city is known
+    # 3. If there is a single customer or entities share record_id, populate remaining attributes directly
+    if len(customers) == 1:
+        single_c = next(iter(customers.values()))
+        for ent in entities:
+            col = ent.type.lower()
+            val = ent.normalized_value or ent.value
+            if col in single_c and (single_c[col] is None or single_c[col] == ""):
+                single_c[col] = val
+    else:
+        for ent in entities:
+            if ent.record_id and ent.record_id in customers:
+                col = ent.type.lower()
+                val = ent.normalized_value or ent.value
+                if col in customers[ent.record_id] and (customers[ent.record_id][col] is None or customers[ent.record_id][col] == ""):
+                    customers[ent.record_id][col] = val
+
+    # 4. Canonical state inference if city is known
     for c_data in customers.values():
         if c_data.get("city") == "Hyderabad" and not c_data.get("state"):
             c_data["state"] = "Telangana"
@@ -147,6 +163,13 @@ def entities_to_records_dataframe(entities: List[StructuredEntity], graph: Optio
             c_data["state"] = "Gujarat"
         elif c_data.get("city") == "San Francisco" and not c_data.get("state"):
             c_data["state"] = "California"
+
+    if len(customers) == 1:
+        single_c = next(iter(customers.values()))
+        for ent in entities:
+            col = ent.type.lower()
+            if col in single_c and single_c[col] is None:
+                single_c[col] = ent.normalized_value or ent.value
 
     rows = list(customers.values())
     return pl.DataFrame(rows)

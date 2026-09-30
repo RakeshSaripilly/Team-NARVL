@@ -22,15 +22,15 @@
         <div class="header">
             <div>
                 <h1>NARVL Immutable Provenance Certificate</h1>
-                <p style="color:#94a3b8; margin: 4px 0 0 0; font-size: 14px;">Run ID: 0f083a49-00b7-4a5b-8d7b-3b7e7c94534d | Generated: 2026-09-30T15:38:29.392379+00:00</p>
+                <p style="color:#94a3b8; margin: 4px 0 0 0; font-size: 14px;">Run ID: 7633c0d7-bfec-4415-8c34-fde52a522ed3 | Generated: 2026-09-30T19:09:19.145636+00:00</p>
             </div>
             <div><span style="background:#22543d; color:#9ae6b4; padding:6px 14px; border-radius:20px; font-weight:bold;">PASS - AUDIT VERIFIED</span></div>
         </div>
 
         <div class="meta-grid">
-            <div class="meta-item"><div class="meta-title">Dataset Name</div><div class="meta-val">fe975e75-1b7f-4b00-bbad-5b2f26cf3926</div></div>
-            <div class="meta-item"><div class="meta-title">Raw Dimensions</div><div class="meta-val">(55, 6)</div></div>
-            <div class="meta-item"><div class="meta-title">Clean Dimensions</div><div class="meta-val">(5, 8)</div></div>
+            <div class="meta-item"><div class="meta-title">Dataset Name</div><div class="meta-val">c94c4872-e531-45cc-99dc-90d908147e53</div></div>
+            <div class="meta-item"><div class="meta-title">Raw Dimensions</div><div class="meta-val">(54, 6)</div></div>
+            <div class="meta-item"><div class="meta-title">Clean Dimensions</div><div class="meta-val">(4, 8)</div></div>
             <div class="meta-item"><div class="meta-title">Volumetric Loss</div><div class="meta-val">5.00%</div></div>
         </div>
     </div>
@@ -45,18 +45,18 @@
                 
             <tr>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#1</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.98</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Canonicalize semantic variant 'HYD' to standard 'Hyderabad'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#2</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Email</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">fill</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.70</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Missing required field Email</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#2</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'</td>
             </tr>
             
             <tr>
@@ -64,7 +64,7 @@
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '555-234-5678' -> '+1-555-234-5678'</td>
             </tr>
             
             <tr>
@@ -72,7 +72,7 @@
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant CustomerName record 'Sarah Jenkins'</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant Phone record '9876543210'</td>
             </tr>
             
             <tr>
@@ -80,7 +80,7 @@
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '555-234-5678' -> '+1-555-234-5678'</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'</td>
             </tr>
             
             <tr>
@@ -88,123 +88,11 @@
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#7</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant CustomerName record 'Rajesh Kumar'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#8</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Date: '12/01/2024' -> '2024-01-12'</td>
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#9</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant Phone record '+1-555-234-5678'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#10</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#11</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Email</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">fill</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.70</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Missing required field Email</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#12</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#13</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Email</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">fill</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.70</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Missing required field Email</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#14</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Date: '20/04/2024' -> '2024-04-20'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#15</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant CustomerName record 'Priya Sharma'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#16</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Date: '15/03/2024' -> '2024-03-15'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#17</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Date: '04-20-2022' -> '2022-04-20'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#18</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant Phone record '9876543210'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#19</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9988776655' -> '+91-99887-76655'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#20</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9440123456' -> '+91-94401-23456'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#21</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#7</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.98</td>
@@ -212,31 +100,15 @@
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#22</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#8</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.98</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Canonicalize semantic variant 'HYD' to standard 'Hyderabad'</td>
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#23</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant Phone record '9988776655'</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#24</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Phone</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">fill</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.70</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Missing required field Phone</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#25</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#9</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
@@ -244,23 +116,15 @@
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#26</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Email</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">fill</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.70</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Missing required field Email</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#27</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#10</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Date: '05-11-2023' -> '2023-11-05'</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'</td>
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#28</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#11</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
@@ -268,7 +132,7 @@
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#29</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#12</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Email</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">fill</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.70</td>
@@ -276,43 +140,83 @@
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#30</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#13</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant CustomerName record 'Rajesh Kumar'</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant Phone record '+1-555-234-5678'</td>
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#31</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#14</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#15</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Date: '20/04/2024' -> '2024-04-20'</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#16</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Date: '04-20-2022' -> '2022-04-20'</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#17</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant CustomerName record 'Amit Patel'</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant Phone record '9988776655'</td>
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#32</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#18</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.88</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Deduplicate redundant CustomerName record 'Rajesh Kumar'</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9440123456' -> '+91-94401-23456'</td>
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#33</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Email</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">fill</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.70</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Missing required field Email</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#19</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Date: '15/03/2024' -> '2024-03-15'</td>
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#34</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Email</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">fill</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.70</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Missing required field Email</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#20</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '9876543210' -> '+91-98765-43210'</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#21</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Phone: '+91 9123456780' -> '+91-91234-56780'</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#22</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Entity</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.95</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Standardize formatting for Date: '05-11-2023' -> '2023-11-05'</td>
             </tr>
             
             </tbody>
@@ -321,11 +225,11 @@
 
     <div class="card">
         <h2 style="font-size: 18px; margin-top:0;">Cryptographic Provenance Verification</h2>
-        <p style="font-size:13px; color:#94a3b8;">Input SHA-256: <code>18e806bfb94d782bd2ab8a87bd6e7828639d8b6b7ec0f67091f40dfd44e159de</code></p>
-        <p style="font-size:13px; color:#94a3b8;">Output SHA-256: <code>65eee94dcce1d506a4c52e5d52b306c5377fe8d8395bba6c920a15b8bb60a371</code></p>
+        <p style="font-size:13px; color:#94a3b8;">Input SHA-256: <code>643930f9cf67cd7fd5d0a87ee904546e5d2e4b45a41ae31e0aeb3b13451159a3</code></p>
+        <p style="font-size:13px; color:#94a3b8;">Output SHA-256: <code>4097381cdc21589c58adc8e14dcc7434420f1647c350224e0822692f19771112</code></p>
         <div class="signature-box">
             [HMAC-SHA256 DIGITAL SIGNATURE]<br>
-            bb53b134e63868c658691dd9ce4834bca761a8caada9cfb303c7b5a44ba100f9
+            d58d29008e19f69938feff0f9536deadd7657224988e204a3552517ebf53bf68
         </div>
     </div>
 </body>
