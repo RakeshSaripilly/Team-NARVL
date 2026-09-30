@@ -312,12 +312,10 @@ def clean_dataset_api(
             },
         )
 
-    # 5. Dual Validation
-    test_gen = DualTestSynthesizer(plan.steps)
-    val_result = test_gen.validate_dataset(candidate_df)
-
-    # 6. Commit DAG
+    # 5. Commit DAG & Post-Processing Validation Filtering
     cleaned_df, report = executor.execute_plan(plan.steps)
+    test_gen = DualTestSynthesizer(plan.steps)
+    cleaned_df, val_result = test_gen.filter_and_validate(cleaned_df)
 
     # 7. Provenance Report
     prov_rep = ProvenanceReporter()

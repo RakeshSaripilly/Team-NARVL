@@ -94,6 +94,44 @@ def test_dual_test_synthesizer_pandera_and_ge_blocking():
     assert res_corrupted.is_fully_validated is False
 
 
+def test_dual_test_synthesizer_record_filtering():
+    """Test 5.1b: Verification that records failing Pandera or GE are cleanly removed."""
+    plan_steps = [
+        {
+            "step_id": 1,
+            "target_column": "Age",
+            "action": "clamp_bounds",
+            "parameters": {"lower": 0, "upper": 120},
+            "test_criterion": "between_0_and_120",
+        },
+        {
+            "step_id": 2,
+            "target_column": "Email",
+            "action": "regex_replace",
+            "test_criterion": "valid_email_regex",
+        },
+    ]
+
+    corrupted_df = pl.DataFrame({
+        "ID": [1, 2, 3, 4],
+        "Age": [25, -15, 60, 200],  # Rows 2 and 4 have invalid Age (-15, 200)
+        "Email": ["alice@corp.com", "INVALID_EMAIL", "charlie@gmail.com", "dave@corp.com"],
+    })
+
+    synthesizer = DualTestSynthesizer(plan_steps)
+    cleaned_df, val_res = synthesizer.filter_and_validate(corrupted_df)
+
+    # Verify that invalid rows were removed
+    assert val_res.removed_records_count == 2
+    assert cleaned_df.height == 2
+    assert cleaned_df["ID"].to_list() == [1, 3]
+
+    # Verify that the filtered dataset passes 100% of checks
+    assert val_res.pandera_passed is True
+    assert val_res.ge_passed is True
+    assert val_res.is_fully_validated is True
+
+
 def test_delta_lake_3_step_dag_and_reversibility_rollback(tmp_path):
     """Test 5.2: Ingest v0, apply 3-step DAG -> v1, rollback(0) -> assert_frame_equal == True."""
     delta_uri = tmp_path / "delta_store"

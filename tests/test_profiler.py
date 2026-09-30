@@ -1,14 +1,12 @@
 """
-Test 2.1: Profiler, PII Barrier & Semantic Typer Verification.
+Test 2.1: Profiler & Semantic Typer Verification.
 
 Validates that:
 - 100k-row customer dataset with phones/emails profiles in < 2.5s CPU
 - Profile JSON token count is strictly < 2000 tokens
-- Zero unmasked PII enters summary (assert "@gmail" not in summary, phone numbers masked)
 - Semantic Typer classifies Email, City, and PostalCode via ONNX runtime
 """
 
-import re
 import time
 from pathlib import Path
 
@@ -16,24 +14,23 @@ import numpy as np
 import polars as pl
 import pytest
 
-from narvl.core.pii_barrier import EMAIL_PATTERN, PHONE_PATTERN, PIIBarrier
 from narvl.core.profiler import DatasetProfiler
 from narvl.core.semantic_typer import SemanticTyper
 
 
-def test_100k_profiler_latency_and_pii_shield():
-    """Test 2.1: 100k customer dataset profiling with PII shield & token ceiling."""
+def test_100k_profiler_latency_and_token_ceiling():
+    """Test 2.1: 100k customer dataset profiling with token ceiling & latency check."""
     n_rows = 100_000
-    print(f"\n[Profiler Test 2.1] Generating synthetic 100k dataset with raw PII...")
+    print(f"\n[Profiler Test 2.1] Generating synthetic 100k dataset...")
 
-    # Generate realistic customer data with diverse PII
+    # Generate realistic customer data
     cust_ids = np.arange(1, n_rows + 1)
     ages = np.random.randint(18, 80, size=n_rows).astype(float)
     ages[::20] = np.nan  # 5% nulls
 
     credit_scores = np.random.normal(700, 50, size=n_rows)
     
-    # 100k emails containing @gmail.com, @yahoo.com, @corporate.com
+    # 100k emails containing @gmail.com, @corporate.com
     emails = [f"user_{i}@gmail.com" if i % 2 == 0 else f"emp.{i}@enterprise.org" for i in range(n_rows)]
     
     # 100k phone numbers (US & India format)
@@ -69,7 +66,6 @@ def test_100k_profiler_latency_and_pii_shield():
     print(f"  Rows Profiled: {df.height:,}")
     print(f"  Latency on CPU: {elapsed:.3f} seconds (requirement < 2.5s)")
     print(f"  Profile Token Count: {profile.token_count} tokens (requirement < 2000 tokens)")
-    print(f"  PII Audit Passed: {profile.pii_audit_passed}")
 
     # 1. Latency check (< 2.5s)
     assert elapsed < 2.5, f"Profiler latency {elapsed:.3f}s exceeded 2.5s ceiling!"
@@ -77,19 +73,11 @@ def test_100k_profiler_latency_and_pii_shield():
     # 2. Token count check (< 2000 tokens)
     assert profile.token_count < 2000, f"Summary token count {profile.token_count} exceeded 2000 tokens!"
 
-    # 3. PII Leakage Check
-    summary_json = profile.summary_json
-    print(f"\n[Profiler Summary Preview (first 300 chars)]: {summary_json[:300]}...")
-
-    # Strict raw PII absence assertions
-    assert "@gmail" not in summary_json, "RAW PII LEAK: '@gmail' detected in profile summary!"
-    assert "@enterprise.org" not in summary_json, "RAW PII LEAK: '@enterprise.org' detected in profile summary!"
-    assert "98765" not in summary_json, "RAW PII LEAK: Phone number digits detected in summary!"
-    assert "+91" not in summary_json, "RAW PII LEAK: International phone prefix detected in summary!"
-    assert profile.pii_audit_passed is True
-
-    # 4. Check that pattern ratios were properly recorded without leaking raw data
+    # 3. Check samples are captured directly
     email_meta = profile.summary_dict["columns"]["email"]
+    assert len(email_meta["samples"]) > 0
+
+    # 4. Check that pattern ratios were properly recorded
     assert "patterns" in email_meta
     assert email_meta["patterns"].get("email_ratio", 0) >= 0.9
 

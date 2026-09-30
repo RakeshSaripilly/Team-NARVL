@@ -6,7 +6,6 @@ Computes:
 - Column metrics: null%, cardinality, Q25/Q50/Q75, min/max/mean/std, zero variance
 - Vectorized pattern detectors: Email, Phone, ISO-8601, US Postal, India Postal
 - Ultra-compact JSON summary strictly < 2000 tokens (verified via tiktoken)
-- Integrated PII Barrier ensuring zero raw PII in output summaries
 """
 
 from __future__ import annotations
@@ -20,8 +19,6 @@ from typing import Any, Dict, List, Optional
 import duckdb
 import polars as pl
 import tiktoken
-
-from narvl.core.pii_barrier import PIIBarrier
 
 ISO_DATE_REGEX = re.compile(
     r"^\d{4}-\d{2}-\d{2}(?:[T\s]\d{2}:\d{2}:\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?$"
@@ -41,21 +38,19 @@ class DatasetProfile:
     summary_json: str
     token_count: int
     duration_seconds: float
-    pii_audit_passed: bool
 
 
 class DatasetProfiler:
     """High-speed vectorized profiler combining Polars and DuckDB."""
 
-    def __init__(self, pii_barrier: Optional[PIIBarrier] = None) -> None:
-        self.pii_barrier = pii_barrier or PIIBarrier()
+    def __init__(self) -> None:
         try:
             self.tokenizer = tiktoken.get_encoding("cl100k_base")
         except Exception:
             self.tokenizer = None
 
     def profile(self, df: pl.DataFrame) -> DatasetProfile:
-        """Profile dataset and emit ultra-compact, PII-sanitized summary < 2000 tokens.
+        """Profile dataset and emit ultra-compact summary < 2000 tokens.
         
         Args:
             df: Normalized Polars DataFrame.
@@ -127,10 +122,9 @@ class DatasetProfiler:
                 count_non_null = len(non_null)
 
                 if count_non_null > 0:
-                    # Take up to 3 distinct sample strings and mask via PII barrier
+                    # Take up to 3 distinct sample strings
                     distinct_samples = non_null.unique().head(3).to_list()
-                    masked_samples = self.pii_barrier.mask_samples(distinct_samples)
-                    col_meta["samples"] = masked_samples
+                    col_meta["samples"] = distinct_samples
                     col_meta["zero_var"] = (n_unique <= 1)
 
                     # Subsample up to 1000 rows for high-speed pattern ratios
@@ -172,8 +166,6 @@ class DatasetProfiler:
         else:
             token_count = len(summary_json) // 4
 
-        # PII Leakage Audit
-        has_pii = self.pii_barrier.contains_raw_pii(summary_json)
         duration = time.perf_counter() - start_time
 
         return DatasetProfile(
@@ -181,7 +173,6 @@ class DatasetProfiler:
             summary_json=summary_json,
             token_count=token_count,
             duration_seconds=duration,
-            pii_audit_passed=not has_pii,
         )
 
 

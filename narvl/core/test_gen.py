@@ -28,6 +28,9 @@ class DualValidationResult:
     ge_passed: bool
     ge_summary: Dict[str, Any]
     is_fully_validated: bool
+    removed_records_count: int = 0
+    quarantined_df: Optional[pl.DataFrame] = None
+    cleaned_df: Optional[pl.DataFrame] = None
 
 
 class DualTestSynthesizer:
@@ -221,14 +224,119 @@ class DualTestSynthesizer:
         }
         return all_passed, summary
 
+    def filter_valid_records(
+        self,
+        df: pl.DataFrame,
+        plan_steps: Optional[List[Dict[str, Any]]] = None,
+    ) -> Tuple[pl.DataFrame, pl.DataFrame, int]:
+        """Identify and remove records failing Pandera schema checks or Great Expectations.
+
+        Returns:
+            Tuple of (valid_df, quarantined_df, removed_count)
+        """
+        if df.height == 0:
+            return df, df, 0
+
+        steps = plan_steps if plan_steps is not None else self.plan_steps
+        invalid_mask = pl.repeat(False, n=df.height, dtype=pl.Boolean)
+
+        # 1. Evaluate checks from plan constraints (Range, Non-null, Regex)
+        for s in steps:
+            target = s.get("target_column")
+            if not target or target == "ALL" or target not in df.columns:
+                continue
+
+            action = s.get("action")
+            params = s.get("parameters", {})
+            test_crit = s.get("test_criterion", "")
+
+            # Range bounds check
+            if action == "clamp_bounds" or "between" in test_crit:
+                lower = params.get("lower", 0)
+                upper = params.get("upper", 120)
+                series = df.get_column(target)
+                if series.dtype.is_numeric():
+                    out_of_range = (series < lower) | (series > upper)
+                    invalid_mask = invalid_mask | out_of_range.fill_null(False)
+
+            # Non-null check
+            if action == "knn_impute" or "non_null" in test_crit:
+                series = df.get_column(target)
+                invalid_mask = invalid_mask | series.is_null()
+
+            # Email regex check
+            if "email" in test_crit.lower() or action == "regex_replace":
+                series = df.get_column(target)
+                if series.dtype in [pl.String, pl.Categorical]:
+                    str_s = series.cast(pl.String)
+                    non_matching = str_s.is_not_null() & (~str_s.str.contains(EMAIL_REGEX))
+                    invalid_mask = invalid_mask | non_matching.fill_null(False)
+
+        # 2. Evaluate expectations from Great Expectations suite
+        ge_suite = self.build_ge_suite(df, plan_steps=steps)
+        for exp in ge_suite.get("expectations", []):
+            etype = exp["expectation_type"]
+            kwargs = exp["kwargs"]
+            col = kwargs.get("column")
+            if not col or col not in df.columns:
+                continue
+            series = df.get_column(col)
+
+            if etype == "expect_column_values_to_be_between":
+                min_v = kwargs.get("min_value")
+                max_v = kwargs.get("max_value")
+                if min_v is not None and max_v is not None and series.dtype.is_numeric():
+                    out_b = (series < min_v) | (series > max_v)
+                    invalid_mask = invalid_mask | out_b.fill_null(False)
+
+            elif etype == "expect_column_values_to_not_be_null":
+                invalid_mask = invalid_mask | series.is_null()
+
+            elif etype == "expect_column_values_to_match_regex":
+                pat = kwargs.get("regex", EMAIL_REGEX)
+                if pat and series.dtype in [pl.String, pl.Categorical]:
+                    str_s = series.cast(pl.String)
+                    non_m = str_s.is_not_null() & (~str_s.str.contains(pat))
+                    invalid_mask = invalid_mask | non_m.fill_null(False)
+
+        valid_df = df.filter(~invalid_mask)
+        quarantined_df = df.filter(invalid_mask)
+        removed_count = quarantined_df.height
+
+        return valid_df, quarantined_df, removed_count
+
+    def filter_and_validate(
+        self,
+        df: pl.DataFrame,
+        plan_steps: Optional[List[Dict[str, Any]]] = None,
+    ) -> Tuple[pl.DataFrame, DualValidationResult]:
+        """Filter out records failing Pandera or GE, and validate the resulting dataset."""
+        valid_df, quarantined_df, removed_count = self.filter_valid_records(df, plan_steps=plan_steps)
+        val_result = self.validate_dataset(valid_df, plan_steps=plan_steps)
+        val_result.removed_records_count = removed_count
+        val_result.quarantined_df = quarantined_df
+        val_result.cleaned_df = valid_df
+        return valid_df, val_result
+
     def validate_dataset(
         self,
         df: pl.DataFrame,
         plan_steps: Optional[List[Dict[str, Any]]] = None,
+        filter_failing_records: bool = False,
     ) -> DualValidationResult:
-        """Run both Pandera and Great Expectations suites simultaneously."""
-        pan_passed, pan_errs = self.validate_with_pandera(df, plan_steps=plan_steps)
-        ge_passed, ge_summary = self.validate_with_great_expectations(df, plan_steps=plan_steps)
+        """Run both Pandera and Great Expectations suites simultaneously.
+
+        If filter_failing_records is True, non-compliant rows are removed before validation.
+        """
+        target_df = df
+        quarantined_df = None
+        removed_count = 0
+
+        if filter_failing_records:
+            target_df, quarantined_df, removed_count = self.filter_valid_records(df, plan_steps=plan_steps)
+
+        pan_passed, pan_errs = self.validate_with_pandera(target_df, plan_steps=plan_steps)
+        ge_passed, ge_summary = self.validate_with_great_expectations(target_df, plan_steps=plan_steps)
 
         return DualValidationResult(
             pandera_passed=pan_passed,
@@ -236,4 +344,7 @@ class DualTestSynthesizer:
             ge_passed=ge_passed,
             ge_summary=ge_summary,
             is_fully_validated=(pan_passed and ge_passed),
+            removed_records_count=removed_count,
+            quarantined_df=quarantined_df,
+            cleaned_df=target_df,
         )

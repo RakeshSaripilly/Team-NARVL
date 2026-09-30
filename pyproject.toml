@@ -38,6 +38,8 @@ ml = [
     "pandera>=0.18.0",
     "deltalake>=0.17.0",
     "great-expectations>=0.18.0",
+]
+slm = [
     "llama-cpp-python>=0.2.70",
 ]
 ui = [

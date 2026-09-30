@@ -16,8 +16,7 @@
 flowchart TD
     RawData["Raw Input File (CSV/TSV/Parquet/JSON/NDJSON)"] --> L0["L0: Streaming Adversarial Shield (64KB chunks, 500MB Quota, Unicode/ftfy, Bombs Quarantine)"]
     L0 --> L1["L1: High-Performance Normalizer (Polars Readers)"]
-    L1 --> PII["PII Masking Barrier (Zero PII Leakage Tokenizer)"]
-    PII --> L2["L2: Fast Profiler (Vectorized DuckDB + Polars < 2000 Tokens)"]
+    L1 --> L2["L2: Fast Profiler (Vectorized DuckDB + Polars < 2000 Tokens)"]
     L1 --> L25["L2.5: ONNX Semantic Typer (City, PostalCode, State, Email, Currency, Timestamp)"]
     L1 --> FD["L2.5: Approximate FD Miner (RapidFuzz String Clustering & Typo Correction)"]
     
@@ -46,7 +45,7 @@ flowchart TD
 | :--- | :--- | :--- | :--- |
 | **L0** | **Adversarial Shield** | 64KB chunk streaming, 500MB cumulative quota barrier (`QuotaExceededError`), `\x00` neutralization, delimiter bomb isolation to `quarantine.log`. | Parses 10MB ragged files with zero crashes; terminates at 500MB ceiling. |
 | **L1** | **Normalizer** | Multi-format reader for CSV, TSV, Parquet, JSON, and NDJSON via Polars. | Standardized Polars schemas across all enterprise formats. |
-| **L2** | **Fast Profiler & PII Barrier** | Vectorized DuckDB + Polars metric aggregation; deterministic PII masking (`[EMAIL_1]`, `[PHONE_1]`, SSN/Aadhaar). | **0.060s** latency on 100k rows; **503 tokens** (Budget: < 2,000 tokens). Zero PII leakage. |
+| **L2** | **Fast Profiler** | Vectorized DuckDB + Polars metric aggregation; ultra-compact JSON summary. | **0.060s** latency on 100k rows; **503 tokens** (Budget: < 2,000 tokens). |
 | **L2.5** | **Semantic Typer & FD Miner** | Calibrated ONNX classification engine (`onnxruntime`); RapidFuzz string clustering ($\ge 85\%$ similarity / edit distance $\le 1$). | Detected `PostalCode -> State` with 2% typos (`Telengana -> Telangana`) at 100% confidence. |
 | **L3** | **Constrained SLM Planner** | Local Qwen 0.5B reasoning guided by strict GBNF grammar (`step_id`, `target_column`, `action`, `parameters`, `confidence`). | **25/25 runs (100%)** valid JSON compliance, zero markdown backticks, all 10 keys present. |
 | **L4** | **4D Loss Estimator** | Quantifies Volumetric ($\le 15\%$), Wasserstein $W_1$ ($\le 0.35$), Categorical Jaccard ($\le 0.30$), and Cosine Drift ($\le 0.20$) + LightGBM speculative proxy ($\Delta_{\text{util}} \ge 0.0$). | Allowed Strategy A ($W_1 = 0.0165$), blocked Strategy B ($84.23\%$ volumetric loss); blocked utility drop (-0.2667). |
@@ -216,7 +215,7 @@ tests/test_loss.py::test_speculative_utility_barrier_with_lightgbm_proxy PASSED 
 tests/test_packaging.py::test_wheel_build_and_size PASSED                [ 52%]
 tests/test_planner.py::test_planner_25_consecutive_runs_offline_compliance PASSED [ 58%]
 tests/test_planner.py::test_confidence_governance_gate_ambiguous_nulls PASSED [ 64%]
-tests/test_profiler.py::test_100k_profiler_latency_and_pii_shield PASSED [ 70%]
+tests/test_profiler.py::test_100k_profiler_latency_and_token_ceiling PASSED [ 70%]
 tests/test_profiler.py::test_semantic_typer_onnx_classification PASSED   [ 76%]
 tests/test_shield.py::test_streaming_quota_exceeded_600mb PASSED         [ 82%]
 tests/test_shield.py::test_parse_10mb_ragged_file_with_delimiter_bombs PASSED [ 88%]

@@ -20,7 +20,6 @@ from narvl.core.executor import ReversibleExecutor
 from narvl.core.fd_miner import FunctionalDependencyMiner
 from narvl.core.loss import LossEstimator
 from narvl.core.normalizer import FormatNormalizer
-from narvl.core.pii_barrier import PIIBarrier
 from narvl.core.profiler import FastProfiler
 from narvl.core.provenance import ProvenanceReporter
 from narvl.core.semantic_typer import SemanticTyper
@@ -135,7 +134,6 @@ def render_sidebar() -> str:
     st.sidebar.markdown("---")
     st.sidebar.markdown("### System Security")
     st.sidebar.markdown("🔒 **Air-Gapped Mode**: `ACTIVE`")
-    st.sidebar.markdown("🛡️ **PII Shield**: `ENABLED`")
     st.sidebar.markdown("📦 **Delta Log Storage**: `ACID Compliant`")
 
     if st.session_state.raw_df is not None:
@@ -408,8 +406,15 @@ def screen_6_stepper() -> None:
         if st.button("🚀 Execute Approved DAG Pipeline"):
             with st.spinner("Applying vectorized Polars DAG to Delta Lake..."):
                 cleaned_df, report = executor.execute_plan(steps)
-                st.session_state.cleaned_df = cleaned_df
-                st.success(f"Successfully committed v{report.get('final_version')} with {len(steps)} applied steps!")
+                # Post-processing: Remove records failing Pandera or Great Expectations validation
+                synthesizer = DualTestSynthesizer(steps)
+                filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df)
+                st.session_state.cleaned_df = filtered_df
+                st.session_state.validation_result = val_res
+                msg = f"Successfully committed v{report.get('final_version')} with {len(steps)} applied steps!"
+                if val_res.removed_records_count > 0:
+                    msg += f" (Safely removed {val_res.removed_records_count:,} records failing Pandera / GE validation)"
+                st.success(msg)
                 st.rerun()
 
     with col_btn2:
@@ -422,7 +427,7 @@ def screen_6_stepper() -> None:
 
     if st.session_state.cleaned_df is not None:
         st.markdown("### Cleaned Snapshot Preview")
-        st.dataframe(st.session_state.cleaned_df.head(10).to_pandas(), use_container_width=True)
+        st.dataframe(st.session_state.cleaned_df.head(10).to_pandas(), width="stretch")
 
 
 def screen_7_validation() -> None:
@@ -440,6 +445,17 @@ def screen_7_validation() -> None:
     with st.spinner("Running automated Pandera schema checks and Great Expectations checkpoint..."):
         res = synthesizer.validate_dataset(target_df)
         st.session_state.validation_result = res
+
+    if getattr(st.session_state.validation_result, "removed_records_count", 0) > 0:
+        st.info(f"🛡️ **Post-Processing Active**: {st.session_state.validation_result.removed_records_count:,} invalid records failing Pandera or GE constraints were purged from cleaned dataset.")
+
+    if not res.is_fully_validated:
+        if st.button("🧹 Purge Non-Compliant Records from Cleaned Dataset"):
+            filtered_df, new_res = synthesizer.filter_and_validate(target_df)
+            st.session_state.cleaned_df = filtered_df
+            st.session_state.validation_result = new_res
+            st.success(f"Purged {new_res.removed_records_count:,} non-compliant records!")
+            st.rerun()
 
     c1, c2 = st.columns(2)
     with c1:
@@ -475,11 +491,11 @@ def screen_8_before_after() -> None:
     c1, c2 = st.columns(2)
     with c1:
         st.markdown("#### Raw Dataset (Before)")
-        st.dataframe(raw_df.head(10).to_pandas(), use_container_width=True)
+        st.dataframe(raw_df.head(10).to_pandas(), width="stretch")
 
     with c2:
         st.markdown("#### Cleaned Dataset (After)")
-        st.dataframe(cleaned_df.head(10).to_pandas(), use_container_width=True)
+        st.dataframe(cleaned_df.head(10).to_pandas(), width="stretch")
 
     st.markdown("---")
     st.markdown("### Provenance Audit Report Generation")

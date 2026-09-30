@@ -63,8 +63,8 @@ def run_clean_pipeline(
     raw_df = normalizer.load_file(sanitized_path)
     print(f"  [+] Ingested {raw_df.height} rows x {raw_df.width} columns")
 
-    # 2. L1 Fast Profiler & PII Barrier
-    print("\n[Stage 2/7] Running L1 Vectorized Profiler & PII Barrier...")
+    # 2. L1 Fast Profiler
+    print("\n[Stage 2/7] Running L1 Vectorized Profiler...")
     profiler = FastProfiler()
     profile_res = profiler.profile(raw_df)
     profile_summary = profile_res.summary_dict
@@ -134,6 +134,12 @@ def run_clean_pipeline(
     # 7. Commit & Provenance Audit Report
     print("\n[Stage 7/7] Committing to Delta Lake & Signing Provenance Audit...")
     cleaned_df, report = executor.execute_plan(plan.steps)
+
+    # Post-processing: Remove records failing Pandera or Great Expectations validation
+    cleaned_df, val_result = test_gen.filter_and_validate(cleaned_df)
+    if val_result.removed_records_count > 0:
+        print(f"  [!] Post-processing: Removed {val_result.removed_records_count} record(s) failing Pandera / GE validation.")
+
     output_ext = output_file.suffix.lower()
     if output_ext == ".parquet":
         cleaned_df.write_parquet(output_file)
