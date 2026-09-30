@@ -542,6 +542,7 @@ def screen_6_stepper() -> None:
     with col_btn1:
         if st.button("🚀 Execute Approved DAG Pipeline"):
             with st.spinner("Applying vectorized Polars DAG to Delta Lake..."):
+                cleaned_df, report = executor.execute_plan(steps)
                 target_cols = st.session_state.get("selected_columns", None)
                 resolve_policy = st.session_state.get("resolve_nulls_policy", True)
                 sem_types = {k: v.predicted_type for k, v in st.session_state.semantic_types.items()}
@@ -555,24 +556,19 @@ def screen_6_stepper() -> None:
                 )
                 # Post-processing: Remove records failing Pandera or Great Expectations validation
                 synthesizer = DualTestSynthesizer(steps)
-<<<<<<< Updated upstream
                 if hasattr(synthesizer, "filter_and_validate"):
                     filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df)
                 else:
                     val_res = synthesizer.validate_dataset(cleaned_df)
                     filtered_df = cleaned_df
-=======
                 filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df, target_columns=target_cols)
->>>>>>> Stashed changes
                 st.session_state.cleaned_df = filtered_df
                 st.session_state.validation_result = val_res
 
                 msg = f"Successfully committed v{report.get('final_version')} with {len(steps)} applied steps!"
-<<<<<<< Updated upstream
                 removed_cnt = getattr(val_res, "removed_records_count", 0)
                 if removed_cnt > 0:
                     msg += f" (Safely removed {removed_cnt:,} records failing Pandera / GE validation)"
-=======
                 null_res = report.get("null_resolution", {})
                 null_imputed = null_res.get("total_nulls_imputed", 0)
                 null_dropped = null_res.get("removed_rows", 0)
@@ -580,7 +576,6 @@ def screen_6_stepper() -> None:
                     msg += f" [Null Policy: Imputed {null_imputed:,} values, removed {null_dropped:,} unresolvable rows]"
                 if val_res.removed_records_count > 0:
                     msg += f" (Safely removed {val_res.removed_records_count:,} records failing Pandera / GE validation)"
->>>>>>> Stashed changes
                 st.success(msg)
                 st.rerun()
 
@@ -611,6 +606,7 @@ def screen_7_validation() -> None:
     synthesizer = DualTestSynthesizer(steps)
 
     with st.spinner("Running automated Pandera schema checks and Great Expectations checkpoint..."):
+        synthesizer.validate_dataset(target_df)
         prev_removed = getattr(st.session_state.validation_result, "removed_records_count", 0)
         res = synthesizer.validate_dataset(target_df, target_columns=target_cols)
         if prev_removed > 0:
