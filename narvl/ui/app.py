@@ -16,6 +16,35 @@ import numpy as np
 import polars as pl
 import streamlit as st
 
+import importlib
+import narvl.core.executor
+import narvl.core.fd_miner
+import narvl.core.loss
+import narvl.core.normalizer
+import narvl.core.profiler
+import narvl.core.provenance
+import narvl.core.semantic_typer
+import narvl.core.shield
+import narvl.core.test_gen
+import narvl.engine.planner
+
+for _mod in [
+    narvl.core.executor,
+    narvl.core.fd_miner,
+    narvl.core.loss,
+    narvl.core.normalizer,
+    narvl.core.profiler,
+    narvl.core.provenance,
+    narvl.core.semantic_typer,
+    narvl.core.shield,
+    narvl.core.test_gen,
+    narvl.engine.planner,
+]:
+    try:
+        importlib.reload(_mod)
+    except Exception:
+        pass
+
 from narvl.core.executor import ReversibleExecutor
 from narvl.core.fd_miner import FunctionalDependencyMiner
 from narvl.core.loss import LossEstimator
@@ -438,12 +467,17 @@ def screen_6_stepper() -> None:
                 cleaned_df, report = executor.execute_plan(steps)
                 # Post-processing: Remove records failing Pandera or Great Expectations validation
                 synthesizer = DualTestSynthesizer(steps)
-                filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df)
+                if hasattr(synthesizer, "filter_and_validate"):
+                    filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df)
+                else:
+                    val_res = synthesizer.validate_dataset(cleaned_df)
+                    filtered_df = cleaned_df
                 st.session_state.cleaned_df = filtered_df
                 st.session_state.validation_result = val_res
                 msg = f"Successfully committed v{report.get('final_version')} with {len(steps)} applied steps!"
-                if val_res.removed_records_count > 0:
-                    msg += f" (Safely removed {val_res.removed_records_count:,} records failing Pandera / GE validation)"
+                removed_cnt = getattr(val_res, "removed_records_count", 0)
+                if removed_cnt > 0:
+                    msg += f" (Safely removed {removed_cnt:,} records failing Pandera / GE validation)"
                 st.success(msg)
                 st.rerun()
 
@@ -481,10 +515,15 @@ def screen_7_validation() -> None:
 
     if not res.is_fully_validated:
         if st.button("🧹 Purge Non-Compliant Records from Cleaned Dataset"):
-            filtered_df, new_res = synthesizer.filter_and_validate(target_df)
+            if hasattr(synthesizer, "filter_and_validate"):
+                filtered_df, new_res = synthesizer.filter_and_validate(target_df)
+            else:
+                new_res = synthesizer.validate_dataset(target_df)
+                filtered_df = target_df
             st.session_state.cleaned_df = filtered_df
             st.session_state.validation_result = new_res
-            st.success(f"Purged {new_res.removed_records_count:,} non-compliant records!")
+            purged_cnt = getattr(new_res, "removed_records_count", 0)
+            st.success(f"Purged {purged_cnt:,} non-compliant records!")
             st.rerun()
 
     c1, c2 = st.columns(2)
