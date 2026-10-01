@@ -166,6 +166,15 @@ st.markdown(
         max-width: 250px !important;
         display: inline-block !important;
     }
+    div[data-testid="stFileUploaderDropzoneInstructions"] span {
+        font-size: 0 !important;
+    }
+    div[data-testid="stFileUploaderDropzoneInstructions"] span::after {
+        content: "CSV, TSV, PARQUET, JSON, NDJSON" !important;
+        font-size: 0.875rem !important;
+        color: #94a3b8 !important;
+        display: block !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,

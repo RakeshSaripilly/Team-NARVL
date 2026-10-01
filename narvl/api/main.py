@@ -186,6 +186,20 @@ async def telemetry_and_timing_middleware(request: Request, call_next):
 # Health & Observability Endpoints
 # ---------------------------------------------------------------------------
 
+@app.get("/", tags=["General"])
+def root_endpoint() -> Dict[str, Any]:
+    """Root endpoint welcoming users and directing to API documentation."""
+    return {
+        "service": "NARVL Enterprise REST API",
+        "version": API_VERSION,
+        "status": "online",
+        "docs_url": "/docs",
+        "redoc_url": "/redoc",
+        "health_check": "/healthz",
+        "metrics": "/metrics",
+    }
+
+
 @app.get("/healthz", tags=["Observability"])
 def health_check() -> Dict[str, Any]:
     """L3 Kubernetes Health Check endpoint returning 200 OK."""

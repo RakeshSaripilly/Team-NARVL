@@ -14,6 +14,7 @@
 
 | Document | Description |
 | :--- | :--- |
+| [Pipeline Architecture](pipeline.md) | High-level architectural pipeline flow, stage breakdowns (L0-L6), data transitions, and execution interfaces. |
 | [Guide](guide.md) | Library inventory, processing stages, model behavior, interfaces, installation, and output artifacts. |
 | [Software Requirements Specification](SRS.md) | Functional requirements, non-functional requirements, interfaces, data contracts, security, and acceptance criteria. |
 | [Data Flow Diagrams](DFD.md) | Context, pipeline, API, persistence, error, and security data flows. |
