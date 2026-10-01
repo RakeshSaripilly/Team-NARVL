@@ -809,20 +809,20 @@ def render_relationship_chart(
     y_col: str,
     chart_type: str,
     is_cleaned: bool,
-) -> None:
+) -> Optional[alt.Chart]:
     """Render full-dataset bivariate or univariate relationship chart with Altair."""
     if df.height == 0:
         st.info("No records available in this dataset snapshot.")
-        return
+        return None
 
     if x_col not in df.columns:
         st.warning(f"Feature '{x_col}' is not present in this dataset.")
-        return
+        return None
 
     is_y_count = (y_col == "(Count / Frequency)") or (x_col == y_col)
     if not is_y_count and y_col not in df.columns:
         st.warning(f"Feature '{y_col}' is not present in this dataset.")
-        return
+        return None
 
     cols_to_use = [x_col] if is_y_count else [x_col, y_col]
     # Extract ALL rows from Polars DataFrame into Pandas for Altair plotting
@@ -985,6 +985,7 @@ def render_relationship_chart(
         f"📊 **Plotted:** {tot:,} records • **Nulls ({x_col}):** {null_x:,}"
         + (f" • **Nulls ({y_col}):** {null_y:,}" if not is_y_count and y_col != x_col else "")
     )
+    return chart
 
 
 def screen_8_before_after() -> None:
@@ -1009,6 +1010,11 @@ def screen_8_before_after() -> None:
     st.markdown("---")
     st.markdown("### 📊 Interactive Dataset Visualizer (All Records)")
     st.caption("Select X and Y features below to visually inspect how their relationship and distribution compare between the raw and cleaned datasets across **all records**.")
+
+    raw_chart_spec = None
+    cleaned_chart_spec = None
+    selected_x = None
+    selected_y = None
 
     all_cols = list(dict.fromkeys(list(raw_df.columns) + list(cleaned_df.columns)))
     if all_cols:
@@ -1040,16 +1046,30 @@ def screen_8_before_after() -> None:
                 help="Choose display format or let smart detect choose optimal visual.",
             )
 
+        selected_x = x_col
+        selected_y = y_col
+
         viz_c1, viz_c2 = st.columns(2)
         with viz_c1:
             st.markdown(f"##### 📉 Raw Data: `{x_col}` vs `{y_col}`")
             st.caption(f"All **{raw_df.height:,}** records considered")
-            render_relationship_chart(raw_df, x_col, y_col, chart_type, is_cleaned=False)
+            raw_chart = render_relationship_chart(raw_df, x_col, y_col, chart_type, is_cleaned=False)
 
         with viz_c2:
             st.markdown(f"##### 📈 Cleaned Data: `{x_col}` vs `{y_col}`")
             st.caption(f"All **{cleaned_df.height:,}** records considered")
-            render_relationship_chart(cleaned_df, x_col, y_col, chart_type, is_cleaned=True)
+            cleaned_chart = render_relationship_chart(cleaned_df, x_col, y_col, chart_type, is_cleaned=True)
+
+        if raw_chart is not None:
+            try:
+                raw_chart_spec = raw_chart.to_dict()
+            except Exception as e:
+                logger.warning(f"Could not extract raw chart spec: {e}")
+        if cleaned_chart is not None:
+            try:
+                cleaned_chart_spec = cleaned_chart.to_dict()
+            except Exception as e:
+                logger.warning(f"Could not extract cleaned chart spec: {e}")
     else:
         st.info("No columns available to visualize.")
 
@@ -1071,6 +1091,10 @@ def screen_8_before_after() -> None:
         validation_result=val_dict,
         output_json=report_json_path,
         output_html=report_html_path,
+        raw_chart_spec=raw_chart_spec,
+        cleaned_chart_spec=cleaned_chart_spec,
+        x_feature=selected_x,
+        y_feature=selected_y,
     )
 
     d1, d2, d3 = st.columns(3)
