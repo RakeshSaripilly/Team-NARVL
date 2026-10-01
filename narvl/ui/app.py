@@ -201,6 +201,12 @@ def init_session_state() -> None:
         st.session_state.provenance_html = None
     if "selected_columns" not in st.session_state:
         st.session_state.selected_columns = []
+    if "ms_profile_target_cols" not in st.session_state:
+        st.session_state.ms_profile_target_cols = None
+    if "plan_builder_cols" not in st.session_state:
+        st.session_state.plan_builder_cols = None
+    if "user_cleared_selection" not in st.session_state:
+        st.session_state.user_cleared_selection = False
     if "resolve_nulls_policy" not in st.session_state:
         st.session_state.resolve_nulls_policy = True
     if "null_resolution_summary" not in st.session_state:
@@ -222,11 +228,14 @@ def init_session_state() -> None:
 
 
 def set_selected_columns(columns: List[str]) -> None:
-    """Keep the shared target selection and both column widgets synchronized."""
+    """Keep the shared target selection and both column widgets synchronized safely."""
     selected = list(dict.fromkeys(columns))
     st.session_state.selected_columns = selected
-    st.session_state.ms_profile_target_cols = selected
-    st.session_state.plan_builder_cols = selected
+    for widget_key in ("ms_profile_target_cols", "plan_builder_cols"):
+        try:
+            st.session_state[widget_key] = selected
+        except Exception:
+            pass
 
 
 def render_sidebar() -> str:
@@ -306,6 +315,7 @@ def screen_1_upload() -> None:
                     st.session_state.cleaned_df = None
                     st.session_state.loss_assessment = None
                     st.session_state.validation_result = None
+                    st.session_state.user_cleared_selection = False
                     set_selected_columns(list(df.columns))
                     st.session_state.resolve_nulls_policy = True
                     st.session_state.null_resolution_summary = None
@@ -423,6 +433,7 @@ def screen_1_upload() -> None:
             st.session_state.cleaned_df = None
             st.session_state.loss_assessment = None
             st.session_state.validation_result = None
+            st.session_state.user_cleared_selection = False
             set_selected_columns(list(demo_df.columns))
             st.session_state.resolve_nulls_policy = True
             st.session_state.null_resolution_summary = None
@@ -508,31 +519,50 @@ def screen_2_profile() -> None:
     c_b1, c_b2, c_b3 = st.columns([1, 1.8, 1])
     with c_b1:
         if st.button("✅ Select All", key="btn_sel_all"):
+            st.session_state.user_cleared_selection = False
             set_selected_columns(all_cols)
             st.session_state.plan_steps = []
             st.rerun()
     with c_b2:
         if st.button("⚠️ Select Columns with Issues Only", key="btn_sel_issues"):
+            st.session_state.user_cleared_selection = False
             anomalous = profiler.get_columns_with_anomalies(st.session_state.profile or df)
             set_selected_columns(anomalous)
             st.session_state.plan_steps = []
             st.rerun()
     with c_b3:
         if st.button("❌ Clear Selection", key="btn_clear_sel"):
+            st.session_state.user_cleared_selection = True
             set_selected_columns([])
             st.session_state.plan_steps = []
             st.rerun()
 
+    # Initially, all columns are selected by default unless user has removed fields or cleared selection
+    current_selected = [c for c in st.session_state.get("selected_columns", []) if c in all_cols]
+    if not current_selected and not st.session_state.get("user_cleared_selection", False):
+        current_selected = list(all_cols)
+        set_selected_columns(current_selected)
+
+    widget_val = [c for c in (st.session_state.get("ms_profile_target_cols") if st.session_state.get("ms_profile_target_cols") is not None else current_selected) if c in all_cols]
+    if not widget_val and not st.session_state.get("user_cleared_selection", False):
+        widget_val = list(current_selected)
+    if st.session_state.get("ms_profile_target_cols") != widget_val:
+        st.session_state.ms_profile_target_cols = widget_val
+
     new_sel = st.multiselect(
         "Active Target Columns for Cleaning Pipeline:",
         options=all_cols,
-        default=st.session_state.selected_columns,
         help="Only selected features will be processed by the DAG, imputed, and validated.",
         key="ms_profile_target_cols",
     )
     if new_sel != st.session_state.selected_columns:
-        set_selected_columns(new_sel)
+        st.session_state.selected_columns = list(new_sel)
+        st.session_state.user_cleared_selection = (len(new_sel) == 0)
         st.session_state.plan_steps = []
+        try:
+            st.session_state.plan_builder_cols = list(new_sel)
+        except Exception:
+            pass
 
 
 def screen_3_reasoning() -> None:
@@ -608,15 +638,30 @@ def screen_4_plan_builder() -> None:
     with st.expander("⚙️ Target Column Scope & Null Value Policy", expanded=False):
         c_sc1, c_sc2 = st.columns([2, 1])
         with c_sc1:
+            current_selected = [c for c in st.session_state.get("selected_columns", []) if c in all_cols]
+            if not current_selected and not st.session_state.get("user_cleared_selection", False):
+                current_selected = list(all_cols)
+                set_selected_columns(current_selected)
+
+            widget_val = [c for c in (st.session_state.get("plan_builder_cols") if st.session_state.get("plan_builder_cols") is not None else current_selected) if c in all_cols]
+            if not widget_val and not st.session_state.get("user_cleared_selection", False):
+                widget_val = list(current_selected)
+            if st.session_state.get("plan_builder_cols") != widget_val:
+                st.session_state.plan_builder_cols = widget_val
+
             chosen = st.multiselect(
                 "Columns to Process in Pipeline:",
                 options=all_cols,
-                default=st.session_state.selected_columns,
                 key="plan_builder_cols",
             )
             if chosen != st.session_state.selected_columns:
-                set_selected_columns(chosen)
+                st.session_state.selected_columns = list(chosen)
+                st.session_state.user_cleared_selection = (len(chosen) == 0)
                 st.session_state.plan_steps = []
+                try:
+                    st.session_state.ms_profile_target_cols = list(chosen)
+                except Exception:
+                    pass
                 st.rerun()
         with c_sc2:
             st.session_state.resolve_nulls_policy = st.checkbox(
