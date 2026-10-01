@@ -292,6 +292,7 @@ class SemanticTyper:
             return SemanticClassification(col_name, "Unknown", 0.0, {})
 
         sample = [str(x).strip() for x in non_null.head(8).to_list() if str(x).strip()]
+        sample = sample[:6]
         dtype_str = str(series.dtype)
         uniq_ratio = (non_null.n_unique() / n) if n > 0 else 0.0
 
@@ -303,7 +304,7 @@ class SemanticTyper:
             f"Column: {col_name}\n"
             f"DataType: {dtype_str}\n"
             f"Uniqueness: {uniq_ratio*100:.1f}%\n"
-            f"Sample: {sample[:6]}\n"
+            f"Sample: {sample}\n"
             f"<|im_end|>\n"
             f"<|im_start|>assistant\n"
         )

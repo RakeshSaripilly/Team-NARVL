@@ -31,7 +31,7 @@ The documents are derived from the current implementation and should be updated 
 flowchart TD
     RawData["Raw Input File (CSV/TSV/Parquet/JSON/NDJSON)"] --> L0["L0: Streaming Adversarial Shield (64KB chunks, 500MB Quota, Unicode/ftfy, Bombs Quarantine)"]
     L0 --> L1["L1: High-Performance Normalizer (Polars Readers)"]
-    L1 --> L2["L2: Fast Profiler (Vectorized DuckDB + Polars < 2000 Tokens)"]
+    L1 --> L2["L2: Fast Profiler (DuckDB + Polars < 2000 Tokens)"]
     L1 --> L25["L2.5: ONNX Semantic Typer (City, PostalCode, State, Email, Currency, Timestamp)"]
     L1 --> FD["L2.5: Approximate FD Miner (RapidFuzz String Clustering & Typo Correction)"]
     
