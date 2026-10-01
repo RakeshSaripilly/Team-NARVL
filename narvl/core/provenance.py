@@ -103,8 +103,16 @@ class ProvenanceReporter:
             json.dump(manifest, f, indent=2)
         return target
 
-    def emit_html(self, manifest: Dict[str, Any], output_path: Path | str) -> Path:
-        """Generate executive HTML provenance audit certificate."""
+    def emit_html(
+        self,
+        manifest: Dict[str, Any],
+        output_path: Path | str,
+        raw_chart_spec: Optional[Dict[str, Any]] = None,
+        cleaned_chart_spec: Optional[Dict[str, Any]] = None,
+        x_feature: Optional[str] = None,
+        y_feature: Optional[str] = None,
+    ) -> Path:
+        """Generate executive HTML provenance audit certificate with embedded interactive charts."""
         target = Path(output_path)
         target.parent.mkdir(parents=True, exist_ok=True)
 
@@ -124,11 +132,73 @@ class ProvenanceReporter:
         if not manifest["validation"]["is_fully_validated"]:
             status_badge = '<span style="background:#742a2a; color:#feb2b2; padding:6px 14px; border-radius:20px; font-weight:bold;">BLOCKED - INTEGRITY FAILURE</span>'
 
+        # Optional visualization section
+        viz_section_html = ""
+        viz_scripts_head = ""
+        viz_embed_script = ""
+        if raw_chart_spec is not None or cleaned_chart_spec is not None:
+            viz_scripts_head = """
+    <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+    <style>
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; }
+        .chart-box { background: #0f172a; padding: 20px; border-radius: 10px; border: 1px solid #334155; }
+        .vega-embed { width: 100% !important; display: flex !important; justify-content: center !important; }
+        .vega-embed summary { display: none !important; }
+    </style>
+            """
+            raw_rows = manifest.get("lineage", {}).get("raw_shape", [0, 0])[0]
+            clean_rows = manifest.get("lineage", {}).get("clean_shape", [0, 0])[0]
+            x_label = x_feature or "Feature X"
+            y_label = y_feature or "Feature Y"
+
+            raw_json_str = json.dumps(raw_chart_spec or {}).replace("</script>", "<\\/script>")
+            clean_json_str = json.dumps(cleaned_chart_spec or {}).replace("</script>", "<\\/script>")
+
+            viz_section_html = f"""
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="font-size: 18px; margin: 0; color: #38bdf8;">📊 Dataset Feature Relationship & Distribution Analysis</h2>
+            <span style="background: #1e3a8a; color: #93c5fd; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                All Records Plotted
+            </span>
+        </div>
+        <p style="color:#94a3b8; font-size: 14px; margin: 8px 0 16px 0;">
+            Comparing <strong>{x_label}</strong> vs <strong>{y_label}</strong> across all records: Raw ({raw_rows:,} rows) vs Cleaned ({clean_rows:,} rows).
+        </p>
+        <div class="chart-grid">
+            <div class="chart-box">
+                <h3 style="color: #f59e0b; margin: 0 0 14px 0; font-size: 15px;">📉 Raw Dataset (Before Cleaning)</h3>
+                <div id="vis-raw" style="width: 100%; min-height: 350px;"></div>
+            </div>
+            <div class="chart-box">
+                <h3 style="color: #10b981; margin: 0 0 14px 0; font-size: 15px;">📈 Cleaned Dataset (After Cleaning)</h3>
+                <div id="vis-cleaned" style="width: 100%; min-height: 350px;"></div>
+            </div>
+        </div>
+    </div>
+            """
+
+            viz_embed_script = f"""
+    <script>
+        var rawSpec = {raw_json_str};
+        var cleanSpec = {clean_json_str};
+        if (rawSpec && Object.keys(rawSpec).length > 0) {{
+            vegaEmbed('#vis-raw', rawSpec, {{actions: false, mode: 'vega-lite', renderer: 'svg', theme: 'dark'}}).catch(console.error);
+        }}
+        if (cleanSpec && Object.keys(cleanSpec).length > 0) {{
+            vegaEmbed('#vis-cleaned', cleanSpec, {{actions: false, mode: 'vega-lite', renderer: 'svg', theme: 'dark'}}).catch(console.error);
+        }}
+    </script>
+            """
+
         html_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>NARVL Immutable Provenance Report</title>
+    {viz_scripts_head}
     <style>
         body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 40px; }}
         .card {{ background: #1e293b; border-radius: 12px; padding: 30px; margin-bottom: 24px; border: 1px solid #334155; }}
@@ -161,6 +231,8 @@ class ProvenanceReporter:
         </div>
     </div>
 
+    {viz_section_html}
+
     <div class="card">
         <h2 style="font-size: 18px; margin-top:0;">Pipeline Execution Plan</h2>
         <table>
@@ -182,6 +254,7 @@ class ProvenanceReporter:
             {manifest.get('digital_signature')}
         </div>
     </div>
+    {viz_embed_script}
 </body>
 </html>
 """
@@ -198,8 +271,12 @@ class ProvenanceReporter:
         dataset_name: str = "dataset",
         output_json: Optional[Union[Path, str]] = None,
         output_html: Optional[Union[Path, str]] = None,
+        raw_chart_spec: Optional[Dict[str, Any]] = None,
+        cleaned_chart_spec: Optional[Dict[str, Any]] = None,
+        x_feature: Optional[str] = None,
+        y_feature: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """Convenience report generator with optional file export and dictionary normalization."""
+        """Convenience report generator with optional file export, chart embedding, and dictionary normalization."""
         if isinstance(loss_assessment, dict):
             loss_report = LossImpactReport(
                 volumetric_loss=loss_assessment.get("volumetric_loss", 0.0),
@@ -242,6 +319,13 @@ class ProvenanceReporter:
         if output_json:
             self.emit_json(manifest, output_json)
         if output_html:
-            self.emit_html(manifest, output_html)
+            self.emit_html(
+                manifest=manifest,
+                output_path=output_html,
+                raw_chart_spec=raw_chart_spec,
+                cleaned_chart_spec=cleaned_chart_spec,
+                x_feature=x_feature,
+                y_feature=y_feature,
+            )
 
         return manifest

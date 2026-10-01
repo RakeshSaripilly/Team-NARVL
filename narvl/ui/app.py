@@ -81,11 +81,56 @@ st.markdown(
         margin-bottom: 0.2rem;
     }
     .metric-card {
-        background-color: #1e293b;
+        background: linear-gradient(135deg, #1e293b 0%, #172033 100%);
         border: 1px solid #334155;
-        border-radius: 8px;
-        padding: 16px;
-        margin-bottom: 12px;
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin-bottom: 16px;
+        min-height: 110px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25);
+        transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .metric-card:hover {
+        border-color: #38bdf8;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px -2px rgba(56, 189, 248, 0.15);
+    }
+    .metric-card-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .metric-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+        font-size: 0.88rem;
+    }
+    .metric-card-label {
+        color: #94a3b8;
+        font-weight: 500;
+    }
+    .metric-card-badge {
+        background-color: rgba(56, 189, 248, 0.12);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        padding: 2px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.82rem;
+    }
+    .metric-card-conf {
+        color: #34d399;
+        font-weight: 700;
+        font-size: 0.88rem;
     }
     .badge-auto {
         background-color: #065f46;
@@ -200,7 +245,7 @@ def render_sidebar() -> str:
         "8. Before vs After & Provenance",
     ]
 
-    selected_screen = st.sidebar.radio("Navigation Steps", screens, key="nav_step")
+    selected_screen = st.sidebar.radio("Navigation Steps", screens)
 
     st.sidebar.markdown("---")
     st.sidebar.markdown("### System Security")
@@ -505,19 +550,30 @@ def screen_3_reasoning() -> None:
     types_found = typer.infer_types(df)
     st.session_state.semantic_types = types_found
 
-    t_cols = st.columns(max(1, len(types_found)))
-    for idx, (col_name, res) in enumerate(types_found.items()):
-        with t_cols[idx % len(t_cols)]:
-            st.markdown(
-                f"""
-                <div class="metric-card">
-                    <b>{col_name}</b><br/>
-                    Type: <span style="color: #38bdf8; font-weight:bold;">{res.predicted_type}</span><br/>
-                    Confidence: <b>{res.confidence*100:.1f}%</b>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+    # Render cards in a balanced responsive grid (max 4 columns per row)
+    items = list(types_found.items())
+    num_cols_per_row = 4
+    for row_idx in range(0, len(items), num_cols_per_row):
+        chunk = items[row_idx : row_idx + num_cols_per_row]
+        cols = st.columns(num_cols_per_row)
+        for col_idx, (col_name, res) in enumerate(chunk):
+            with cols[col_idx]:
+                st.markdown(
+                    f"""
+                    <div class="metric-card">
+                        <div class="metric-card-title" title="{col_name}">{col_name}</div>
+                        <div class="metric-card-row">
+                            <span class="metric-card-label">Type:</span>
+                            <span class="metric-card-badge">{res.predicted_type}</span>
+                        </div>
+                        <div class="metric-card-row" style="margin-bottom: 0;">
+                            <span class="metric-card-label">Confidence:</span>
+                            <span class="metric-card-conf">{res.confidence*100:.1f}%</span>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
 
     # 2. Approximate Functional Dependency Discovery
     st.markdown("### Approximate Functional Dependencies (FDs)")
@@ -618,19 +674,10 @@ def screen_5_loss_simulator() -> None:
 
     raw_df = st.session_state.raw_df
     steps = getattr(st.session_state, "active_steps", st.session_state.plan_steps)
-    target_cols = st.session_state.get("selected_columns", None)
-    resolve_policy = st.session_state.get("resolve_nulls_policy", True)
-    sem_types = {k: v.predicted_type for k, v in st.session_state.semantic_types.items()} if "semantic_types" in st.session_state and st.session_state.semantic_types else None
 
-    # Perform speculative dry run purely in memory (zero Delta Lake commits)
-    executor = ReversibleExecutor(raw_df)
-    candidate_df = executor.simulate_plan(
-        raw_df=raw_df,
-        plan_steps=steps,
-        target_columns=target_cols,
-        resolve_nulls_policy=resolve_policy,
-        semantic_types=sem_types,
-    )
+    # Perform speculative dry run
+    executor = ReversibleExecutor(raw_df, delta_table_path=st.session_state.delta_dir)
+    candidate_df, _ = executor.execute_plan(steps)
 
     estimator = LossEstimator()
     assessment = estimator.assess(raw_df, candidate_df)
@@ -668,15 +715,13 @@ def screen_6_stepper() -> None:
 
     executor = st.session_state.executor
     current_v = executor.get_current_version()
-    if current_v is not None:
-        st.write(f"Current Delta Lake Table Commit Version: **v{current_v}**")
-    else:
-        st.write("Current Delta Lake Table Commit Version: **Uncommitted (Ready to Execute)**")
+    st.write(f"Current Delta Lake Table Commit Version: **v{current_v}**")
 
-    col_btn1, col_space = st.columns([1, 1])
+    col_btn1, col_btn2 = st.columns(2)
     with col_btn1:
         if st.button("🚀 Execute Approved DAG Pipeline"):
-            with st.spinner("Applying vectorized Polars DAG to Delta Lake (Commit-Per-Step)..."):
+            with st.spinner("Applying vectorized Polars DAG to Delta Lake..."):
+                cleaned_df, report = executor.execute_plan(steps)
                 target_cols = st.session_state.get("selected_columns", None)
                 resolve_policy = st.session_state.get("resolve_nulls_policy", True)
                 sem_types = {k: v.predicted_type for k, v in st.session_state.semantic_types.items()}
@@ -687,20 +732,19 @@ def screen_6_stepper() -> None:
                     resolve_nulls_policy=resolve_policy,
                     semantic_types=sem_types,
                     filter_validation_failures=True,
-                    commit_per_step=True,
                 )
                 # Post-processing: Remove records failing Pandera or Great Expectations validation
                 synthesizer = DualTestSynthesizer(steps)
                 if hasattr(synthesizer, "filter_and_validate"):
-                    filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df, target_columns=target_cols)
+                    filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df)
                 else:
                     val_res = synthesizer.validate_dataset(cleaned_df)
                     filtered_df = cleaned_df
+                filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df, target_columns=target_cols)
                 st.session_state.cleaned_df = filtered_df
                 st.session_state.validation_result = val_res
-                st.session_state.restored_version = None
 
-                msg = f"Successfully committed up to v{report.get('final_version')} ({len(steps)} steps committed individually)!"
+                msg = f"Successfully committed v{report.get('final_version')} with {len(steps)} applied steps!"
                 removed_cnt = getattr(val_res, "removed_records_count", 0)
                 if removed_cnt > 0:
                     msg += f" (Safely removed {removed_cnt:,} records failing Pandera / GE validation)"
@@ -709,62 +753,18 @@ def screen_6_stepper() -> None:
                 null_dropped = null_res.get("removed_rows", 0)
                 if null_imputed > 0 or null_dropped > 0:
                     msg += f" [Null Policy: Imputed {null_imputed:,} values, removed {null_dropped:,} unresolvable rows]"
+                if val_res.removed_records_count > 0:
+                    msg += f" (Safely removed {val_res.removed_records_count:,} records failing Pandera / GE validation)"
                 st.success(msg)
                 st.rerun()
 
-    # Time-Travel Rollback Dropdown & Cherry-Pick Navigation
-    st.markdown("---")
-    st.markdown("### ⏪ Time-Travel Rollback & Cherry-Pick Navigation")
-    st.write(
-        "Delta Lake tracks each transformation step as an immutable ACID commit. "
-        "Select any historical commit version from the dropdown to roll back the dataset to that exact state, "
-        "or route back to Level 4 to cherry-pick and modify individual cleaning tasks."
-    )
-
-    version_options = executor.get_version_options()
-    if not version_options:
-        c_info, c_nav = st.columns([5, 2.2])
-        with c_info:
-            st.info("💡 Execute the DAG Pipeline above to initialize Delta Lake ACID commits and enable point-in-time time-travel rollback.")
-        with c_nav:
-            st.markdown("<div style='margin-top: 5px;'></div>", unsafe_allow_html=True)
-            if st.button("🎯 Modify Tasks in Level 4 (Cherry Pick)", use_container_width=True, key="btn_route_level_4_pre"):
-                st.session_state.nav_step = "4. Interactive Plan Builder"
+    with col_btn2:
+        if st.button("⏪ Undo All Steps (Rollback to Raw v0)"):
+            with st.spinner("Reverting via Delta Lake Time-Travel..."):
+                restored_df = executor.rollback_to_version(0)
+                st.session_state.cleaned_df = restored_df
+                st.info("Time-travel rollback successful: 100% bitwise parity restored with raw state.")
                 st.rerun()
-    else:
-        c_drop, c_roll, c_nav = st.columns([3, 1.8, 2.2])
-
-        with c_drop:
-            version_labels = [opt[1] for opt in version_options]
-            curr_v_val = current_v if current_v is not None else 0
-            default_idx = max(0, min(len(version_labels) - 1, curr_v_val))
-            selected_label = st.selectbox(
-                "Select Version to Rollback:",
-                options=version_labels,
-                index=default_idx,
-                key="version_rollback_select",
-                help="Select any point-in-time snapshot to roll back to.",
-            )
-            chosen_version = [opt[0] for opt in version_options if opt[1] == selected_label][0]
-
-        with c_roll:
-            st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
-            if st.button(f"⏪ Rollback to v{chosen_version}", use_container_width=True, key="btn_rollback_specific"):
-                with st.spinner(f"Reverting to version v{chosen_version} via Delta Lake Time-Travel..."):
-                    restored_df = executor.rollback_to_version(chosen_version)
-                    st.session_state.cleaned_df = restored_df
-                    st.session_state.restored_version = chosen_version
-                    st.success(f"Time-travel rollback successful: 100% bitwise parity restored with version v{chosen_version}!")
-                    st.rerun()
-
-        with c_nav:
-            st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
-            if st.button("🎯 Modify Tasks in Level 4 (Cherry Pick)", use_container_width=True, key="btn_route_level_4"):
-                st.session_state.nav_step = "4. Interactive Plan Builder"
-                st.rerun()
-
-    if st.session_state.get("restored_version") is not None:
-        st.info(f"⏪ **Active Snapshot**: Currently viewing restored Delta Lake version **v{st.session_state.restored_version}**.")
 
     if st.session_state.cleaned_df is not None:
         st.markdown("### Cleaned Snapshot Preview")
@@ -835,20 +835,20 @@ def render_relationship_chart(
     y_col: str,
     chart_type: str,
     is_cleaned: bool,
-) -> None:
+) -> Optional[alt.Chart]:
     """Render full-dataset bivariate or univariate relationship chart with Altair."""
     if df.height == 0:
         st.info("No records available in this dataset snapshot.")
-        return
+        return None
 
     if x_col not in df.columns:
         st.warning(f"Feature '{x_col}' is not present in this dataset.")
-        return
+        return None
 
     is_y_count = (y_col == "(Count / Frequency)") or (x_col == y_col)
     if not is_y_count and y_col not in df.columns:
         st.warning(f"Feature '{y_col}' is not present in this dataset.")
-        return
+        return None
 
     cols_to_use = [x_col] if is_y_count else [x_col, y_col]
     # Extract ALL rows from Polars DataFrame into Pandas for Altair plotting
@@ -1011,6 +1011,7 @@ def render_relationship_chart(
         f"📊 **Plotted:** {tot:,} records • **Nulls ({x_col}):** {null_x:,}"
         + (f" • **Nulls ({y_col}):** {null_y:,}" if not is_y_count and y_col != x_col else "")
     )
+    return chart
 
 
 def screen_8_before_after() -> None:
@@ -1035,6 +1036,11 @@ def screen_8_before_after() -> None:
     st.markdown("---")
     st.markdown("### 📊 Interactive Dataset Visualizer (All Records)")
     st.caption("Select X and Y features below to visually inspect how their relationship and distribution compare between the raw and cleaned datasets across **all records**.")
+
+    raw_chart_spec = None
+    cleaned_chart_spec = None
+    selected_x = None
+    selected_y = None
 
     all_cols = list(dict.fromkeys(list(raw_df.columns) + list(cleaned_df.columns)))
     if all_cols:
@@ -1066,16 +1072,30 @@ def screen_8_before_after() -> None:
                 help="Choose display format or let smart detect choose optimal visual.",
             )
 
+        selected_x = x_col
+        selected_y = y_col
+
         viz_c1, viz_c2 = st.columns(2)
         with viz_c1:
             st.markdown(f"##### 📉 Raw Data: `{x_col}` vs `{y_col}`")
             st.caption(f"All **{raw_df.height:,}** records considered")
-            render_relationship_chart(raw_df, x_col, y_col, chart_type, is_cleaned=False)
+            raw_chart = render_relationship_chart(raw_df, x_col, y_col, chart_type, is_cleaned=False)
 
         with viz_c2:
             st.markdown(f"##### 📈 Cleaned Data: `{x_col}` vs `{y_col}`")
             st.caption(f"All **{cleaned_df.height:,}** records considered")
-            render_relationship_chart(cleaned_df, x_col, y_col, chart_type, is_cleaned=True)
+            cleaned_chart = render_relationship_chart(cleaned_df, x_col, y_col, chart_type, is_cleaned=True)
+
+        if raw_chart is not None:
+            try:
+                raw_chart_spec = raw_chart.to_dict()
+            except Exception as e:
+                logger.warning(f"Could not extract raw chart spec: {e}")
+        if cleaned_chart is not None:
+            try:
+                cleaned_chart_spec = cleaned_chart.to_dict()
+            except Exception as e:
+                logger.warning(f"Could not extract cleaned chart spec: {e}")
     else:
         st.info("No columns available to visualize.")
 
@@ -1097,6 +1117,10 @@ def screen_8_before_after() -> None:
         validation_result=val_dict,
         output_json=report_json_path,
         output_html=report_html_path,
+        raw_chart_spec=raw_chart_spec,
+        cleaned_chart_spec=cleaned_chart_spec,
+        x_feature=selected_x,
+        y_feature=selected_y,
     )
 
     d1, d2, d3 = st.columns(3)

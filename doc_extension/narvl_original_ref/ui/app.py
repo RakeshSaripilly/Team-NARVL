@@ -49,11 +49,56 @@ st.markdown(
         margin-bottom: 0.2rem;
     }
     .metric-card {
-        background-color: #1e293b;
+        background: linear-gradient(135deg, #1e293b 0%, #172033 100%);
         border: 1px solid #334155;
-        border-radius: 8px;
-        padding: 16px;
-        margin-bottom: 12px;
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin-bottom: 16px;
+        min-height: 110px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25);
+        transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .metric-card:hover {
+        border-color: #38bdf8;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px -2px rgba(56, 189, 248, 0.15);
+    }
+    .metric-card-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .metric-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+        font-size: 0.88rem;
+    }
+    .metric-card-label {
+        color: #94a3b8;
+        font-weight: 500;
+    }
+    .metric-card-badge {
+        background-color: rgba(56, 189, 248, 0.12);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        padding: 2px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.82rem;
+    }
+    .metric-card-conf {
+        color: #34d399;
+        font-weight: 700;
+        font-size: 0.88rem;
     }
     .badge-auto {
         background-color: #065f46;
@@ -271,19 +316,30 @@ def screen_3_reasoning() -> None:
     types_found = typer.infer_types(df)
     st.session_state.semantic_types = types_found
 
-    t_cols = st.columns(max(1, len(types_found)))
-    for idx, (col_name, res) in enumerate(types_found.items()):
-        with t_cols[idx % len(t_cols)]:
-            st.markdown(
-                f"""
-                <div class="metric-card">
-                    <b>{col_name}</b><br/>
-                    Type: <span style="color: #38bdf8; font-weight:bold;">{res.predicted_type}</span><br/>
-                    Confidence: <b>{res.confidence*100:.1f}%</b>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+    # Render cards in a balanced responsive grid (max 4 columns per row)
+    items = list(types_found.items())
+    num_cols_per_row = 4
+    for row_idx in range(0, len(items), num_cols_per_row):
+        chunk = items[row_idx : row_idx + num_cols_per_row]
+        cols = st.columns(num_cols_per_row)
+        for col_idx, (col_name, res) in enumerate(chunk):
+            with cols[col_idx]:
+                st.markdown(
+                    f"""
+                    <div class="metric-card">
+                        <div class="metric-card-title" title="{col_name}">{col_name}</div>
+                        <div class="metric-card-row">
+                            <span class="metric-card-label">Type:</span>
+                            <span class="metric-card-badge">{res.predicted_type}</span>
+                        </div>
+                        <div class="metric-card-row" style="margin-bottom: 0;">
+                            <span class="metric-card-label">Confidence:</span>
+                            <span class="metric-card-conf">{res.confidence*100:.1f}%</span>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
 
     # 2. Approximate Functional Dependency Discovery
     st.markdown("### Approximate Functional Dependencies (FDs)")

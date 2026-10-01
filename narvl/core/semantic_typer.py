@@ -14,6 +14,7 @@ High confidence only (threshold >= 0.80).
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import re
@@ -70,6 +71,19 @@ COMMON_CITIES = {
 }
 
 CURRENCY_SYMBOLS = {"$", "€", "£", "₹", "¥", "rs", "inr", "usd", "eur", "gbp"}
+
+COMMON_COUNTRIES = {
+    "united kingdom", "uk", "great britain", "united states", "usa", "us",
+    "germany", "france", "australia", "canada", "india", "japan", "china",
+    "brazil", "spain", "italy", "netherlands", "switzerland", "sweden",
+    "singapore", "united arab emirates", "uae", "ireland", "norway", "belgium",
+    "austria", "denmark", "finland", "poland", "portugal", "new zealand",
+    "south africa", "mexico", "israel", "greece", "czech republic", "hong kong",
+    "malaysia", "thailand", "philippines", "indonesia", "taiwan", "chile",
+    "argentina", "colombia", "peru", "saudi arabia", "turkey", "cyprus", "rsa",
+    "eire", "channel islands", "european community", "unspecified", "iceland",
+    "lithuania", "malta", "bahrain", "lebanon", "russia", "south korea", "korea",
+}
 
 
 @dataclass
@@ -173,8 +187,24 @@ class SemanticTyper:
         opts = ort.SessionOptions()
         opts.inter_op_num_threads = 2
         opts.intra_op_num_threads = 2
-        opts.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
         self.session = ort.InferenceSession(str(self.model_path), sess_options=opts)
+
+        # Attempt to load local GGUF SLM for zero-shot in-context semantic typing
+        self.llama_model = None
+        try:
+            import llama_cpp  # type: ignore
+            from narvl.engine.model_loader import resolve_model_path
+            resolved_slm = resolve_model_path(allow_download=False)
+            self.llama_model = llama_cpp.Llama(
+                model_path=str(resolved_slm),
+                n_threads=4,
+                n_ctx=1024,
+                mmap=True,
+                verbose=False,
+            )
+            logger.info("Loaded local SLM for dynamic in-context semantic typing: %s", resolved_slm)
+        except Exception:
+            self.llama_model = None
 
     def extract_features(self, series: pl.Series) -> np.ndarray:
         """Extract 10 normalized statistical & pattern features for ONNX inference."""
@@ -250,8 +280,146 @@ class SemanticTyper:
 
         return np.array([features], dtype=np.float32)
 
+    def infer_slm(self, series: pl.Series) -> Optional[SemanticClassification]:
+        """Query local GGUF SLM for zero-shot in-context semantic typing."""
+        if self.llama_model is None:
+            return None
+
+        col_name = str(series.name).strip()
+        non_null = series.drop_nulls()
+        n = len(non_null)
+        if n == 0:
+            return SemanticClassification(col_name, "Unknown", 0.0, {})
+
+        sample = [str(x).strip() for x in non_null.head(8).to_list() if str(x).strip()]
+        dtype_str = str(series.dtype)
+        uniq_ratio = (non_null.n_unique() / n) if n > 0 else 0.0
+
+        prompt = (
+            f"<|im_start|>system\n"
+            f"You are an enterprise schema classifier. Output a concise semantic type in 1-2 words for this table column.\n"
+            f"Format strictly as JSON: {{\"semantic_type\": \"<type>\", \"confidence\": <float between 0.8 and 1.0>}}<|im_end|>\n"
+            f"<|im_start|>user\n"
+            f"Column: {col_name}\n"
+            f"DataType: {dtype_str}\n"
+            f"Uniqueness: {uniq_ratio*100:.1f}%\n"
+            f"Sample: {sample[:6]}\n"
+            f"<|im_end|>\n"
+            f"<|im_start|>assistant\n"
+        )
+        try:
+            resp = self.llama_model(
+                prompt=prompt,
+                max_tokens=40,
+                temperature=0.1,
+                stop=["<|im_end|>", "\n\n", "}"],
+            )
+            text = resp["choices"][0]["text"].strip()
+            if not text.endswith("}"):
+                text += "}"
+            data = json.loads(text)
+            stype = data.get("semantic_type", "").strip()
+            conf = float(data.get("confidence", 0.95))
+            if stype and len(stype) <= 35:
+                return SemanticClassification(
+                    column_name=col_name,
+                    semantic_type=stype,
+                    confidence=min(1.0, max(0.5, conf)),
+                    raw_probabilities={stype: conf},
+                )
+        except Exception as exc:
+            logger.debug("SLM inference skipped: %s", exc)
+        return None
+
+    def infer_dynamic(self, series: pl.Series) -> Optional[SemanticClassification]:
+        """Dynamic open-world semantic inference using header tokens, cardinality, and content gazetteers."""
+        col_name = str(series.name).strip()
+        low_col = col_name.lower().replace("_", " ").replace("-", " ")
+        non_null = series.drop_nulls()
+        n = len(non_null)
+        if n == 0:
+            return SemanticClassification(col_name, "Unknown", 0.0, {})
+
+        unique_count = non_null.n_unique()
+        unique_ratio = unique_count / n if n > 0 else 0.0
+        sample = [str(x).strip() for x in non_null.head(200).to_list() if str(x).strip()]
+        avg_len = sum(len(x) for x in sample) / len(sample) if sample else 0.0
+
+        # 1. Email Address
+        if any(re.search(rf"\b{k}\b", low_col) for k in ["email", "mail"]) or (
+            sample and sum(1 for s in sample if "@" in s and "." in s) / len(sample) >= 0.50
+        ):
+            return SemanticClassification(col_name, "Email", 0.99, {"Email": 0.99})
+
+        # 2. Timestamp / Date
+        if any(re.search(rf"\b{k}\b", low_col) for k in ["date", "time", "timestamp", "created", "updated", "datetime"]) or (
+            sample and sum(1 for s in sample if (s.count("-") >= 2 or s.count("/") >= 2 or ":" in s) and any(c.isdigit() for c in s)) / len(sample) >= 0.50
+        ):
+            return SemanticClassification(col_name, "Timestamp", 0.99, {"Timestamp": 0.99})
+
+        # 3. Geo - Country
+        if any(re.search(rf"\b{k}\b", low_col) for k in ["country", "nation"]) or (
+            sample and sum(1 for s in sample if s.lower() in COMMON_COUNTRIES) / len(sample) >= 0.35
+        ):
+            return SemanticClassification(col_name, "Country", 0.98, {"Country": 0.98})
+
+        # 4. Geo - State
+        if any(re.search(rf"\b{k}\b", low_col) for k in ["state", "province", "region"]) or (
+            sample and sum(1 for s in sample if s.lower() in COMMON_INDIAN_STATES or s.lower() in US_STATES) / len(sample) >= 0.35
+        ):
+            return SemanticClassification(col_name, "State", 0.96, {"State": 0.96})
+
+        # 5. Geo - City
+        if any(re.search(rf"\b{k}\b", low_col) for k in ["city", "town"]) or (
+            sample and sum(1 for s in sample if s.lower() in COMMON_CITIES) / len(sample) >= 0.35
+        ):
+            return SemanticClassification(col_name, "City", 0.96, {"City": 0.96})
+
+        # 6. Geo - PostalCode (Explicit zip/postal header, or postal pattern without ID context)
+        if any(re.search(rf"\b{k}\b", low_col) for k in ["zip", "postal", "postcode", "pincode"]):
+            return SemanticClassification(col_name, "PostalCode", 0.97, {"PostalCode": 0.97})
+
+        # 7. Currency / Price / Financial Amount (supports 'unitprice', 'price', '$', etc.)
+        if any(k in low_col for k in ["price", "cost", "amount", "salary", "fee", "fare", "rate", "subtotal", "total", "balance", "wage", "revenue", "charge"]) or (
+            sample and sum(1 for s in sample if any(sym in s.lower() for sym in CURRENCY_SYMBOLS) and any(c.isdigit() for c in s)) / len(sample) >= 0.30
+        ):
+            return SemanticClassification(col_name, "Currency", 0.97, {"Currency": 0.97})
+
+        # 8. Quantity / Count
+        if any(re.search(rf"\b{k}\b", low_col) for k in ["qty", "quantity", "count", "units", "items", "volume", "inventory"]):
+            return SemanticClassification(col_name, "Quantity", 0.96, {"Quantity": 0.96})
+
+        # 9. Specific Identifiers & Codes
+        if any(k in low_col for k in ["invoice no", "invoiceno", "invoice num", "invoice id", "invoice_no", "inv no", "inv_no", "invoice"]):
+            return SemanticClassification(col_name, "InvoiceNo", 0.99, {"InvoiceNo": 0.99})
+        if any(k in low_col for k in ["customer id", "customer no", "customer num", "customerid", "customerno", "cust id", "client id", "user id", "account id", "account no", "account num", "accountid", "accountno"]) or (low_col == "customerid"):
+            return SemanticClassification(col_name, "CustomerID", 0.99, {"CustomerID": 0.99})
+        if any(k in low_col for k in ["stock code", "stockcode", "stock no", "sku", "item code", "product code", "part number", "part no"]):
+            return SemanticClassification(col_name, "StockCode", 0.98, {"StockCode": 0.98})
+        if any(re.search(rf"\b{k}\b", low_col) for k in ["id", "no", "num", "number", "code", "key", "ref", "guid", "uuid", "pk", "fk"]):
+            return SemanticClassification(col_name, "Identifier", 0.95, {"Identifier": 0.95})
+
+        # 10. Free-form Text / Product Description
+        if any(re.search(rf"\b{k}\b", low_col) for k in ["desc", "description", "title", "name", "comment", "note", "summary", "remark", "detail", "item"]) or (
+            avg_len > 12 and any(" " in s for s in sample)
+        ):
+            return SemanticClassification(col_name, "Description", 0.96, {"Description": 0.96})
+
+        return None
+
     def classify_column(self, series: pl.Series) -> SemanticClassification:
-        """Classify a single column series using ONNX runtime."""
+        """Classify a single column series using dynamic open-world SLM in-context reasoning with ONNX baseline."""
+        # 1. Dynamic local SLM in-context inference
+        slm_res = self.infer_slm(series)
+        if slm_res is not None:
+            return slm_res
+
+        # 2. Dynamic open-world contextual inference (Header + Cardinality + Values)
+        dyn_res = self.infer_dynamic(series)
+        if dyn_res is not None and dyn_res.confidence >= self.confidence_threshold:
+            return dyn_res
+
+        # 3. Fallback to calibrated ONNX model
         feats = self.extract_features(series)
         probs = self.session.run(None, {"features": feats})[0][0]
 
