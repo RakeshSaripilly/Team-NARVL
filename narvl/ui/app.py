@@ -213,6 +213,8 @@ def init_session_state() -> None:
         st.session_state.null_resolution_summary = None
     if "nav_step" not in st.session_state:
         st.session_state.nav_step = "1. Ingestion Shield & Upload"
+    if "target_nav_step" not in st.session_state:
+        st.session_state.target_nav_step = None
     if "restored_version" not in st.session_state:
         st.session_state.restored_version = None
     if "shielded_file_bytes" not in st.session_state:
@@ -225,6 +227,12 @@ def init_session_state() -> None:
         st.session_state.quarantine_log_bytes = None
     if "ingested_file_id" not in st.session_state:
         st.session_state.ingested_file_id = None
+
+
+def route_to_screen(screen_name: str) -> None:
+    """Safely route to a screen without mutating widget keys post-instantiation."""
+    st.session_state.target_nav_step = screen_name
+    st.rerun()
 
 
 def set_selected_columns(columns: List[str]) -> None:
@@ -254,7 +262,24 @@ def render_sidebar() -> str:
         "8. Before vs After & Provenance",
     ]
 
-    selected_screen = st.sidebar.radio("Navigation Steps", screens)
+    # Apply programmatic routing BEFORE the radio widget is instantiated
+    if st.session_state.get("target_nav_step") is not None:
+        target = st.session_state.target_nav_step
+        st.session_state.target_nav_step = None
+        st.session_state.nav_step = target
+        try:
+            st.session_state.sidebar_nav_radio = target
+        except Exception:
+            pass
+
+    current_val = st.session_state.get("nav_step", screens[0])
+    default_idx = screens.index(current_val) if current_val in screens else 0
+
+    if "sidebar_nav_radio" not in st.session_state:
+        st.session_state.sidebar_nav_radio = screens[default_idx]
+
+    selected_screen = st.sidebar.radio("Navigation Steps", screens, key="sidebar_nav_radio")
+    st.session_state.nav_step = selected_screen
 
     st.sidebar.markdown("---")
     st.sidebar.markdown("### System Security")
@@ -719,10 +744,19 @@ def screen_5_loss_simulator() -> None:
 
     raw_df = st.session_state.raw_df
     steps = getattr(st.session_state, "active_steps", st.session_state.plan_steps)
+    target_cols = st.session_state.get("selected_columns", None)
+    resolve_policy = st.session_state.get("resolve_nulls_policy", True)
+    sem_types = {k: v.predicted_type for k, v in st.session_state.semantic_types.items()} if "semantic_types" in st.session_state and st.session_state.semantic_types else None
 
-    # Perform speculative dry run
-    executor = ReversibleExecutor(raw_df, delta_table_path=st.session_state.delta_dir)
-    candidate_df, _ = executor.execute_plan(steps)
+    # Perform speculative dry run purely in memory (zero Delta Lake commits)
+    executor = ReversibleExecutor(raw_df)
+    candidate_df = executor.simulate_plan(
+        raw_df=raw_df,
+        plan_steps=steps,
+        target_columns=target_cols,
+        resolve_nulls_policy=resolve_policy,
+        semantic_types=sem_types,
+    )
 
     estimator = LossEstimator()
     assessment = estimator.assess(raw_df, candidate_df)
@@ -760,13 +794,15 @@ def screen_6_stepper() -> None:
 
     executor = st.session_state.executor
     current_v = executor.get_current_version()
-    st.write(f"Current Delta Lake Table Commit Version: **v{current_v}**")
+    if current_v is not None:
+        st.write(f"Current Delta Lake Table Commit Version: **v{current_v}**")
+    else:
+        st.write("Current Delta Lake Table Commit Version: **Uncommitted (Ready to Execute)**")
 
-    col_btn1, col_btn2 = st.columns(2)
+    col_btn1, col_space = st.columns([1, 1])
     with col_btn1:
         if st.button("🚀 Execute Approved DAG Pipeline"):
-            with st.spinner("Applying vectorized Polars DAG to Delta Lake..."):
-                cleaned_df, report = executor.execute_plan(steps)
+            with st.spinner("Applying vectorized Polars DAG to Delta Lake (Commit-Per-Step)..."):
                 target_cols = st.session_state.get("selected_columns", None)
                 resolve_policy = st.session_state.get("resolve_nulls_policy", True)
                 sem_types = {k: v.predicted_type for k, v in st.session_state.semantic_types.items()}
@@ -777,19 +813,20 @@ def screen_6_stepper() -> None:
                     resolve_nulls_policy=resolve_policy,
                     semantic_types=sem_types,
                     filter_validation_failures=True,
+                    commit_per_step=True,
                 )
                 # Post-processing: Remove records failing Pandera or Great Expectations validation
                 synthesizer = DualTestSynthesizer(steps)
                 if hasattr(synthesizer, "filter_and_validate"):
-                    filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df)
+                    filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df, target_columns=target_cols)
                 else:
                     val_res = synthesizer.validate_dataset(cleaned_df)
                     filtered_df = cleaned_df
-                filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df, target_columns=target_cols)
                 st.session_state.cleaned_df = filtered_df
                 st.session_state.validation_result = val_res
+                st.session_state.restored_version = None
 
-                msg = f"Successfully committed v{report.get('final_version')} with {len(steps)} applied steps!"
+                msg = f"Successfully committed up to v{report.get('final_version')} ({len(steps)} steps committed individually)!"
                 removed_cnt = getattr(val_res, "removed_records_count", 0)
                 if removed_cnt > 0:
                     msg += f" (Safely removed {removed_cnt:,} records failing Pandera / GE validation)"
@@ -798,18 +835,60 @@ def screen_6_stepper() -> None:
                 null_dropped = null_res.get("removed_rows", 0)
                 if null_imputed > 0 or null_dropped > 0:
                     msg += f" [Null Policy: Imputed {null_imputed:,} values, removed {null_dropped:,} unresolvable rows]"
-                if val_res.removed_records_count > 0:
-                    msg += f" (Safely removed {val_res.removed_records_count:,} records failing Pandera / GE validation)"
                 st.success(msg)
                 st.rerun()
 
-    with col_btn2:
-        if st.button("⏪ Undo All Steps (Rollback to Raw v0)"):
-            with st.spinner("Reverting via Delta Lake Time-Travel..."):
-                restored_df = executor.rollback_to_version(0)
-                st.session_state.cleaned_df = restored_df
-                st.info("Time-travel rollback successful: 100% bitwise parity restored with raw state.")
-                st.rerun()
+    # Time-Travel Rollback Dropdown & Cherry-Pick Navigation
+    st.markdown("---")
+    st.markdown("### ⏪ Time-Travel Rollback & Cherry-Pick Navigation")
+    st.write(
+        "Delta Lake tracks each transformation step as an immutable ACID commit. "
+        "Select any historical commit version from the dropdown to roll back the dataset to that exact state, "
+        "or route back to Level 4 to cherry-pick and modify individual cleaning tasks."
+    )
+
+    version_options = executor.get_version_options()
+    if not version_options:
+        c_info, c_nav = st.columns([5, 2.2])
+        with c_info:
+            st.info("💡 Execute the DAG Pipeline above to initialize Delta Lake ACID commits and enable point-in-time time-travel rollback.")
+        with c_nav:
+            st.markdown("<div style='margin-top: 5px;'></div>", unsafe_allow_html=True)
+            if st.button("🎯 Modify Tasks in Level 4 (Cherry Pick)", use_container_width=True, key="btn_route_level_4_pre"):
+                route_to_screen("4. Interactive Plan Builder")
+    else:
+        c_drop, c_roll, c_nav = st.columns([3, 1.8, 2.2])
+
+        with c_drop:
+            version_labels = [opt[1] for opt in version_options]
+            curr_v_val = current_v if current_v is not None else 0
+            default_idx = max(0, min(len(version_labels) - 1, curr_v_val))
+            selected_label = st.selectbox(
+                "Select Version to Rollback:",
+                options=version_labels,
+                index=default_idx,
+                key="version_rollback_select",
+                help="Select any point-in-time snapshot to roll back to.",
+            )
+            chosen_version = [opt[0] for opt in version_options if opt[1] == selected_label][0]
+
+        with c_roll:
+            st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
+            if st.button(f"⏪ Rollback to v{chosen_version}", use_container_width=True, key="btn_rollback_specific"):
+                with st.spinner(f"Reverting to version v{chosen_version} via Delta Lake Time-Travel..."):
+                    restored_df = executor.rollback_to_version(chosen_version)
+                    st.session_state.cleaned_df = restored_df
+                    st.session_state.restored_version = chosen_version
+                    st.success(f"Time-travel rollback successful: 100% bitwise parity restored with version v{chosen_version}!")
+                    st.rerun()
+
+        with c_nav:
+            st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
+            if st.button("🎯 Modify Tasks in Level 4 (Cherry Pick)", use_container_width=True, key="btn_route_level_4"):
+                route_to_screen("4. Interactive Plan Builder")
+
+    if st.session_state.get("restored_version") is not None:
+        st.info(f"⏪ **Active Snapshot**: Currently viewing restored Delta Lake version **v{st.session_state.restored_version}**.")
 
     if st.session_state.cleaned_df is not None:
         st.markdown("### Cleaned Snapshot Preview")
