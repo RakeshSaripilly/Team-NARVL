@@ -10,6 +10,20 @@
 
 ---
 
+## 📚 Project Documentation
+
+| Document | Description |
+| :--- | :--- |
+| [Guide](guide.md) | Library inventory, processing stages, model behavior, interfaces, installation, and output artifacts. |
+| [Software Requirements Specification](SRS.md) | Functional requirements, non-functional requirements, interfaces, data contracts, security, and acceptance criteria. |
+| [Data Flow Diagrams](DFD.md) | Context, pipeline, API, persistence, error, and security data flows. |
+| [System Architecture](SYSTEM_ARCHITECTURE.md) | Component boundaries, runtime sequences, deployment topology, model resolution, and operational constraints. |
+| [Setup and Run](setup_and_run.md) | Local environment and execution instructions. |
+
+The documents are derived from the current implementation and should be updated when stage boundaries, interfaces, or dependency groups change.
+
+---
+
 ## 🏛️ System Architecture
 
 ```mermaid
@@ -80,9 +94,14 @@ ls -lh dist/
 git clone https://github.com/RakeshSaripilly/Team-NARVL.git
 cd Team-NARVL
 
-# Install the wheel or development package
+# Install the package with the ML and UI features
 pip install .[ml,ui]
+
+# Optional: add local GGUF/Qwen SLM support
+pip install .[slm]
 ```
+
+`onnx` and `onnxruntime` are part of the core dependencies because the semantic typer generates and executes its local ONNX model. `llama-cpp-python` is optional; when it is unavailable, the planner uses its deterministic fallback. On Windows, local SLM installation may require Visual Studio C++ Build Tools if a compatible wheel is not available.
 
 ### 2. Autonomous CLI Cleaning
 

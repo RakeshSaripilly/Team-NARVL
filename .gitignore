@@ -53,3 +53,6 @@ venv.bak/
 
 # Streamlit
 .streamlit/
+
+#Guide
+*.guide.md

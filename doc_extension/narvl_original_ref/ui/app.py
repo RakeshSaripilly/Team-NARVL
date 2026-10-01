@@ -238,20 +238,20 @@ def screen_1_upload() -> None:
             except Exception as exc:
                 st.error(f"Ingestion Shield Alert: {exc}")
 
-    elif st.session_state.raw_df is None:
-        # Provide sample demo dataset option
-        st.info("💡 Or load the enterprise demo dataset (with typos, negative values, and dirty formatting):")
-        if st.button("Load Demo Enterprise Dataset"):
-            demo_df = pl.DataFrame({
-                "CustomerID": [101, 102, 103, 104, 105, 106],
-                "Age": [28, -12, 45, 145, 33, 28],
-                "Email": ["alice@corp.com", "bob@org.net", "charlie@gmail.com", "BAD_EMAIL_FORMAT", "eva@domain.co", "alice@corp.com"],
-                "State": ["Telangana", "Telengana", "Karnataka", "Karnatak", "Maharashtra", "Telangana"],
-                "PostalCode": ["500001", "500001", "560001", "560001", "400001", "500001"],
-                "Salary": [75000.0, 92000.0, None, 110000.0, 68000.0, 75000.0],
-            })
-            st.session_state.raw_df = demo_df
-            st.rerun()
+    # elif st.session_state.raw_df is None:
+    #     # Provide sample demo dataset option
+    #     st.info("💡 Or load the enterprise demo dataset (with typos, negative values, and dirty formatting):")
+    #     if st.button("Load Demo Enterprise Dataset"):
+    #         demo_df = pl.DataFrame({
+    #             "CustomerID": [101, 102, 103, 104, 105, 106],
+    #             "Age": [28, -12, 45, 145, 33, 28],
+    #             "Email": ["alice@corp.com", "bob@org.net", "charlie@gmail.com", "BAD_EMAIL_FORMAT", "eva@domain.co", "alice@corp.com"],
+    #             "State": ["Telangana", "Telengana", "Karnataka", "Karnatak", "Maharashtra", "Telangana"],
+    #             "PostalCode": ["500001", "500001", "560001", "560001", "400001", "500001"],
+    #             "Salary": [75000.0, 92000.0, None, 110000.0, 68000.0, 75000.0],
+    #         })
+    #         st.session_state.raw_df = demo_df
+    #         st.rerun()
 
 
 def screen_2_profile() -> None:
