@@ -81,11 +81,56 @@ st.markdown(
         margin-bottom: 0.2rem;
     }
     .metric-card {
-        background-color: #1e293b;
+        background: linear-gradient(135deg, #1e293b 0%, #172033 100%);
         border: 1px solid #334155;
-        border-radius: 8px;
-        padding: 16px;
-        margin-bottom: 12px;
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin-bottom: 16px;
+        min-height: 110px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25);
+        transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .metric-card:hover {
+        border-color: #38bdf8;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px -2px rgba(56, 189, 248, 0.15);
+    }
+    .metric-card-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .metric-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+        font-size: 0.88rem;
+    }
+    .metric-card-label {
+        color: #94a3b8;
+        font-weight: 500;
+    }
+    .metric-card-badge {
+        background-color: rgba(56, 189, 248, 0.12);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        padding: 2px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.82rem;
+    }
+    .metric-card-conf {
+        color: #34d399;
+        font-weight: 700;
+        font-size: 0.88rem;
     }
     .badge-auto {
         background-color: #065f46;
@@ -150,10 +195,6 @@ def init_session_state() -> None:
         st.session_state.resolve_nulls_policy = True
     if "null_resolution_summary" not in st.session_state:
         st.session_state.null_resolution_summary = None
-    if "nav_step" not in st.session_state:
-        st.session_state.nav_step = "1. Ingestion Shield & Upload"
-    if "restored_version" not in st.session_state:
-        st.session_state.restored_version = None
 
 
 def set_selected_columns(columns: List[str]) -> None:
@@ -180,7 +221,7 @@ def render_sidebar() -> str:
         "8. Before vs After & Provenance",
     ]
 
-    selected_screen = st.sidebar.radio("Navigation Steps", screens, key="nav_step")
+    selected_screen = st.sidebar.radio("Navigation Steps", screens)
 
     st.sidebar.markdown("---")
     st.sidebar.markdown("### System Security")
@@ -243,9 +284,6 @@ def screen_1_upload() -> None:
                 set_selected_columns(list(df.columns))
                 st.session_state.resolve_nulls_policy = True
                 st.session_state.null_resolution_summary = None
-                st.session_state.executor = None
-                st.session_state.restored_version = None
-                st.session_state.delta_dir = tempfile.mkdtemp(prefix="narvl_ui_delta_")
 
                 st.success(f"Successfully ingested {df.height:,} rows across {df.width} columns!")
                 if quarantine_rows > 0:
@@ -280,9 +318,6 @@ def screen_1_upload() -> None:
             set_selected_columns(list(demo_df.columns))
             st.session_state.resolve_nulls_policy = True
             st.session_state.null_resolution_summary = None
-            st.session_state.executor = None
-            st.session_state.restored_version = None
-            st.session_state.delta_dir = tempfile.mkdtemp(prefix="narvl_ui_delta_")
             st.rerun()
 
 
@@ -399,19 +434,30 @@ def screen_3_reasoning() -> None:
     types_found = typer.infer_types(df)
     st.session_state.semantic_types = types_found
 
-    t_cols = st.columns(max(1, len(types_found)))
-    for idx, (col_name, res) in enumerate(types_found.items()):
-        with t_cols[idx % len(t_cols)]:
-            st.markdown(
-                f"""
-                <div class="metric-card">
-                    <b>{col_name}</b><br/>
-                    Type: <span style="color: #38bdf8; font-weight:bold;">{res.predicted_type}</span><br/>
-                    Confidence: <b>{res.confidence*100:.1f}%</b>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+    # Render cards in a balanced responsive grid (max 4 columns per row)
+    items = list(types_found.items())
+    num_cols_per_row = 4
+    for row_idx in range(0, len(items), num_cols_per_row):
+        chunk = items[row_idx : row_idx + num_cols_per_row]
+        cols = st.columns(num_cols_per_row)
+        for col_idx, (col_name, res) in enumerate(chunk):
+            with cols[col_idx]:
+                st.markdown(
+                    f"""
+                    <div class="metric-card">
+                        <div class="metric-card-title" title="{col_name}">{col_name}</div>
+                        <div class="metric-card-row">
+                            <span class="metric-card-label">Type:</span>
+                            <span class="metric-card-badge">{res.predicted_type}</span>
+                        </div>
+                        <div class="metric-card-row" style="margin-bottom: 0;">
+                            <span class="metric-card-label">Confidence:</span>
+                            <span class="metric-card-conf">{res.confidence*100:.1f}%</span>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
 
     # 2. Approximate Functional Dependency Discovery
     st.markdown("### Approximate Functional Dependencies (FDs)")
@@ -512,19 +558,10 @@ def screen_5_loss_simulator() -> None:
 
     raw_df = st.session_state.raw_df
     steps = getattr(st.session_state, "active_steps", st.session_state.plan_steps)
-    target_cols = st.session_state.get("selected_columns", None)
-    resolve_policy = st.session_state.get("resolve_nulls_policy", True)
-    sem_types = {k: v.predicted_type for k, v in st.session_state.semantic_types.items()} if "semantic_types" in st.session_state and st.session_state.semantic_types else None
 
-    # Perform speculative dry run purely in memory (zero Delta Lake commits)
-    executor = ReversibleExecutor(raw_df)
-    candidate_df = executor.simulate_plan(
-        raw_df=raw_df,
-        plan_steps=steps,
-        target_columns=target_cols,
-        resolve_nulls_policy=resolve_policy,
-        semantic_types=sem_types,
-    )
+    # Perform speculative dry run
+    executor = ReversibleExecutor(raw_df, delta_table_path=st.session_state.delta_dir)
+    candidate_df, _ = executor.execute_plan(steps)
 
     estimator = LossEstimator()
     assessment = estimator.assess(raw_df, candidate_df)
@@ -562,15 +599,13 @@ def screen_6_stepper() -> None:
 
     executor = st.session_state.executor
     current_v = executor.get_current_version()
-    if current_v is not None:
-        st.write(f"Current Delta Lake Table Commit Version: **v{current_v}**")
-    else:
-        st.write("Current Delta Lake Table Commit Version: **Uncommitted (Ready to Execute)**")
+    st.write(f"Current Delta Lake Table Commit Version: **v{current_v}**")
 
-    col_btn1, col_space = st.columns([1, 1])
+    col_btn1, col_btn2 = st.columns(2)
     with col_btn1:
         if st.button("🚀 Execute Approved DAG Pipeline"):
-            with st.spinner("Applying vectorized Polars DAG to Delta Lake (Commit-Per-Step)..."):
+            with st.spinner("Applying vectorized Polars DAG to Delta Lake..."):
+                cleaned_df, report = executor.execute_plan(steps)
                 target_cols = st.session_state.get("selected_columns", None)
                 resolve_policy = st.session_state.get("resolve_nulls_policy", True)
                 sem_types = {k: v.predicted_type for k, v in st.session_state.semantic_types.items()}
@@ -581,20 +616,19 @@ def screen_6_stepper() -> None:
                     resolve_nulls_policy=resolve_policy,
                     semantic_types=sem_types,
                     filter_validation_failures=True,
-                    commit_per_step=True,
                 )
                 # Post-processing: Remove records failing Pandera or Great Expectations validation
                 synthesizer = DualTestSynthesizer(steps)
                 if hasattr(synthesizer, "filter_and_validate"):
-                    filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df, target_columns=target_cols)
+                    filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df)
                 else:
                     val_res = synthesizer.validate_dataset(cleaned_df)
                     filtered_df = cleaned_df
+                filtered_df, val_res = synthesizer.filter_and_validate(cleaned_df, target_columns=target_cols)
                 st.session_state.cleaned_df = filtered_df
                 st.session_state.validation_result = val_res
-                st.session_state.restored_version = None
 
-                msg = f"Successfully committed up to v{report.get('final_version')} ({len(steps)} steps committed individually)!"
+                msg = f"Successfully committed v{report.get('final_version')} with {len(steps)} applied steps!"
                 removed_cnt = getattr(val_res, "removed_records_count", 0)
                 if removed_cnt > 0:
                     msg += f" (Safely removed {removed_cnt:,} records failing Pandera / GE validation)"
@@ -603,62 +637,18 @@ def screen_6_stepper() -> None:
                 null_dropped = null_res.get("removed_rows", 0)
                 if null_imputed > 0 or null_dropped > 0:
                     msg += f" [Null Policy: Imputed {null_imputed:,} values, removed {null_dropped:,} unresolvable rows]"
+                if val_res.removed_records_count > 0:
+                    msg += f" (Safely removed {val_res.removed_records_count:,} records failing Pandera / GE validation)"
                 st.success(msg)
                 st.rerun()
 
-    # Time-Travel Rollback Dropdown & Cherry-Pick Navigation
-    st.markdown("---")
-    st.markdown("### ⏪ Time-Travel Rollback & Cherry-Pick Navigation")
-    st.write(
-        "Delta Lake tracks each transformation step as an immutable ACID commit. "
-        "Select any historical commit version from the dropdown to roll back the dataset to that exact state, "
-        "or route back to Level 4 to cherry-pick and modify individual cleaning tasks."
-    )
-
-    version_options = executor.get_version_options()
-    if not version_options:
-        c_info, c_nav = st.columns([5, 2.2])
-        with c_info:
-            st.info("💡 Execute the DAG Pipeline above to initialize Delta Lake ACID commits and enable point-in-time time-travel rollback.")
-        with c_nav:
-            st.markdown("<div style='margin-top: 5px;'></div>", unsafe_allow_html=True)
-            if st.button("🎯 Modify Tasks in Level 4 (Cherry Pick)", use_container_width=True, key="btn_route_level_4_pre"):
-                st.session_state.nav_step = "4. Interactive Plan Builder"
+    with col_btn2:
+        if st.button("⏪ Undo All Steps (Rollback to Raw v0)"):
+            with st.spinner("Reverting via Delta Lake Time-Travel..."):
+                restored_df = executor.rollback_to_version(0)
+                st.session_state.cleaned_df = restored_df
+                st.info("Time-travel rollback successful: 100% bitwise parity restored with raw state.")
                 st.rerun()
-    else:
-        c_drop, c_roll, c_nav = st.columns([3, 1.8, 2.2])
-
-        with c_drop:
-            version_labels = [opt[1] for opt in version_options]
-            curr_v_val = current_v if current_v is not None else 0
-            default_idx = max(0, min(len(version_labels) - 1, curr_v_val))
-            selected_label = st.selectbox(
-                "Select Version to Rollback:",
-                options=version_labels,
-                index=default_idx,
-                key="version_rollback_select",
-                help="Select any point-in-time snapshot to roll back to.",
-            )
-            chosen_version = [opt[0] for opt in version_options if opt[1] == selected_label][0]
-
-        with c_roll:
-            st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
-            if st.button(f"⏪ Rollback to v{chosen_version}", use_container_width=True, key="btn_rollback_specific"):
-                with st.spinner(f"Reverting to version v{chosen_version} via Delta Lake Time-Travel..."):
-                    restored_df = executor.rollback_to_version(chosen_version)
-                    st.session_state.cleaned_df = restored_df
-                    st.session_state.restored_version = chosen_version
-                    st.success(f"Time-travel rollback successful: 100% bitwise parity restored with version v{chosen_version}!")
-                    st.rerun()
-
-        with c_nav:
-            st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
-            if st.button("🎯 Modify Tasks in Level 4 (Cherry Pick)", use_container_width=True, key="btn_route_level_4"):
-                st.session_state.nav_step = "4. Interactive Plan Builder"
-                st.rerun()
-
-    if st.session_state.get("restored_version") is not None:
-        st.info(f"⏪ **Active Snapshot**: Currently viewing restored Delta Lake version **v{st.session_state.restored_version}**.")
 
     if st.session_state.cleaned_df is not None:
         st.markdown("### Cleaned Snapshot Preview")
@@ -666,141 +656,61 @@ def screen_6_stepper() -> None:
 
 
 def screen_7_validation() -> None:
-    """Screen 7: Dual Validation Suite (Pandera + Great Expectations)."""
+    """Screen 7: Dual Validation Tests (Pandera + Great Expectations)."""
     st.markdown('<div class="main-header">7. Dual Validation Suite (Pandera + GE)</div>', unsafe_allow_html=True)
-    if st.session_state.raw_df is None:
+    target_df = st.session_state.cleaned_df if st.session_state.cleaned_df is not None else st.session_state.raw_df
+
+    if target_df is None:
         st.warning("Please ingest a dataset first.")
         return
 
-    raw_df = st.session_state.raw_df
-    cleaned_df = st.session_state.cleaned_df if st.session_state.cleaned_df is not None else raw_df
     steps = getattr(st.session_state, "active_steps", st.session_state.plan_steps)
     target_cols = st.session_state.get("selected_columns", None)
     synthesizer = DualTestSynthesizer(steps)
 
-    # 1. Dataset Evaluation Target Selection
-    col_t1, col_t2 = st.columns([2, 1])
-    with col_t1:
-        target_choice = st.radio(
-            "Select Dataset Target to Validate:",
-            options=["Cleaned Dataset (After Plan Execution)", "Raw Dataset (Before Cleaning)"],
-            index=0,
-            horizontal=True,
-            help="Toggle between Cleaned and Raw dataset to verify that the validation tests genuinely detect violations on raw data and verify compliance on cleaned data.",
-        )
-    target_df = cleaned_df if "Cleaned" in target_choice else raw_df
-
-    with st.spinner("Synthesizing and executing Pandera schemas and Great Expectations checkpoints..."):
+    with st.spinner("Running automated Pandera schema checks and Great Expectations checkpoint..."):
+        synthesizer.validate_dataset(target_df)
+        prev_removed = getattr(st.session_state.validation_result, "removed_records_count", 0)
         res = synthesizer.validate_dataset(target_df, target_columns=target_cols)
-        ge_suite = synthesizer.build_ge_suite(target_df, target_columns=target_cols)
+        if prev_removed > 0:
+            res.removed_records_count = prev_removed
+        st.session_state.validation_result = res
 
-    # 2. Executive Metric Cards
-    total_exp = res.ge_summary.get("total_expectations", 0)
-    failed_exp = res.ge_summary.get("failed_expectations", 0)
-    passed_exp = total_exp - failed_exp
-    pass_rate = (passed_exp / total_exp * 100.0) if total_exp > 0 else 100.0
+    if getattr(st.session_state.validation_result, "removed_records_count", 0) > 0:
+        st.info(f"🛡️ **Post-Processing Active**: {st.session_state.validation_result.removed_records_count:,} invalid records failing Pandera or GE constraints were purged from cleaned dataset.")
 
-    m1, m2, m3, m4 = st.columns(4)
-    with m1:
-        st.metric("Total Synthesized Tests", f"{total_exp} Checks")
-    with m2:
-        pan_status = "✅ VERIFIED" if res.pandera_passed else "❌ FAILED"
-        st.metric("Pandera Schema", pan_status)
-    with m3:
-        ge_status = "✅ VERIFIED" if res.ge_passed else "❌ FAILED"
-        st.metric("Great Expectations", ge_status)
-    with m4:
-        st.metric("Test Pass Rate", f"{pass_rate:.1f}%", delta=f"{passed_exp}/{total_exp} Passed")
-
-    # If validating Cleaned and invalid records were purged in step 6
-    purged_cnt = getattr(st.session_state.validation_result, "removed_records_count", 0)
-    if "Cleaned" in target_choice and purged_cnt > 0:
-        st.info(f"🛡️ **Post-Processing Active**: {purged_cnt:,} invalid records failing range, regex, or null constraints were purged from the cleaned dataset during Step 6.")
-
-    if not res.is_fully_validated and "Cleaned" in target_choice:
+    if not res.is_fully_validated:
         if st.button("🧹 Purge Non-Compliant Records from Cleaned Dataset"):
-            filtered_df, new_res = synthesizer.filter_and_validate(target_df, target_columns=target_cols)
+            if hasattr(synthesizer, "filter_and_validate"):
+                filtered_df, new_res = synthesizer.filter_and_validate(target_df)
+            else:
+                new_res = synthesizer.validate_dataset(target_df)
+                filtered_df = target_df
             st.session_state.cleaned_df = filtered_df
             st.session_state.validation_result = new_res
-            st.success(f"Purged {new_res.removed_records_count:,} non-compliant records!")
+            purged_cnt = getattr(new_res, "removed_records_count", 0)
+            st.success(f"Purged {purged_cnt:,} non-compliant records!")
             st.rerun()
 
-    st.markdown("---")
-    st.markdown("### 📋 Itemized Great Expectations Checkpoint Breakdown")
-    st.write(f"Evaluating **{len(ge_suite.get('expectations', []))} rule expectations** across all **{target_df.height:,}** records in the `{target_choice.split(' ')[0]}` dataset:")
-
-    # Detailed Expectations Table
-    ge_results = res.ge_summary.get("results", [])
-    if ge_results:
-        table_rows = []
-        for r in ge_results:
-            col = r.get("column", "-")
-            etype = r.get("expectation", "-")
-            success = r.get("success", False)
-            details = r.get("details", "")
-
-            # Human-readable rule description
-            if etype == "expect_column_values_to_be_between":
-                matching_exp = next((e for e in ge_suite.get("expectations", []) if e.get("kwargs", {}).get("column") == col and e.get("expectation_type") == etype), None)
-                min_v = matching_exp.get("kwargs", {}).get("min_value") if matching_exp else "Min"
-                max_v = matching_exp.get("kwargs", {}).get("max_value") if matching_exp else "Max"
-                rule_desc = f"Values must be bounded within [{min_v}, {max_v}]"
-            elif etype == "expect_column_values_to_match_regex":
-                rule_desc = "RFC-5322 Compliant Email Address Pattern"
-            elif etype == "expect_column_values_to_not_be_null":
-                rule_desc = "Column values must not contain null/empty entries"
-            else:
-                rule_desc = etype.replace("expect_column_values_", "").replace("_", " ").title()
-
-            status_str = "✅ PASSED" if success else "❌ FAILED"
-            finding_str = "0 violations detected (100% compliant)" if success else f"⚠️ {details}"
-
-            table_rows.append({
-                "Target Feature": col,
-                "Validation Rule / Criterion": rule_desc,
-                "Expectation API": etype,
-                "Verdict": status_str,
-                "Evaluation Result": finding_str,
-            })
-        st.dataframe(pd.DataFrame(table_rows), use_container_width=True)
-    else:
-        st.info("No specific column expectations configured for the current plan steps.")
-
-    st.markdown("---")
     c1, c2 = st.columns(2)
-
     with c1:
-        st.markdown("### 🧪 Pandera Schema Specification")
+        st.markdown("### 🧪 Pandera DataFrameSchema")
         if res.pandera_passed:
-            st.success("✅ **PASSED**: All range bounds, regex patterns, and type constraints verified by Pandera.")
+            st.success("✅ **PASSED**: All range bounds, regex patterns, and type constraints verified.")
         else:
-            st.error("❌ **BLOCKED**: Pandera encountered schema violation exceptions:")
+            st.error("❌ **BLOCKED**: Schema errors encountered:")
             for err in res.pandera_errors:
                 st.code(err)
 
-        # Pandera Schema Columns summary
-        schema_obj = synthesizer.build_pandera_schema(target_df, plan_steps=steps, target_columns=target_cols)
-        schema_rows = []
-        for col_name, pa_col in schema_obj.columns.items():
-            checks_repr = ", ".join([str(chk.name or chk) for chk in pa_col.checks]) if pa_col.checks else "Type check only"
-            schema_rows.append({
-                "Column": col_name,
-                "Dtype": str(target_df[col_name].dtype) if col_name in target_df.columns else "Unknown",
-                "Nullable": "Yes" if pa_col.nullable else "No (Enforced Non-Null)",
-                "Checks": checks_repr,
-            })
-        with st.expander("🔍 View Synthesized Pandera Column Schema Details", expanded=False):
-            st.dataframe(pd.DataFrame(schema_rows), use_container_width=True)
-
     with c2:
-        st.markdown("### 📋 Great Expectations Suite Artifact")
+        st.markdown("### 📋 Great Expectations Checkpoint")
         if res.ge_passed:
-            st.success(f"✅ **PASSED**: {res.ge_summary.get('total_expectations', 0)} expectations evaluated and verified.")
+            st.success(f"✅ **PASSED**: {res.ge_summary.get('total_expectations', 0)} expectations met.")
         else:
-            st.error(f"❌ **BLOCKED**: {res.ge_summary.get('failed_expectations', 0)} expectation(s) failed on `{target_choice.split(' ')[0]}` dataset.")
-
-        with st.expander("📄 View Great Expectations JSON Suite (`narvl_cleaning_suite.json`)", expanded=False):
-            st.json(ge_suite)
+            st.error(f"❌ **BLOCKED**: {res.ge_summary.get('failed_expectations', 0)} expectation(s) failed.")
+            for r in res.ge_summary.get("results", []):
+                if not r["success"]:
+                    st.write(f"- `{r['column']}`: {r['details']}")
 
 
 def render_relationship_chart(
