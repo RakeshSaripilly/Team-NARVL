@@ -111,6 +111,16 @@ st.markdown(
         color: #ef4444;
         font-weight: bold;
     }
+    .shield-download-box div[data-testid="stDownloadButton"] button {
+        white-space: pre-wrap !important;
+        text-align: center !important;
+        font-size: 0.80rem !important;
+        padding: 6px 14px !important;
+        line-height: 1.3 !important;
+        width: auto !important;
+        max-width: 250px !important;
+        display: inline-block !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -154,6 +164,16 @@ def init_session_state() -> None:
         st.session_state.nav_step = "1. Ingestion Shield & Upload"
     if "restored_version" not in st.session_state:
         st.session_state.restored_version = None
+    if "shielded_file_bytes" not in st.session_state:
+        st.session_state.shielded_file_bytes = None
+    if "shielded_file_name" not in st.session_state:
+        st.session_state.shielded_file_name = None
+    if "shielded_quarantine_count" not in st.session_state:
+        st.session_state.shielded_quarantine_count = 0
+    if "quarantine_log_bytes" not in st.session_state:
+        st.session_state.quarantine_log_bytes = None
+    if "ingested_file_id" not in st.session_state:
+        st.session_state.ingested_file_id = None
 
 
 def set_selected_columns(columns: List[str]) -> None:
@@ -219,42 +239,123 @@ def screen_1_upload() -> None:
         st.caption(f"Used: {quota_used / (1024*1024):.2f} MB / 500.00 MB Limit")
 
     if uploaded_file is not None:
-        # Save upload to temporary file
-        temp_input = Path(st.session_state.delta_dir) / uploaded_file.name
-        temp_input.write_bytes(uploaded_file.getvalue())
+        file_id = f"{uploaded_file.name}_{uploaded_file.size}"
+        if st.session_state.ingested_file_id != file_id:
+            temp_input = Path(st.session_state.delta_dir) / uploaded_file.name
+            temp_input.write_bytes(uploaded_file.getvalue())
 
-        shield = StreamingShield()
-        quarantine_log = Path(st.session_state.delta_dir) / "quarantine.log"
+            shield = StreamingShield()
+            quarantine_log = Path(st.session_state.delta_dir) / "quarantine.log"
 
-        with st.spinner("Streaming through L0 Shield and Normalizer..."):
-            try:
-                clean_path, quarantine_rows = shield.sanitize_file(temp_input, quarantine_log=quarantine_log)
-                normalizer = FormatNormalizer()
-                df = normalizer.load_file(clean_path)
-                st.session_state.raw_df = df
-                st.session_state.profile = None
-                st.session_state.semantic_types = {}
-                st.session_state.fds = []
-                st.session_state.plan_steps = []
-                st.session_state.active_steps = []
-                st.session_state.cleaned_df = None
-                st.session_state.loss_assessment = None
-                st.session_state.validation_result = None
-                set_selected_columns(list(df.columns))
-                st.session_state.resolve_nulls_policy = True
-                st.session_state.null_resolution_summary = None
-                st.session_state.executor = None
-                st.session_state.restored_version = None
-                st.session_state.delta_dir = tempfile.mkdtemp(prefix="narvl_ui_delta_")
+            with st.spinner("Streaming through L0 Shield and Normalizer..."):
+                try:
+                    clean_path, quarantine_rows = shield.sanitize_file(temp_input, quarantine_log=quarantine_log)
+                    normalizer = FormatNormalizer()
+                    df = normalizer.load_file(clean_path)
+                    st.session_state.raw_df = df
+                    st.session_state.profile = None
+                    st.session_state.semantic_types = {}
+                    st.session_state.fds = []
+                    st.session_state.plan_steps = []
+                    st.session_state.active_steps = []
+                    st.session_state.cleaned_df = None
+                    st.session_state.loss_assessment = None
+                    st.session_state.validation_result = None
+                    set_selected_columns(list(df.columns))
+                    st.session_state.resolve_nulls_policy = True
+                    st.session_state.null_resolution_summary = None
+                    st.session_state.executor = None
+                    st.session_state.restored_version = None
 
-                st.success(f"Successfully ingested {df.height:,} rows across {df.width} columns!")
-                if quarantine_rows > 0:
-                    st.warning(f"🛡️ Shield isolated {quarantine_rows} ragged / delimiter-bomb rows to quarantine.log")
+                    # Cache shielded file and quarantine metadata for instant 1-click download
+                    st.session_state.shielded_file_bytes = clean_path.read_bytes()
+                    st.session_state.shielded_file_name = f"{Path(uploaded_file.name).stem}_shielded{Path(uploaded_file.name).suffix}"
+                    st.session_state.shielded_quarantine_count = quarantine_rows
+                    if quarantine_log.exists() and quarantine_rows > 0:
+                        st.session_state.quarantine_log_bytes = quarantine_log.read_bytes()
+                    else:
+                        st.session_state.quarantine_log_bytes = None
 
-                st.dataframe(df.head(10).to_pandas(), use_container_width=True)
+                    st.session_state.ingested_file_id = file_id
+                    st.session_state.delta_dir = tempfile.mkdtemp(prefix="narvl_ui_delta_")
 
-            except Exception as exc:
-                st.error(f"Ingestion Shield Alert: {exc}")
+                except Exception as exc:
+                    st.error(f"Ingestion Shield Alert: {exc}")
+
+        if st.session_state.raw_df is not None:
+            st.success(f"Successfully ingested {st.session_state.raw_df.height:,} rows across {st.session_state.raw_df.width} columns!")
+            if st.session_state.get("shielded_quarantine_count", 0) > 0:
+                st.warning(f"🛡️ Shield isolated {st.session_state.shielded_quarantine_count} ragged / delimiter-bomb rows to quarantine.log")
+
+            # Info box ABOVE the table
+            if st.session_state.get("shielded_file_bytes") is not None:
+                st.info(
+                    f"🛡️ **L0 Shielded Asset Ready**: Unicode normalized (`ftfy`), null bytes stripped (`\\x00`), and delimiter-bomb threats neutralized. "
+                    f"**Shielded File**: `{st.session_state.shielded_file_name}` ({len(st.session_state.shielded_file_bytes):,} bytes)"
+                )
+
+            # Ingested dataset table preview
+            st.dataframe(st.session_state.raw_df.head(10).to_pandas(), use_container_width=True)
+
+            # 1-Click Download Button JUST BELOW the table
+            if st.session_state.get("shielded_file_bytes") is not None:
+                st.markdown("<div class='shield-download-box' style='margin-top: 4px;'>", unsafe_allow_html=True)
+                st.download_button(
+                    label=f"📥 Download\nShielded File\n({st.session_state.shielded_file_name})",
+                    data=st.session_state.shielded_file_bytes,
+                    file_name=st.session_state.shielded_file_name,
+                    mime="application/octet-stream",
+                    use_container_width=False,
+                    help="1-click download of the sanitized raw dataset produced by the L0 Streaming Adversarial Shield.",
+                    key="btn_download_shielded_file",
+                )
+                if st.session_state.get("quarantine_log_bytes"):
+                    st.download_button(
+                        label="⚠️ Download\nQuarantine Log\n(quarantine.log)",
+                        data=st.session_state.quarantine_log_bytes,
+                        file_name="quarantine.log",
+                        mime="text/plain",
+                        use_container_width=False,
+                        help="Review isolated delimiter-bomb or ragged rows.",
+                        key="btn_download_quarantine_log",
+                    )
+                st.markdown("</div>", unsafe_allow_html=True)
+
+    elif uploaded_file is None and st.session_state.ingested_file_id not in (None, "demo_enterprise"):
+        # User cleared the file uploader
+        st.session_state.raw_df = None
+        st.session_state.ingested_file_id = None
+        st.session_state.shielded_file_bytes = None
+        st.session_state.shielded_file_name = None
+        st.session_state.quarantine_log_bytes = None
+        st.session_state.shielded_quarantine_count = 0
+        st.rerun()
+
+    elif st.session_state.raw_df is not None and st.session_state.get("shielded_file_bytes") is not None:
+        # Case where demo enterprise dataset is active
+        st.success(f"Active demo dataset ready: {st.session_state.raw_df.height:,} rows across {st.session_state.raw_df.width} columns!")
+
+        # Info box ABOVE the table
+        st.info(
+            f"🛡️ **L0 Shielded Asset Ready**: Unicode normalized (`ftfy`), null bytes stripped (`\\x00`), and delimiter-bomb threats neutralized. "
+            f"**Shielded File**: `{st.session_state.shielded_file_name}` ({len(st.session_state.shielded_file_bytes):,} bytes)"
+        )
+
+        # Ingested dataset table preview
+        st.dataframe(st.session_state.raw_df.head(10).to_pandas(), use_container_width=True)
+
+        # 1-Click Download Button JUST BELOW the table
+        st.markdown("<div class='shield-download-box' style='margin-top: 4px;'>", unsafe_allow_html=True)
+        st.download_button(
+            label=f"📥 Download\nShielded File\n({st.session_state.shielded_file_name})",
+            data=st.session_state.shielded_file_bytes,
+            file_name=st.session_state.shielded_file_name,
+            mime="application/octet-stream",
+            use_container_width=False,
+            help="1-click download of the sanitized raw dataset produced by the L0 Streaming Adversarial Shield.",
+            key="btn_download_shielded_file_demo",
+        )
+        st.markdown("</div>", unsafe_allow_html=True)
 
     elif st.session_state.raw_df is None:
         # Provide sample demo dataset option
@@ -282,6 +383,11 @@ def screen_1_upload() -> None:
             st.session_state.null_resolution_summary = None
             st.session_state.executor = None
             st.session_state.restored_version = None
+            st.session_state.shielded_file_bytes = demo_df.write_csv().encode("utf-8")
+            st.session_state.shielded_file_name = "enterprise_demo_shielded.csv"
+            st.session_state.shielded_quarantine_count = 0
+            st.session_state.quarantine_log_bytes = None
+            st.session_state.ingested_file_id = "demo_enterprise"
             st.session_state.delta_dir = tempfile.mkdtemp(prefix="narvl_ui_delta_")
             st.rerun()
 
