@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY pyproject.toml README.md ./
 COPY narvl ./narvl
 
-RUN pip install --no-cache-dir build && \
+RUN pip install --no-cache-dir build setuptools wheel && \
     python -m build --wheel --no-isolation
 
 # ==============================================================================
@@ -37,9 +37,10 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 WORKDIR /app
 
-# Install runtime dependencies (e.g., curl for healthcheck)
+# Install runtime dependencies (e.g., curl for healthcheck, libgomp1 for LightGBM)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Create secure non-root user
@@ -68,9 +69,9 @@ USER narvluser
 # Expose Streamlit CleanPilot (8501) and FastAPI Server (8000)
 EXPOSE 8501 8000
 
-# Healthcheck targeting FastAPI /healthz endpoint
+# Healthcheck targeting Streamlit or FastAPI endpoint depending on mode
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:8000/healthz || exit 1
+    CMD curl -f http://localhost:8501/_stcore/health || curl -f http://localhost:8000/healthz || exit 1
 
 # Default launch command: Streamlit CleanPilot UI
 ENTRYPOINT ["narvl"]

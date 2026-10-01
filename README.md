@@ -245,6 +245,3 @@ tests/test_shield.py::test_normalizer_multi_format PASSED                [100%]
 
 ---
 
-## 📄 License
-
-NARVL is licensed under the Apache 2.0 License.
