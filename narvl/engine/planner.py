@@ -17,15 +17,9 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Union
 
 import polars as pl
-from rapidfuzz import fuzz
 
 from narvl.core.fd_miner import FunctionalDependency
-from narvl.core.semantic_typer import (
-    COMMON_CITIES,
-    COMMON_INDIAN_STATES,
-    SemanticClassification,
-    US_STATES,
-)
+from narvl.core.semantic_typer import SemanticClassification
 from narvl.engine.grammars import (
     CLEANING_PLAN_GBNF,
     GrammarValidationError,
@@ -35,21 +29,6 @@ from narvl.engine.grammars import (
 from narvl.engine.model_loader import resolve_model_path
 
 logger = logging.getLogger("narvl.engine.planner")
-
-CITY_ABBREVIATIONS: Dict[str, str] = {
-    "hyd": "Hyderabad",
-    "sec": "Secunderabad",
-    "blr": "Bangalore",
-    "mum": "Mumbai",
-    "del": "Delhi",
-    "chn": "Chennai",
-    "kol": "Kolkata",
-    "pune": "Pune",
-    "nyc": "New York",
-    "sf": "San Francisco",
-    "la": "Los Angeles",
-    "chi": "Chicago",
-}
 
 CONFIDENCE_GATE_THRESHOLD = 0.85
 
@@ -144,86 +123,20 @@ class SLMPlanner:
 
         # 2. Check FDs for typo canonicalization and consolidate mappings
         fd_mappings_by_col: Dict[str, Dict[str, str]] = {}
+        fd_confidence_by_col: Dict[str, float] = {}
         for fd in fds:
             if sel_set is not None and fd.dependent not in sel_set:
+                continue
+            if not getattr(fd, "closed_world", fd.dependent_cardinality_ratio < 0.05):
                 continue
             if fd.canonical_mapping:
                 if fd.dependent not in fd_mappings_by_col:
                     fd_mappings_by_col[fd.dependent] = {}
                 fd_mappings_by_col[fd.dependent].update(fd.canonical_mapping)
-
-        # 3. Semantic Entity Standardization (City, State, Phone)
-        if raw_df is not None:
-            for col in raw_df.columns:
-                if sel_set is not None and col not in sel_set:
-                    continue
-                c_lower = col.lower()
-                sem = semantic_types.get(col)
-                sem_type_str = sem.semantic_type if sem else ""
-
-                # City Standardization
-                if "city" in c_lower or "town" in c_lower or sem_type_str == "City":
-                    city_vals = [str(v).strip() for v in raw_df[col].drop_nulls().unique() if str(v).strip()]
-                    c_map: Dict[str, str] = {}
-                    for val in city_vals:
-                        v_l = val.lower()
-                        if v_l in CITY_ABBREVIATIONS:
-                            can = CITY_ABBREVIATIONS[v_l]
-                            if val != can:
-                                c_map[val] = can
-                        else:
-                            for c_can in COMMON_CITIES:
-                                canonical = c_can.title()
-                                if len(v_l) >= 3 and c_can.startswith(v_l):
-                                    if val != canonical:
-                                        c_map[val] = canonical
-                                    break
-                                elif fuzz.ratio(v_l, c_can) >= 80:
-                                    if val != canonical:
-                                        c_map[val] = canonical
-                                    break
-                    if c_map:
-                        if col not in fd_mappings_by_col:
-                            fd_mappings_by_col[col] = {}
-                        fd_mappings_by_col[col].update(c_map)
-
-                # State Standardization
-                if "state" in c_lower or "province" in c_lower or sem_type_str == "State":
-                    state_vals = [str(v).strip() for v in raw_df[col].drop_nulls().unique() if str(v).strip()]
-                    s_map: Dict[str, str] = {}
-                    for val in state_vals:
-                        v_l = val.lower()
-                        for st_can in (COMMON_INDIAN_STATES | US_STATES):
-                            canonical = st_can.title()
-                            if v_l == st_can or fuzz.ratio(v_l, st_can) >= 80:
-                                if val != canonical:
-                                    s_map[val] = canonical
-                                break
-                    if s_map:
-                        if col not in fd_mappings_by_col:
-                            fd_mappings_by_col[col] = {}
-                        fd_mappings_by_col[col].update(s_map)
-
-                # Phone Standardization
-                if "phone" in c_lower or "mobile" in c_lower or "contact" in c_lower or sem_type_str == "Phone":
-                    phone_vals = [str(v).strip() for v in raw_df[col].drop_nulls().unique() if str(v).strip()]
-                    p_map: Dict[str, Any] = {}
-                    for val in phone_vals:
-                        digits = re.sub(r"\D", "", str(val))
-                        if len(digits) == 10:
-                            canonical = f"+91-{digits}"
-                            if str(val) != canonical:
-                                p_map[str(val)] = canonical
-                        elif len(digits) == 12 and digits.startswith("91"):
-                            canonical = f"+91-{digits[2:]}"
-                            if str(val) != canonical:
-                                p_map[str(val)] = canonical
-                        elif 0 < len(digits) < 10:
-                            p_map[str(val)] = None
-                    if p_map:
-                        if col not in fd_mappings_by_col:
-                            fd_mappings_by_col[col] = {}
-                        fd_mappings_by_col[col].update(p_map)
+                fd_confidence_by_col[fd.dependent] = min(
+                    fd_confidence_by_col.get(fd.dependent, 1.0),
+                    float(getattr(fd, "canonical_confidence", fd.confidence)),
+                )
 
         # Emit consolidated standardize_values steps with transitive closure
         for target_col, col_map in fd_mappings_by_col.items():
@@ -248,7 +161,7 @@ class SLMPlanner:
                     "rule": f"Standardize {target_col} to canonical entities and formats",
                     "action": "standardize_values",
                     "parameters": {"mapping": resolved_map},
-                    "confidence": 0.98,
+                    "confidence": min(0.98, fd_confidence_by_col.get(target_col, 0.98)),
                     "justification": f"Unified semantic knowledge and functional dependencies resolve {target_col} anomalies.",
                     "loss_potential": "none",
                     "test_criterion": f"standardized_{target_col.lower()}",
@@ -451,6 +364,9 @@ class SLMPlanner:
         if selected_columns is not None:
             steps = self.filter_plan_by_columns(steps, selected_columns)
 
+        # Enforce the closed-world canonicalization policy for model-generated plans too.
+        steps = self._filter_canonicalization_steps(steps, semantic_types)
+
         # Validate against GBNF schema
         validate_cleaning_plan(steps)
 
@@ -473,6 +389,42 @@ class SLMPlanner:
             is_valid_json=True,
             is_gbnf_compliant=True,
         )
+
+    def _filter_canonicalization_steps(
+        self,
+        steps: List[Dict[str, Any]],
+        semantic_types: Dict[str, SemanticClassification],
+    ) -> List[Dict[str, Any]]:
+        """Reject open-world standardization and remove bidirectional mappings."""
+        filtered: List[Dict[str, Any]] = []
+        for step in steps:
+            if step.get("action") != "standardize_values":
+                filtered.append(step)
+                continue
+
+            target = str(step.get("target_column", ""))
+            semantic = semantic_types.get(target)
+            dependent_type = getattr(semantic, "semantic_type", semantic or "Unknown")
+            if dependent_type in {"Other", "Unknown", "Email", "Timestamp", "Description", "CustomerID"}:
+                continue
+
+            parameters = step.get("parameters", {})
+            mapping = parameters.get("mapping", {}) if isinstance(parameters, dict) else {}
+            safe_mapping: Dict[str, str] = {}
+            for raw_key, raw_value in mapping.items():
+                key = str(raw_key)
+                value = str(raw_value)
+                if key == value or value in safe_mapping:
+                    continue
+                if safe_mapping.get(value) == key:
+                    continue
+                safe_mapping[key] = value
+
+            if safe_mapping:
+                step["parameters"] = {**parameters, "mapping": safe_mapping}
+                filtered.append(step)
+
+        return filtered
 
     def generate_plan(
         self,
@@ -497,6 +449,8 @@ class SLMPlanner:
                             is_exact=fd_item.get("is_exact", True),
                             confidence=fd_item.get("confidence", 1.0),
                             canonical_mapping=fd_item.get("canonical_mapping", {}),
+                            dependent_type=fd_item.get("dependent_type", "Unknown"),
+                            canonical_confidence=fd_item.get("canonical_confidence", 1.0),
                         )
                     )
         converted_types: Dict[str, SemanticClassification] = {}

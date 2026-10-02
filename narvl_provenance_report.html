@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NARVL Immutable Provenance Report</title>
+    
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 40px; }
+        .card { background: #1e293b; border-radius: 12px; padding: 30px; margin-bottom: 24px; border: 1px solid #334155; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 20px; }
+        h1 { margin: 0; font-size: 26px; color: #38bdf8; }
+        .meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 20px; }
+        .meta-item { background: #0f172a; padding: 14px; border-radius: 8px; border: 1px solid #334155; }
+        .meta-title { font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: bold; }
+        .meta-val { font-size: 16px; font-weight: 600; margin-top: 6px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+        th { text-align: left; padding: 10px; background: #0f172a; color: #94a3b8; font-size: 12px; text-transform: uppercase; }
+        .signature-box { background: #090d16; border: 1px dashed #475569; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 12px; color: #38bdf8; word-break: break-all; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div>
+                <h1>NARVL Immutable Provenance Certificate</h1>
+                <p style="color:#94a3b8; margin: 4px 0 0 0; font-size: 14px;">Run ID: f2f8ca66-3f82-4ed6-992c-d8d25b0dd013 | Generated: 2026-10-01T09:59:06.937993+00:00</p>
+            </div>
+            <div><span style="background:#22543d; color:#9ae6b4; padding:6px 14px; border-radius:20px; font-weight:bold;">PASS - AUDIT VERIFIED</span></div>
+        </div>
+
+        <div class="meta-grid">
+            <div class="meta-item"><div class="meta-title">Dataset Name</div><div class="meta-val">dataset</div></div>
+            <div class="meta-item"><div class="meta-title">Raw Dimensions</div><div class="meta-val">(5, 5)</div></div>
+            <div class="meta-item"><div class="meta-title">Clean Dimensions</div><div class="meta-val">(4, 5)</div></div>
+            <div class="meta-item"><div class="meta-title">Volumetric Loss</div><div class="meta-val">20.00%</div></div>
+        </div>
+    </div>
+
+    
+
+    <div class="card">
+        <h2 style="font-size: 18px; margin-top:0;">Pipeline Execution Plan</h2>
+        <table>
+            <thead>
+                <tr><th>Step</th><th>Target</th><th>Action</th><th>Confidence</th><th>Justification</th></tr>
+            </thead>
+            <tbody>
+                
+            <tr>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#1</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">ALL</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">deduplicate_exact</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.99</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Exact duplicates distort aggregate statistics and variance.</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#2</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">State</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize_values</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.92</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Unified semantic knowledge and functional dependencies resolve State anomalies.</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#3</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Country</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize_values</span></td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.92</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Unified semantic knowledge and functional dependencies resolve Country anomalies.</td>
+            </tr>
+            
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2 style="font-size: 18px; margin-top:0;">Cryptographic Provenance Verification</h2>
+        <p style="font-size:13px; color:#94a3b8;">Input SHA-256: <code>a3173f7cc23143bb62c8a12a479d15f93da7a17b7a17c622ff44d12626403356</code></p>
+        <p style="font-size:13px; color:#94a3b8;">Output SHA-256: <code>9bec5111b258610bd8e83a5362646123017d823c79c733f6b011ef3345049038</code></p>
+        <div class="signature-box">
+            [HMAC-SHA256 DIGITAL SIGNATURE]<br>
+            fec921387d9468d76f41c69787497e1577be9bca711ba895854552289b3c1855
+        </div>
+    </div>
+    
+</body>
+</html>

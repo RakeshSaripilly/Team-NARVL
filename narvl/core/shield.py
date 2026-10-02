@@ -12,8 +12,10 @@ Features:
 
 from __future__ import annotations
 
+import csv
 import datetime
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 import shutil
@@ -24,6 +26,10 @@ import ftfy
 
 CHUNK_SIZE = 64 * 1024  # 64 KB binary chunks
 DEFAULT_MAX_BYTES = 500 * 1024 * 1024  # 500 MB quota ceiling
+EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+SSN_PATTERN = re.compile(r"^\d{3}-\d{2}-\d{4}$")
+CARD_PATTERN = re.compile(r"^(?:\d[ -]?){13,19}$")
+PHONE_PATTERN = re.compile(r"^(?:\+?\d[\s.()-]{0,2}){7,15}$")
 
 
 class QuotaExceededError(ValueError):
@@ -89,6 +95,31 @@ class StreamingShield:
 
         best_del = max(scores, key=lambda k: scores[k])
         return best_del if scores[best_del] > 0 else ","
+
+    def _contains_sensitive_pii(
+        self,
+        line_text: str,
+        delimiter: str,
+        sparse_positions: Optional[set[int]] = None,
+    ) -> bool:
+        """Detect common PII patterns in any field without relying on column names."""
+        try:
+            fields = next(csv.reader([line_text], delimiter=delimiter))
+        except Exception:
+            fields = [line_text]
+
+        for position, raw_value in enumerate(fields):
+            if sparse_positions is not None and position not in sparse_positions:
+                continue
+            value = raw_value.strip()
+            if EMAIL_PATTERN.fullmatch(value) or SSN_PATTERN.fullmatch(value):
+                return True
+            digits = re.sub(r"\D", "", value)
+            if PHONE_PATTERN.fullmatch(value) and 7 <= len(digits) <= 15:
+                return True
+            if CARD_PATTERN.fullmatch(value) and len(digits) >= 13:
+                return True
+        return False
 
     def sniff_format(self, sample_bytes: bytes, suffix: str = "") -> str:
         """Sniff file format from extension and initial byte signatures."""
@@ -407,6 +438,26 @@ class StreamingShield:
         if not sample_text.isascii():
             sample_text = ftfy.fix_text(sample_text)
         detected_delimiter = self.detect_delimiter(sample_text)
+        sparse_pii_positions: Optional[set[int]] = set()
+        sample_rows = [line for line in sample_text.splitlines()[1:101] if line.strip()]
+        pattern_counts: dict[int, int] = {}
+        field_counts: dict[int, int] = {}
+        for row in sample_rows:
+            try:
+                fields = next(csv.reader([row], delimiter=detected_delimiter))
+            except Exception:
+                continue
+            for position, value in enumerate(fields):
+                field_counts[position] = field_counts.get(position, 0) + 1
+                if self._contains_sensitive_pii(
+                    detected_delimiter.join([value]),
+                    detected_delimiter,
+                    sparse_positions=None,
+                ):
+                    pattern_counts[position] = pattern_counts.get(position, 0) + 1
+        for position, count in pattern_counts.items():
+            if 0 < count / max(1, field_counts.get(position, 0)) < 0.5:
+                sparse_pii_positions.add(position)
 
         # 2. Estimate expected delimiter count from header and initial rows
         sample_lines = [l for l in sample_text.splitlines() if l.strip()]
@@ -465,7 +516,11 @@ class StreamingShield:
                     is_bad = False
                     reason = ""
 
-                    if expected_delimiter_count is not None and expected_delimiter_count > 0:
+                    if self._contains_sensitive_pii(line_fixed, detected_delimiter, sparse_pii_positions):
+                        is_bad = True
+                        reason = "Sensitive PII pattern detected"
+
+                    if not is_bad and expected_delimiter_count is not None and expected_delimiter_count > 0:
                         diff = abs(del_count - expected_delimiter_count)
                         if del_count > max(expected_delimiter_count * 3, expected_delimiter_count + 15):
                             is_bad = True
@@ -501,7 +556,10 @@ class StreamingShield:
                 if line_text.strip():
                     line_fixed = line_text if line_text.isascii() else ftfy.fix_text(line_text)
                     del_count = line_fixed.count(detected_delimiter)
+                    has_pii = self._contains_sensitive_pii(line_fixed, detected_delimiter, sparse_pii_positions)
                     if (
+                        not has_pii
+                        and
                         expected_delimiter_count is not None
                         and expected_delimiter_count > 0
                         and abs(del_count - expected_delimiter_count) >= self.delimiter_variance_threshold
@@ -510,7 +568,7 @@ class StreamingShield:
                         timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
                         f_quarantine.write(
                             f"[{timestamp}] [QUARANTINE] line={valid_rows_count + quarantined_count} "
-                            f"reason='Ragged end line' data='{line_fixed[:200]}'\n"
+                            f"reason='{'Sensitive PII pattern detected' if has_pii else 'Ragged end line'}' data='{line_fixed[:200]}'\n"
                         )
                     else:
                         f_clean.write(line_fixed + "\n")

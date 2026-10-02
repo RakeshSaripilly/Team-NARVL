@@ -300,8 +300,8 @@ def clean_dataset_api(
     # 2. Typer & FD Miner
     typer = SemanticTyper()
     types_found = typer.infer_types(raw_df)
-    miner = FunctionalDependencyMiner(fuzzy_threshold=85.0)
-    fds = miner.mine(raw_df)
+    miner = FunctionalDependencyMiner(fuzzy_threshold=85.0, semantic_types=types_found)
+    fds = miner.mine(raw_df, semantic_types=types_found)
 
     # 3. Plan Generation
     planner = SLMPlanner()

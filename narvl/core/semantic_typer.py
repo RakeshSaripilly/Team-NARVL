@@ -25,6 +25,8 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import onnxruntime as ort
 import polars as pl
+import pycountry
+from rapidfuzz import fuzz, process
 
 logger = logging.getLogger("narvl.core.semantic_typer")
 
@@ -40,50 +42,35 @@ SEMANTIC_CLASSES = [
 
 DEFAULT_MODEL_NAME = "sherlock_minilm_quantized.onnx"
 
-# Curated lookup sets for entity validation
-COMMON_INDIAN_STATES = {
-    "andhra pradesh", "arunachal pradesh", "assam", "bihar", "chhattisgarh",
-    "goa", "gujarat", "haryana", "himachal pradesh", "jharkhand", "karnataka",
-    "kerala", "madhya pradesh", "maharashtra", "manipur", "meghalaya", "mizoram",
-    "nagaland", "odisha", "punjab", "rajasthan", "sikkim", "tamil nadu",
-    "telangana", "tripura", "uttar pradesh", "uttarakhand", "west bengal",
-    "delhi", "chandigarh", "puducherry", "ladakh", "jammu and kashmir",
-}
-
-US_STATES = {
-    "alabama", "alaska", "arizona", "arkansas", "california", "colorado",
-    "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho",
-    "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana",
-    "maine", "maryland", "massachusetts", "michigan", "minnesota",
-    "mississippi", "missouri", "montana", "nebraska", "nevada",
-    "new hampshire", "new jersey", "new mexico", "new york", "north carolina",
-    "north dakota", "ohio", "oklahoma", "oregon", "pennsylvania", "rhode island",
-    "south carolina", "south dakota", "tennessee", "texas", "utah", "vermont",
-    "virginia", "washington", "west virginia", "wisconsin", "wyoming",
-}
-
-COMMON_CITIES = {
-    "hyderabad", "bengaluru", "bangalore", "mumbai", "delhi", "chennai", "kolkata",
-    "pune", "ahmedabad", "jaipur", "surat", "lucknow", "kanpur", "nagpur",
-    "indore", "thane", "bhopal", "visakhapatnam", "patna", "vadodara",
-    "new york", "los angeles", "chicago", "houston", "phoenix", "philadelphia",
-    "san antonio", "san diego", "dallas", "san jose", "austin", "seattle", "san francisco",
-}
-
 CURRENCY_SYMBOLS = {"$", "€", "£", "₹", "¥", "rs", "inr", "usd", "eur", "gbp"}
 
-COMMON_COUNTRIES = {
-    "united kingdom", "uk", "great britain", "united states", "usa", "us",
-    "germany", "france", "australia", "canada", "india", "japan", "china",
-    "brazil", "spain", "italy", "netherlands", "switzerland", "sweden",
-    "singapore", "united arab emirates", "uae", "ireland", "norway", "belgium",
-    "austria", "denmark", "finland", "poland", "portugal", "new zealand",
-    "south africa", "mexico", "israel", "greece", "czech republic", "hong kong",
-    "malaysia", "thailand", "philippines", "indonesia", "taiwan", "chile",
-    "argentina", "colombia", "peru", "saudi arabia", "turkey", "cyprus", "rsa",
-    "eire", "channel islands", "european community", "unspecified", "iceland",
-    "lithuania", "malta", "bahrain", "lebanon", "russia", "south korea", "korea",
-}
+
+def _normalise_label(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", value.casefold()).strip()
+
+
+def _build_country_labels() -> Dict[str, str]:
+    labels: Dict[str, str] = {}
+    for country in pycountry.countries:
+        canonical = getattr(country, "common_name", country.name)
+        for attr in ("name", "official_name", "common_name", "alpha_2", "alpha_3"):
+            value = getattr(country, attr, None)
+            if value:
+                labels[_normalise_label(str(value))] = canonical
+    return labels
+
+
+def _build_subdivision_labels() -> Dict[str, str]:
+    labels: Dict[str, str] = {}
+    for subdivision in pycountry.subdivisions:
+        labels[_normalise_label(subdivision.name)] = subdivision.name
+    return labels
+
+
+COUNTRY_LABELS = _build_country_labels()
+SUBDIVISION_LABELS = _build_subdivision_labels()
+COUNTRY_LABEL_CHOICES = list(COUNTRY_LABELS)
+SUBDIVISION_LABEL_CHOICES = list(SUBDIVISION_LABELS)
 
 
 @dataclass
@@ -250,9 +237,11 @@ class SemanticTyper:
                 postal_count += 1
             if any(sym in lower_s for sym in CURRENCY_SYMBOLS) and any(c.isdigit() for c in s):
                 currency_count += 1
-            if lower_s in COMMON_CITIES:
-                city_count += 1
-            if lower_s in COMMON_INDIAN_STATES or lower_s in US_STATES:
+            if process.extractOne(_normalise_label(s), COUNTRY_LABEL_CHOICES, scorer=fuzz.ratio) and \
+                   process.extractOne(_normalise_label(s), COUNTRY_LABEL_CHOICES, scorer=fuzz.ratio)[1] >= 85:
+                city_count += 1  # reuse city slot as country proxy for ONNX feature
+            if process.extractOne(_normalise_label(s), SUBDIVISION_LABEL_CHOICES, scorer=fuzz.ratio) and \
+                   process.extractOne(_normalise_label(s), SUBDIVISION_LABEL_CHOICES, scorer=fuzz.ratio)[1] >= 85:
                 state_count += 1
             
             has_date_separators = (s.count("-") >= 2 or s.count("/") >= 2 or (s.count(":") >= 1 and s.count("-") >= 1))
@@ -291,8 +280,6 @@ class SemanticTyper:
         if n == 0:
             return SemanticClassification(col_name, "Unknown", 0.0, {})
 
-        sample = [str(x).strip() for x in non_null.head(8).to_list() if str(x).strip()]
-        sample = sample[:6]
         dtype_str = str(series.dtype)
         uniq_ratio = (non_null.n_unique() / n) if n > 0 else 0.0
 
@@ -304,7 +291,7 @@ class SemanticTyper:
             f"Column: {col_name}\n"
             f"DataType: {dtype_str}\n"
             f"Uniqueness: {uniq_ratio*100:.1f}%\n"
-            f"Sample: {sample}\n"
+            f"ProfileOnly: values={n}, uniqueness={uniq_ratio*100:.1f}%, average_length={non_null.cast(pl.String).str.len_chars().mean():.1f}\n"
             f"<|im_end|>\n"
             f"<|im_start|>assistant\n"
         )
@@ -333,9 +320,8 @@ class SemanticTyper:
         return None
 
     def infer_dynamic(self, series: pl.Series) -> Optional[SemanticClassification]:
-        """Dynamic open-world semantic inference using header tokens, cardinality, and content gazetteers."""
+        """Infer semantic type from observed values without using column names."""
         col_name = str(series.name).strip()
-        low_col = col_name.lower().replace("_", " ").replace("-", " ")
         non_null = series.drop_nulls()
         n = len(non_null)
         if n == 0:
@@ -346,65 +332,55 @@ class SemanticTyper:
         sample = [str(x).strip() for x in non_null.head(200).to_list() if str(x).strip()]
         avg_len = sum(len(x) for x in sample) / len(sample) if sample else 0.0
 
-        # 1. Email Address
-        if any(re.search(rf"\b{k}\b", low_col) for k in ["email", "mail"]) or (
-            sample and sum(1 for s in sample if "@" in s and "." in s) / len(sample) >= 0.50
-        ):
+        email_ratio = sum(bool(re.fullmatch(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", s)) for s in sample) / len(sample) if sample else 0.0
+        if email_ratio >= 0.50:
             return SemanticClassification(col_name, "Email", 0.99, {"Email": 0.99})
 
-        # 2. Timestamp / Date
-        if any(re.search(rf"\b{k}\b", low_col) for k in ["date", "time", "timestamp", "created", "updated", "datetime"]) or (
-            sample and sum(1 for s in sample if (s.count("-") >= 2 or s.count("/") >= 2 or ":" in s) and any(c.isdigit() for c in s)) / len(sample) >= 0.50
-        ):
+        timestamp_ratio = sum(bool(re.fullmatch(r"\d{1,4}[-/]\d{1,2}[-/]\d{1,4}(?:[ T]\d{1,2}:\d{2}(?::\d{2})?)?", s)) for s in sample) / len(sample) if sample else 0.0
+        if timestamp_ratio >= 0.50:
             return SemanticClassification(col_name, "Timestamp", 0.99, {"Timestamp": 0.99})
 
-        # 3. Geo - Country
-        if any(re.search(rf"\b{k}\b", low_col) for k in ["country", "nation"]) or (
-            sample and sum(1 for s in sample if s.lower() in COMMON_COUNTRIES) / len(sample) >= 0.35
-        ):
-            return SemanticClassification(col_name, "Country", 0.98, {"Country": 0.98})
-
-        # 4. Geo - State
-        if any(re.search(rf"\b{k}\b", low_col) for k in ["state", "province", "region"]) or (
-            sample and sum(1 for s in sample if s.lower() in COMMON_INDIAN_STATES or s.lower() in US_STATES) / len(sample) >= 0.35
-        ):
-            return SemanticClassification(col_name, "State", 0.96, {"State": 0.96})
-
-        # 5. Geo - City
-        if any(re.search(rf"\b{k}\b", low_col) for k in ["city", "town"]) or (
-            sample and sum(1 for s in sample if s.lower() in COMMON_CITIES) / len(sample) >= 0.35
-        ):
-            return SemanticClassification(col_name, "City", 0.96, {"City": 0.96})
-
-        # 6. Geo - PostalCode (Explicit zip/postal header, or postal pattern without ID context)
-        if any(re.search(rf"\b{k}\b", low_col) for k in ["zip", "postal", "postcode", "pincode"]):
-            return SemanticClassification(col_name, "PostalCode", 0.97, {"PostalCode": 0.97})
-
-        # 7. Currency / Price / Financial Amount (supports 'unitprice', 'price', '$', etc.)
-        if any(k in low_col for k in ["price", "cost", "amount", "salary", "fee", "fare", "rate", "subtotal", "total", "balance", "wage", "revenue", "charge"]) or (
-            sample and sum(1 for s in sample if any(sym in s.lower() for sym in CURRENCY_SYMBOLS) and any(c.isdigit() for c in s)) / len(sample) >= 0.30
-        ):
+        if series.dtype.is_integer():
+            if unique_ratio < 0.05:
+                return SemanticClassification(col_name, "Quantity", 0.96, {"Quantity": 0.96})
+            return SemanticClassification(col_name, "Identifier", 0.95, {"Identifier": 0.95})
+        if series.dtype.is_float():
             return SemanticClassification(col_name, "Currency", 0.97, {"Currency": 0.97})
 
-        # 8. Quantity / Count
-        if any(re.search(rf"\b{k}\b", low_col) for k in ["qty", "quantity", "count", "units", "items", "volume", "inventory"]):
-            return SemanticClassification(col_name, "Quantity", 0.96, {"Quantity": 0.96})
+        def fuzzy_dictionary_ratio(values: List[str], choices: List[str]) -> float:
+            if not values or not choices:
+                return 0.0
+            matches = sum(
+                bool(process.extractOne(_normalise_label(value), choices, scorer=fuzz.ratio)
+                     and process.extractOne(_normalise_label(value), choices, scorer=fuzz.ratio)[1] >= 85)
+                for value in values
+            )
+            return matches / len(values)
 
-        # 9. Specific Identifiers & Codes
-        if any(k in low_col for k in ["invoice no", "invoiceno", "invoice num", "invoice id", "invoice_no", "inv no", "inv_no", "invoice"]):
-            return SemanticClassification(col_name, "InvoiceNo", 0.99, {"InvoiceNo": 0.99})
-        if any(k in low_col for k in ["customer id", "customer no", "customer num", "customerid", "customerno", "cust id", "client id", "user id", "account id", "account no", "account num", "accountid", "accountno"]) or (low_col == "customerid"):
-            return SemanticClassification(col_name, "CustomerID", 0.99, {"CustomerID": 0.99})
-        if any(k in low_col for k in ["stock code", "stockcode", "stock no", "sku", "item code", "product code", "part number", "part no"]):
-            return SemanticClassification(col_name, "StockCode", 0.98, {"StockCode": 0.98})
-        if any(re.search(rf"\b{k}\b", low_col) for k in ["id", "no", "num", "number", "code", "key", "ref", "guid", "uuid", "pk", "fk"]):
-            return SemanticClassification(col_name, "Identifier", 0.95, {"Identifier": 0.95})
+        # Country detection: fuzzy match against pycountry labels (value-only, no name heuristics)
+        country_ratio = fuzzy_dictionary_ratio(sample, COUNTRY_LABEL_CHOICES)
+        if country_ratio >= 0.70:
+            return SemanticClassification(col_name, "Country", 0.98, {"Country": 0.98})
 
-        # 10. Free-form Text / Product Description
-        if any(re.search(rf"\b{k}\b", low_col) for k in ["desc", "description", "title", "name", "comment", "note", "summary", "remark", "detail", "item"]) or (
-            avg_len > 12 and any(" " in s for s in sample)
-        ):
+        # State/subdivision detection: fuzzy match against pycountry subdivisions
+        subdivision_ratio = fuzzy_dictionary_ratio(sample, SUBDIVISION_LABEL_CHOICES)
+        if subdivision_ratio >= 0.70:
+            return SemanticClassification(col_name, "State", 0.96, {"State": 0.96})
+
+        postal_ratio = sum(bool(re.fullmatch(r"(?:[1-9]\d{5}|\d{5}(?:-\d{4})?)", s)) for s in sample) / len(sample) if sample else 0.0
+        if postal_ratio >= 0.70:
+            return SemanticClassification(col_name, "PostalCode", 0.97, {"PostalCode": 0.97})
+
+        currency_ratio = sum(bool(re.search(r"[$€£₹¥]|\b(?:rs|inr|usd|eur|gbp)\b", s, re.I) and any(c.isdigit() for c in s)) for s in sample) / len(sample) if sample else 0.0
+        if currency_ratio >= 0.30:
+            return SemanticClassification(col_name, "Currency", 0.97, {"Currency": 0.97})
+
+        if avg_len > 12 and any(" " in s for s in sample):
             return SemanticClassification(col_name, "Description", 0.96, {"Description": 0.96})
+
+        # Closed-world heuristic: very low cardinality string column
+        if unique_ratio < 0.05:
+            return SemanticClassification(col_name, "ClosedWorld", 0.80, {"ClosedWorld": 0.80})
 
         return None
 

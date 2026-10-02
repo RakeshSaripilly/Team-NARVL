@@ -187,21 +187,24 @@ class ReversibleExecutor:
         if action == "standardize_values" and target_col and target_col in df.columns:
             mapping = params.get("mapping", {})
             if mapping:
-                expanded_mapping: Dict[Any, Any] = {}
+                normalized_mapping: Dict[str, str] = {}
                 for k, v in mapping.items():
                     if k is not None:
-                        k_str = str(k).strip()
-                        v_val = None if v is None else str(v).strip()
-                        expanded_mapping[k_str] = v_val
-                        expanded_mapping[k_str.lower()] = v_val
-                        expanded_mapping[k_str.upper()] = v_val
-                        expanded_mapping[k_str.title()] = v_val
+                        normalized_mapping[str(k).strip()] = "" if v is None else str(v).strip()
 
                 ser = df[target_col]
                 if ser.dtype in [pl.String, pl.Categorical]:
-                    cleaned_col = pl.col(target_col).cast(pl.String).str.strip_chars().replace(expanded_mapping)
+                    source_expr = pl.col(target_col).cast(pl.String).str.strip_chars()
+                    cleaned_col = pl.when(source_expr.is_in(list(normalized_mapping))).then(
+                        source_expr.replace(normalized_mapping)
+                    ).otherwise(pl.col(target_col))
                     return df.with_columns(cleaned_col.alias(target_col))
-                return df.with_columns(pl.col(target_col).replace(expanded_mapping))
+                return df.with_columns(
+                    pl.when(pl.col(target_col).cast(pl.String).is_in(list(normalized_mapping)))
+                    .then(pl.col(target_col).replace(normalized_mapping))
+                    .otherwise(pl.col(target_col))
+                    .alias(target_col)
+                )
             return df
 
         if action == "clamp_bounds" and target_col and target_col in df.columns:

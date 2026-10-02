@@ -85,8 +85,8 @@ def run_clean_pipeline(
     for col, pred in types_found.items():
         print(f"      - {col}: {pred.predicted_type} ({pred.confidence*100:.1f}%)")
 
-    miner = FunctionalDependencyMiner(fuzzy_threshold=85.0)
-    fds = miner.mine(raw_df)
+    miner = FunctionalDependencyMiner(fuzzy_threshold=85.0, semantic_types=types_found)
+    fds = miner.mine(raw_df, semantic_types=types_found)
     print(f"  [+] Discovered {len(fds)} functional dependencies:")
     for fd in fds:
         print(f"      - {fd.determinant} -> {fd.dependent} (Confidence: {fd.confidence:.2f})")

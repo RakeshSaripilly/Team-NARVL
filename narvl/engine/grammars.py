@@ -87,6 +87,15 @@ def validate_cleaning_step(step: Dict[str, Any]) -> bool:
         raise GrammarValidationError(f"Invalid action: {step['action']}. Must be one of {VALID_ACTIONS}")
     if not isinstance(step["parameters"], dict):
         raise GrammarValidationError("parameters must be a dictionary")
+    if step["action"] == "standardize_values":
+        mapping = step["parameters"].get("mapping")
+        if not isinstance(mapping, dict) or any(
+            not isinstance(key, str) or not isinstance(value, str)
+            for key, value in mapping.items()
+        ):
+            raise GrammarValidationError(
+                "standardize_values parameters.mapping must be a string-to-string dictionary"
+            )
     if not isinstance(step["confidence"], (int, float)):
         raise GrammarValidationError("confidence must be a float")
     if not (0.0 <= float(step["confidence"]) <= 1.0):

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import io
 import json
+import logging
 import os
 import tempfile
 from pathlib import Path
@@ -17,6 +18,8 @@ import pandas as pd
 import polars as pl
 import streamlit as st
 import altair as alt
+
+logger = logging.getLogger(__name__)
 
 alt.data_transformers.disable_max_rows()
 
@@ -641,8 +644,8 @@ def screen_3_reasoning() -> None:
 
     # 2. Approximate Functional Dependency Discovery
     st.markdown("### Approximate Functional Dependencies (FDs)")
-    miner = FunctionalDependencyMiner(fuzzy_threshold=85.0)
-    fds = miner.mine(df)
+    miner = FunctionalDependencyMiner(fuzzy_threshold=85.0, semantic_types=types_found)
+    fds = miner.mine(df, semantic_types=types_found)
     st.session_state.fds = fds
 
     if not fds:

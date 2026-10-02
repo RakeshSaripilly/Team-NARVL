@@ -1,0 +1,5 @@
+PostalCode,State,Country,Name,CustomerID
+500008,Telangana,India,Rakesh,101
+110001,Delhi,Germany,Rakesh,102
+110001,Delhi,Germany,Raesh,102
+500008,Telangana,India,Raesh,101

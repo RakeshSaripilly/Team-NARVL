@@ -1,0 +1,135 @@
+{
+  "narvl_version": "0.1.0",
+  "run_id": "f2f8ca66-3f82-4ed6-992c-d8d25b0dd013",
+  "dataset_name": "dataset",
+  "timestamp_utc": "2026-10-01T09:59:06.937993+00:00",
+  "lineage": {
+    "raw_shape": [
+      5,
+      5
+    ],
+    "clean_shape": [
+      4,
+      5
+    ],
+    "input_hash_sha256": "a3173f7cc23143bb62c8a12a479d15f93da7a17b7a17c622ff44d12626403356",
+    "output_hash_sha256": "9bec5111b258610bd8e83a5362646123017d823c79c733f6b011ef3345049038"
+  },
+  "pipeline_steps": [
+    {
+      "step_id": 1,
+      "target_column": "ALL",
+      "issue": "Detected 1 exact duplicate rows",
+      "rule": "Row uniqueness constraint",
+      "action": "deduplicate_exact",
+      "parameters": {
+        "keep": "first"
+      },
+      "confidence": 0.99,
+      "justification": "Exact duplicates distort aggregate statistics and variance.",
+      "loss_potential": "low",
+      "test_criterion": "no_duplicate_primary_keys"
+    },
+    {
+      "step_id": 2,
+      "target_column": "State",
+      "issue": "Typographical, casing drift, and format anomalies in State",
+      "rule": "Standardize State to canonical entities and formats",
+      "action": "standardize_values",
+      "parameters": {
+        "mapping": {
+          "Telengana": "Telangana"
+        }
+      },
+      "confidence": 0.92,
+      "justification": "Unified semantic knowledge and functional dependencies resolve State anomalies.",
+      "loss_potential": "none",
+      "test_criterion": "standardized_state"
+    },
+    {
+      "step_id": 3,
+      "target_column": "Country",
+      "issue": "Typographical, casing drift, and format anomalies in Country",
+      "rule": "Standardize Country to canonical entities and formats",
+      "action": "standardize_values",
+      "parameters": {
+        "mapping": {
+          "Gerrmany": "Germany"
+        }
+      },
+      "confidence": 0.92,
+      "justification": "Unified semantic knowledge and functional dependencies resolve Country anomalies.",
+      "loss_potential": "none",
+      "test_criterion": "standardized_country"
+    }
+  ],
+  "loss_profile": {
+    "volumetric_loss": 0.2,
+    "max_w1_distance": 0.2041,
+    "w1_per_column": {
+      "PostalCode": 0.2041,
+      "CustomerID": 0.2041
+    },
+    "utility_delta": 0.0,
+    "is_safe": false,
+    "blocking_reasons": [
+      "Volumetric loss 20.00% exceeds safety threshold 15.00%"
+    ]
+  },
+  "validation": {
+    "pandera_passed": true,
+    "ge_passed": true,
+    "is_fully_validated": true
+  },
+  "digital_signature": "fec921387d9468d76f41c69787497e1577be9bca711ba895854552289b3c1855",
+  "signature_algorithm": "HMAC-SHA256",
+  "signature": "fec921387d9468d76f41c69787497e1577be9bca711ba895854552289b3c1855",
+  "pipeline_provenance": [
+    {
+      "step_id": 1,
+      "target_column": "ALL",
+      "issue": "Detected 1 exact duplicate rows",
+      "rule": "Row uniqueness constraint",
+      "action": "deduplicate_exact",
+      "parameters": {
+        "keep": "first"
+      },
+      "confidence": 0.99,
+      "justification": "Exact duplicates distort aggregate statistics and variance.",
+      "loss_potential": "low",
+      "test_criterion": "no_duplicate_primary_keys"
+    },
+    {
+      "step_id": 2,
+      "target_column": "State",
+      "issue": "Typographical, casing drift, and format anomalies in State",
+      "rule": "Standardize State to canonical entities and formats",
+      "action": "standardize_values",
+      "parameters": {
+        "mapping": {
+          "Telengana": "Telangana"
+        }
+      },
+      "confidence": 0.92,
+      "justification": "Unified semantic knowledge and functional dependencies resolve State anomalies.",
+      "loss_potential": "none",
+      "test_criterion": "standardized_state"
+    },
+    {
+      "step_id": 3,
+      "target_column": "Country",
+      "issue": "Typographical, casing drift, and format anomalies in Country",
+      "rule": "Standardize Country to canonical entities and formats",
+      "action": "standardize_values",
+      "parameters": {
+        "mapping": {
+          "Gerrmany": "Germany"
+        }
+      },
+      "confidence": 0.92,
+      "justification": "Unified semantic knowledge and functional dependencies resolve Country anomalies.",
+      "loss_potential": "none",
+      "test_criterion": "standardized_country"
+    }
+  ]
+}

@@ -14,6 +14,7 @@ Integrates tightly with L0 Streaming Shield for adversarial safety.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Union
@@ -26,6 +27,8 @@ from narvl.core.shield import (
     ShieldResult,
     StreamingShield,
 )
+
+NULL_MARKER_PATTERN = re.compile(r"^(?:n/a|null|nan|\?|-999|none|na|missing|unknown)$", re.IGNORECASE)
 
 
 @dataclass
@@ -247,7 +250,10 @@ class DatasetNormalizer:
                 # 2. Trim whitespace and convert whitespace-only strings to null
                 try:
                     df = df.with_columns(
-                        pl.when(pl.col(c).str.strip_chars().str.len_bytes() == 0)
+                        pl.when(
+                            (pl.col(c).str.strip_chars().str.len_bytes() == 0)
+                            | pl.col(c).str.strip_chars().str.contains(NULL_MARKER_PATTERN.pattern)
+                        )
                         .then(None)
                         .otherwise(pl.col(c).str.strip_chars())
                         .alias(c)
@@ -255,7 +261,61 @@ class DatasetNormalizer:
                 except Exception:
                     pass
 
+            elif df[c].dtype.is_numeric():
+                df = df.with_columns(
+                    pl.when(pl.col(c) == -999).then(None).otherwise(pl.col(c)).alias(c)
+                )
+
         return df
+
+    def _quarantine_numeric_outliers(
+        self,
+        df: pl.DataFrame,
+        quarantine_path: Path,
+    ) -> tuple[pl.DataFrame, int]:
+        """Quarantine generic numeric outliers using IQR method per column.
+
+        Uses dynamic 3*IQR fence per column. No hardcoded magnitude limits.
+        Negative values for cost/price columns are also flagged.
+        """
+        if df.height == 0:
+            return df, 0
+
+        invalid_mask = pl.lit(False)
+        for column in df.columns:
+            if not df[column].dtype.is_numeric():
+                continue
+            values = df[column].drop_nulls()
+            if len(values) < 4:
+                continue
+            q1 = float(values.quantile(0.25))
+            q3 = float(values.quantile(0.75))
+            iqr = q3 - q1
+            lower = q1 - 3.0 * iqr
+            upper = q3 + 3.0 * iqr
+            col_lower = column.lower()
+            # For cost/price columns also flag negative values
+            is_price_col = any(k in col_lower for k in ["cost", "price", "amount", "revenue", "fee"])
+            if is_price_col:
+                invalid_mask = invalid_mask | (
+                    pl.col(column).is_not_null()
+                    & ((pl.col(column) < 0) | (pl.col(column) > upper))
+                )
+            else:
+                invalid_mask = invalid_mask | (
+                    pl.col(column).is_not_null()
+                    & ((pl.col(column) < lower) | (pl.col(column) > upper))
+                )
+
+        invalid = df.filter(invalid_mask)
+        if invalid.height == 0:
+            return df, 0
+
+        quarantine_path.parent.mkdir(parents=True, exist_ok=True)
+        with quarantine_path.open("a", encoding="utf-8") as handle:
+            for row in invalid.to_dicts():
+                handle.write(f"[QUARANTINE] reason='numeric_outlier' data={json.dumps(row, default=str)}\n")
+        return df.filter(~invalid_mask), invalid.height
 
     def normalize(
         self,
@@ -305,9 +365,13 @@ class DatasetNormalizer:
                 separator=shield_res.detected_delimiter,
                 infer_schema_length=10000,
                 ignore_errors=True,
-                null_values=["", "NA", "N/A", "null", "NULL", "None", "NaN"],
+                null_values=None,
                 truncate_ragged_lines=True,
             )
+            df = self._postprocess_dataframe(df)
+            df, outlier_count = self._quarantine_numeric_outliers(df, shield_res.quarantine_path)
+            shield_res.quarantined_count += outlier_count
+            shield_res.valid_rows_count = df.height
             return NormalizedDataset(
                 df=df,
                 format=fmt,
