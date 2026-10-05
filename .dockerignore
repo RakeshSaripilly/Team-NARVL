@@ -16,3 +16,9 @@ data/
 *.csv
 .DS_Store
 Thumbs.db
+tests/
+doc_extension/
+*.log
+.agents/
+.gemini/
+scratch/

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>NARVL Immutable Provenance Report</title>
+    
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 40px; }
         .card { background: #1e293b; border-radius: 12px; padding: 30px; margin-bottom: 24px; border: 1px solid #334155; }
@@ -22,18 +23,20 @@
         <div class="header">
             <div>
                 <h1>NARVL Immutable Provenance Certificate</h1>
-                <p style="color:#94a3b8; margin: 4px 0 0 0; font-size: 14px;">Run ID: 119bded1-96c5-47e5-a765-6b15ca66fed2 | Generated: 2026-09-30T12:40:11.311357+00:00</p>
+                <p style="color:#94a3b8; margin: 4px 0 0 0; font-size: 14px;">Run ID: 23d9cce5-f837-4c09-be86-0f98c976cd93 | Generated: 2026-10-01T09:51:55.744073+00:00</p>
             </div>
-            <div><span style="background:#742a2a; color:#feb2b2; padding:6px 14px; border-radius:20px; font-weight:bold;">BLOCKED - INTEGRITY FAILURE</span></div>
+            <div><span style="background:#22543d; color:#9ae6b4; padding:6px 14px; border-radius:20px; font-weight:bold;">PASS - AUDIT VERIFIED</span></div>
         </div>
 
         <div class="meta-grid">
             <div class="meta-item"><div class="meta-title">Dataset Name</div><div class="meta-val">dataset</div></div>
             <div class="meta-item"><div class="meta-title">Raw Dimensions</div><div class="meta-val">(6, 6)</div></div>
-            <div class="meta-item"><div class="meta-title">Clean Dimensions</div><div class="meta-val">(5, 6)</div></div>
-            <div class="meta-item"><div class="meta-title">Volumetric Loss</div><div class="meta-val">16.67%</div></div>
+            <div class="meta-item"><div class="meta-title">Clean Dimensions</div><div class="meta-val">(4, 6)</div></div>
+            <div class="meta-item"><div class="meta-title">Volumetric Loss</div><div class="meta-val">33.33%</div></div>
         </div>
     </div>
+
+    
 
     <div class="card">
         <h2 style="font-size: 18px; margin-top:0;">Pipeline Execution Plan</h2>
@@ -53,22 +56,14 @@
             
             <tr>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#2</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">CustomerID</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">State</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize_values</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">1.00</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Fuzzy matching resolved canonical root from PostalCode grouping.</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748;">0.98</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Unified semantic knowledge and functional dependencies resolve State anomalies.</td>
             </tr>
             
             <tr>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#3</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">State</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">standardize_values</span></td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748;">1.00</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Fuzzy matching resolved canonical root from PostalCode grouping.</td>
-            </tr>
-            
-            <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#4</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Age</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">clamp_bounds</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.98</td>
@@ -76,11 +71,11 @@
             </tr>
             
             <tr>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#5</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-weight:600;">#4</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748; color:#63b3ed;">Email</td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;"><span style="background:#2b6cb0; padding:2px 8px; border-radius:4px; font-size:12px;">regex_replace</span></td>
                 <td style="padding:10px; border-bottom:1px solid #2d3748;">0.96</td>
-                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Emails must be trimmed and lowercased for uniform entity resolution.</td>
+                <td style="padding:10px; border-bottom:1px solid #2d3748; font-size:13px; color:#a0aec0;">Emails must be trimmed, lowercased, and invalid format strings nullified.</td>
             </tr>
             
             </tbody>
@@ -90,11 +85,12 @@
     <div class="card">
         <h2 style="font-size: 18px; margin-top:0;">Cryptographic Provenance Verification</h2>
         <p style="font-size:13px; color:#94a3b8;">Input SHA-256: <code>a9364e9894eadf250aa16b3b99f4c75e056ca468872bed131575c83a9463c2b6</code></p>
-        <p style="font-size:13px; color:#94a3b8;">Output SHA-256: <code>6510380315d3127b3ecae79c548eee289978313bcf49e0cc60f8a129fcba2cf4</code></p>
+        <p style="font-size:13px; color:#94a3b8;">Output SHA-256: <code>50f6cb428985b3812e9efa3a65a3c6a33d0e2ad958edededd4193952e562897b</code></p>
         <div class="signature-box">
             [HMAC-SHA256 DIGITAL SIGNATURE]<br>
-            6c98e1ee995a33b889f367f8ccfe2d636750a8df4c509a43d4b446287cdb9b2f
+            7e6fc210e3a79003b7d7a8ef29ed1c1c2e62ad5ab2cd70fe44cc29181d51f279
         </div>
     </div>
+    
 </body>
 </html>

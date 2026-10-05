@@ -1,0 +1,505 @@
+ID,Full_Name,Age,Email,Phone,City,State,PostalCode,Country,Gender,Department,Salary,Currency,Joining_Date,Is_Active,Address,Remarks,Score
+30,  kavya sharma  ,55, KAVYA.SHARMA69@CORP.COM ,8950028965,nizamabad, Telangana , 503001 ,India,male, finance ,143062,INR,2018-11-11,No,"H.No 170, Banjara Hills , Nizamabad",Needs improvement,3.03
+407,  Kiran Desai  ,twenty-five,user@,9788857221,Khammam,Telangana,507001,India,?,HR ,INR 50000,INR,2023/05/15,No,  ,Needs improvement,1.32
+264,Vikram Das,38,vikram.das61@corp.com,9014501050,Secunderabad,Telangana,500003,India,Male,Operations,195232,INR,2018-05-14,Yes,"H.No 170, Ameerpet , Secunderabad",Excellent team player,2.68
+230,Ishita Singh,42,ishita.singh8@corp.com,6094115188,Secunderabad,Telangana,500003,India,Male,Support,59077,INR,2022-06-03,No,"H.No 181, Kukatpally , Secunderabad",Good employee,2.35
+262,Rohan Desai,34,rohan.desai22@corp.com,9895081081,Adilabad,Telangana,504001,India,Female,Engineering,89878,INR,2019-12-05,Yes,"H.No 188, Banjara Hills , Adilabad",Excellent team player,1.49
+246,Aarav Joshi,41,aarav.joshi40@corp.com,7204079697,Adilabad,Telangana,504001,India,Female,Support,55747,INR,2019-03-10,No,"H.No 199, Ameerpet , Adilabad",Needs improvement,3.92
+141,  kiran varma  ,57,  kiran.varma90@corp.com ,7166605339,secunderabad, Telangana , 500003 ,India,male, sales ,183834,INR,2019-04-02,Yes,"H.No 164, Jubilee Hills , Secunderabad",Good employee,1.4
+292,Suresh Menon,26,suresh.menon96@corp.com,8946534590,Secunderabad,Telangana,500003,India,Male,Marketing,116957,INR,2018-02-03,Yes,"H.No 46, Ameerpet , Secunderabad",Good employee,3.3
+76,Diya Joshi,29,diya.joshi60@corp.com,6323408297,Secunderabad,Telangana,500003,India,Male,Support,134179,INR,2022-06-03,No,"H.No 4, Ameerpet , Secunderabad",Good employee,2.82
+252,Priya Iyer,38,priya.iyer28@corp.com,8004452735,Warangal,Telangana,506002,India,Female,Sales,56820,INR,2018-09-22,No,"H.No 144, Ameerpet , Warangal",Needs improvement,3.74
+427,Rohan Khan,24,rohan.khan83@corp.com,6583058549,Nizamabad, telangana ,500003 ,India, Other,Operations,50000 USD,INR,02/30/2023,No,"H.No 191, Banjara Hills , Karimnagar",Needs improvement,3.26
+190,Priya Kumar,54,priya.kumar50@corp.com,7796323275,Khammam,Telangana,507001,India,Male,Sales,130587,INR,2021-03-16,Yes,"H.No 143, Jubilee Hills , Khammam",Promoted last year,2.16
+59,Sunil Mehta,59,sunil.mehta3@corp.com,9284620817,Nizamabad,Telangana,503001,India,Female,Sales,40546,INR,2019-08-17,No,"H.No 72, Jubilee Hills , Nizamabad",Promoted last year,3.54
+55,Vivaan Shah,28,vivaan.shah98@corp.com,6892442253,Nizamabad,Telangana,503001,India,Male,Finance,51282,INR,2019-04-06,Yes,"H.No 41, Banjara Hills , Nizamabad",Promoted last year,2.8
+277,  amit chowdary  ,57, AMIT.CHOWDARY67@CORP.COM ,7605846862,nizamabad,telangana, 503001 ,India,male, engineering ,73032,INR,2021-03-27,No,"H.No 28, Ameerpet , Nizamabad",Excellent team player,1.75
+411,Neha Sharma,150,@corp.com,9151036012,Nizamabad,TELANGANA,504001,India,M,Hr,"$1,200.50",INR,NULL,Yes,"H.No 169, Kukatpally , Secunderabad",Excellent team player,3.1
+247,Pooja Reddy,34,pooja.reddy57@corp.com,6907915284,Adilabad,Telangana,504001,India,Female,Operations,156998,INR,2022-06-27,Yes,"H.No 132, Jubilee Hills , Adilabad",Good employee,2.24
+60,Rohan Reddy,52,rohan.reddy45@corp.com,7753841726,Warangal,Telangana,506002,India,Female,Operations,57420,INR,2019-06-14,No,"H.No 74, Kukatpally , Warangal",Good employee,2.82
+136,Deepak Mehta,58,deepak.mehta30@corp.com,9098389895,Hyderabad,Telangana,500081,India,Female,HR,167424,INR,2023-12-20,No,"H.No 38, Jubilee Hills , Hyderabad",Good employee,3.29
+132,Ananya Desai,47,ananya.desai47@corp.com,6194314620,Karimnagar,Telangana,505001,India,Male,Sales,177276,INR,2019-06-18,No,"H.No 19, Kukatpally , Karimnagar",Promoted last year,4.06
+409,Rohan Nair,NULL,eve@.com,6681230929,Secundrabad,Telangana,50 50 01,India,Male,Operations,174069,INR,02/30/2023,No,"H.No 164, Ameerpet , Nizamabad","Needs improvement, but okay",2.44
+73,Sneha Mehta,44,sneha.mehta74@corp.com,7270762239,Nizamabad,Telangana,503001,India,Female,Engineering,133758,INR,2020-01-19,Yes,"H.No 156, Kukatpally , Nizamabad",Needs improvement,4.1
+68,Ananya Joshi,47,ananya.joshi84@corp.com,6344951668,Adilabad,Telangana,504001,India,Female,Support,169885,INR,2021-06-21,No,"H.No 139, Banjara Hills , Adilabad",Good employee,1.94
+NULL,priya patel,-10,,6849651876, hyd ,TS,50081,India,Male,HR,50000 USD,INR,2023-03-11,Yes,"H.No 46, Jubilee Hills , Warangal",Good employee,1.7
+47,Rakesh Iyer,58,rakesh.iyer79@corp.com,8869847630,Karimnagar,Telangana,505001,India,Female,Engineering,159579,INR,2020-03-16,Yes,"H.No 91, Ameerpet , Karimnagar",Needs improvement,2.12
+94,Kiran Naidu,54,kiran.naidu72@corp.com,9579229053,Nizamabad,Telangana,503001,India,Female,Engineering,134089,INR,2023-01-14,Yes,"H.No 118, Banjara Hills , Nizamabad",Needs improvement,3.3
+93,Pooja Patel,22,pooja.patel27@corp.com,7294586283,Secunderabad,Telangana,500003,India,Male,Support,96982,INR,2020-06-04,Yes,"H.No 128, Kukatpally , Secunderabad",Excellent team player,1.52
+260,KIRAN GUPTA ,45,  kiran.gupta2@corp.com ,9831138280, WARANGAL ,telangana, 506002 ,India,male, engineering ,31081,INR,2023-12-08,Yes,"H.No 178, Ameerpet , Warangal",Needs improvement,1.52
+114,Amit Singh,51,amit.singh90@corp.com,8055275742,Nizamabad,Telangana,503001,India,Male,Support,65350,INR,2018-12-25,No,"H.No 10, Ameerpet , Nizamabad",Excellent team player,1.18
+273,Sai Ali,52,sai.ali64@corp.com,9734111722,Secunderabad,Telangana,500003,India,Male,Support,158882,INR,2020-04-11,No,"H.No 13, Jubilee Hills , Secunderabad",Promoted last year,2.61
+479,Sunil Shah,53,@corp.com,8656434573,Secundrabad,Telangana,504001,India, Other,Sales ,INR 50000,INR,NULL,Y,"H.No 4, Jubilee Hills , Adilabad",Good employee,4.26
+439,Mahesh Naidu,59,user@domain,6837199429,Warangal,TELANGANA,500-081,India,Female,Operations,77164,INR,2020-09-01,Yes,  ,,1.39
+43,DEEPAK DESAI ,32, DEEPAK.DESAI78@CORP.COM ,8608108101, NIZAMABAD , Telangana , 503001 ,India,male, support ,72930,INR,2020-02-19,Yes,"H.No 80, Kukatpally , Nizamabad",Promoted last year,4.77
+490,Ishita Menon,33,alice.com,6103323768,khammam,Telangana,500-081,India,Female,Marketing,INR 50000,INR,2023-05-15T10:30:00Z,,"H.No 74, Jubilee Hills , Adilabad",Has null byte,2.02
+0025,Ananya Mehta,59,user@,8506316951,Hyderabad,TG,500081,India,M,HR ,999999999,INR,02/30/2023,Yes,"H.No 85, Banjara Hills , Hyderabad","Contains, comma, and ""quote""",3.73
+106,  pooja chowdary  ,50, POOJA.CHOWDARY30@CORP.COM ,8293560436, SECUNDERABAD ,telangana, 500003 ,India,female, support ,152949,INR,2019-06-22,No,"H.No 119, Ameerpet , Secunderabad",Promoted last year,3.01
+177,Kavya Varma,48,kavya.varma39@corp.com,8079757650,Adilabad,Telangana,504001,India,Male,Finance,95981,INR,2019-12-21,No,"H.No 153, Jubilee Hills , Adilabad",Promoted last year,1.43
+NULL,Lakshmi Kumar,-5, frank@corp.com ,7526393650,ADILABAD,Andhra pradesh ,505001,India,NULL,Operations,$0,INR,2021-03-08,Yes,"H.No 12, Banjara Hills , Karimnagar",NULL,2.25
+278,Sneha Gupta,51,sneha.gupta25@corp.com,9078580665,Warangal,Telangana,506002,India,Male,Support,138650,INR,2018-11-27,Yes,"H.No 198, Kukatpally , Warangal",Promoted last year,3.63
+ID_58,lakshmi naidu,34,lakshmi.naidu38@corp.com,8445685199,Khammam,Telangana,504001,India,Female,Hr,"$1,200.50",INR,2023-05-15T10:30:00Z,No,"H.No 5, Road No 2, ""Banjara Hills"", Hyderabad",Needs improvement,1.15
+494,Rahul Iyer,200,rahul.iyer29@corp.com,9191781111,Hyderabad,ap,500081,India,Male ,,123800,INR,2019-02-27,No,,"Contains, comma, and ""quote""",4.92
+,Rohan Menon, 30 ,NULL,9009537802,Adilabad,Andhra Pradesh,5000811,India,NULL,Finance,0,INR,NULL,Yes,"""Plot 45, Jubilee Hills""",Good employee,3.88
+193,Lakshmi Khan,57,lakshmi.khan66@corp.com,6486237535,Khammam,Telangana,507001,India,Male,Finance,172372,INR,2020-09-27,Yes,"H.No 195, Kukatpally , Khammam",Excellent team player,4.96
+139,Ananya Das,41,ananya.das29@corp.com,7278244804,Adilabad,Telangana,504001,India,Female,Operations,84336,INR,2023-12-16,No,"H.No 123, Ameerpet , Adilabad",Needs improvement,2.15
+295,Kiran Naidu,30,kiran.naidu96@corp.com,7679300279,Adilabad,Telangana,504001,India,Female,Operations,67768,INR,2020-11-26,No,"H.No 3, Jubilee Hills , Adilabad",Good employee,1.17
+NULL,Priya Desai,57,@corp.com,9478991743,Karimnagar,ap,506002,India,Female,Engineering,137940,INR,2018-06-28,FALSE,"H.No 148, Jubilee Hills , Warangal",Needs improvement,2.42
+234,Suresh Reddy,44,suresh.reddy33@corp.com,9380225197,Hyderabad,Telangana,500081,India,Male,Engineering,131171,INR,2021-12-14,Yes,"H.No 106, Kukatpally , Hyderabad",Promoted last year,2.4
+235,Sneha Rao,52,sneha.rao74@corp.com,8795892991,Adilabad,Telangana,504001,India,Male,HR,148302,INR,2018-01-10,Yes,"H.No 82, Ameerpet , Adilabad",Good employee,1.3
+262,  rohan desai  ,34,  rohan.desai22@corp.com ,9895081081, ADILABAD , Telangana , 504001 ,India,female, engineering ,89878,INR,2019-12-05,Yes,"H.No 188, Banjara Hills , Adilabad",Excellent team player,1.49
+69,Sunil Chowdary,36,sunil.chowdary96@corp.com,6388176285,Karimnagar,Telangana,505001,India,Male,Support,196133,INR,2023-02-15,Yes,"H.No 178, Ameerpet , Karimnagar",Good employee,1.18
+197,Amit Varma,48,amit.varma49@corp.com,7941289685,Hyderabad,Telangana,500081,India,Male,Marketing,165164,INR,2023-05-23,No,"H.No 117, Kukatpally , Hyderabad",Needs improvement,3.33
+58,Suresh Nair,39,suresh.nair65@corp.com,8319203166,Karimnagar,Telangana,505001,India,Female,Engineering,186771,INR,2018-07-24,No,"H.No 155, Ameerpet , Karimnagar",Good employee,1.37
+15,Rohan Menon,34,rohan.menon13@corp.com,6416314667,Nizamabad,Telangana,503001,India,Female,Finance,141038,INR,2021-08-28,Yes,"H.No 173, Banjara Hills , Nizamabad",Good employee,2.61
+8,Arjun Ali,53,arjun.ali12@corp.com,9246059658,Hyderabad,Telangana,500081,India,Male,HR,194481,INR,2019-11-14,Yes,"H.No 99, Kukatpally , Hyderabad",Promoted last year,3.12
+263,  suresh patel  ,46, SURESH.PATEL82@CORP.COM ,7098606132,adilabad,telangana, 504001 ,India,male, sales ,42572,INR,2023-02-21,Yes,"H.No 13, Banjara Hills , Adilabad",Promoted last year,2.78
+259,Rahul Singh,58,rahul.singh98@corp.com,6680473653,Karimnagar,Telangana,505001,India,Male,HR,191082,INR,2021-11-14,No,"H.No 110, Kukatpally , Karimnagar",Promoted last year,1.02
+224,Kavya Nair,53,kavya.nair4@corp.com,7643810426,Nizamabad,Telangana,503001,India,Female,HR,122784,INR,2019-03-09,No,"H.No 115, Jubilee Hills , Nizamabad",Good employee,3.46
+194,VIKRAM NAIDU ,41, VIKRAM.NAIDU5@CORP.COM ,7931585714,warangal,telangana, 506002 ,India,female, support ,52802,INR,2021-02-25,Yes,"H.No 54, Ameerpet , Warangal",Promoted last year,1.66
+289,Diya Gupta,55,diya.gupta61@corp.com,8410914100,Adilabad,Telangana,504001,India,Male,Engineering,120703,INR,2021-04-21,Yes,"H.No 11, Ameerpet , Adilabad",Promoted last year,4.66
+202,Siddharth Iyer,22,siddharth.iyer2@corp.com,8987566830,Warangal,Telangana,506002,India,Male,Support,140707,INR,2023-03-16,Yes,"H.No 59, Kukatpally , Warangal",Good employee,3.92
+428,Deepak Chowdary,42,deepak.chowdary91@corp.com,6135842149,Secundrabad,Telangana,500 081,India,Female,Engineering,  75000  ,INR,2019-06-15,No,"H.No 56, Ameerpet , Warangal","Needs improvement, but okay",1.45
+72,SUNIL DAS ,32,  sunil.das10@corp.com ,7897214963,warangal, Telangana , 506002 ,India,female, operations ,141230,INR,2023-05-15,No,"H.No 51, Kukatpally , Warangal",Promoted last year,1.43
+21,Diya Iyer,42,diya.iyer97@corp.com,6311570307,Hyderabad,Telangana,500081,India,Female,Sales,177585,INR,2018-02-18,Yes,"H.No 130, Ameerpet , Hyderabad",Excellent team player,4.73
+420,Amit Varma,150,amit.varma25@corp.com,6458579821,Karimnagar,Telangana,504001,India,Male,Sales ,-1000,INR,31/02/2023,Yes,"H.No 153, Jubilee Hills , Secunderabad",,3.75
+227,  deepak varma  ,25, DEEPAK.VARMA61@CORP.COM ,8273894381,warangal,telangana, 506002 ,India,male, hr ,56249,INR,2019-11-08,No,"H.No 137, Banjara Hills , Warangal",Excellent team player,3.3
+201,Amit Singh,25,amit.singh51@corp.com,8686949912,Warangal,Telangana,506002,India,Male,Marketing,53907,INR,2023-02-01,Yes,"H.No 123, Banjara Hills , Warangal",Excellent team player,3.37
+78,Neha Chowdary,48,neha.chowdary15@corp.com,6600337712,Hyderabad,Telangana,500081,India,Male,Finance,159138,INR,2018-02-08,Yes,"H.No 100, Kukatpally , Hyderabad",Needs improvement,3.68
+264,Vikram Das,38,vikram.das61@corp.com,9014501050,Secunderabad,Telangana,500003,India,Male,Operations,195232,INR,2018-05-14,Yes,"H.No 170, Ameerpet , Secunderabad",Excellent team player,2.68
+70,Vivaan Chowdary,44,vivaan.chowdary48@corp.com,7849785671,Secunderabad,Telangana,500003,India,Male,Sales,138016,INR,2022-11-26,Yes,"H.No 44, Jubilee Hills , Secunderabad",Good employee,3.44
+133,Ananya Shah,29,ananya.shah17@corp.com,6415243819,Karimnagar,Telangana,505001,India,Female,Support,118889,INR,2022-06-25,Yes,"H.No 51, Kukatpally , Karimnagar",Good employee,1.18
+299,DIYA MEHTA ,31, DIYA.MEHTA73@CORP.COM ,8434653305, WARANGAL ,telangana, 506002 ,India,female, marketing ,74207,INR,2018-06-08,Yes,"H.No 183, Kukatpally , Warangal",Needs improvement,4.36
+29,Ananya Singh,59,ananya.singh34@corp.com,6164313410,Hyderabad,Telangana,500081,India,Female,Finance,112228,INR,2021-10-17,Yes,"H.No 99, Jubilee Hills , Hyderabad",Needs improvement,1.18
+9,Kiran Sharma,29,kiran.sharma88@corp.com,9800137469,Khammam,Telangana,507001,India,Female,Support,198024,INR,2020-02-10,No,"H.No 41, Kukatpally , Khammam",Good employee,4.82
+,Rohan Kumar,38,rohan.kumar23@corp.com,8952647739,Khammam,Telengana,507001,India,Female,Support,103871,INR,08/15/2022,FALSE,NULL,NULL,4.78
+158,Amit Nair,55,amit.nair41@corp.com,8990621826,Karimnagar,Telangana,505001,India,Female,HR,108613,INR,2021-03-25,No,"H.No 62, Jubilee Hills , Karimnagar",Needs improvement,4.43
+205,Ishita Kumar,37,ishita.kumar36@corp.com,8768624284,Hyderabad,Telangana,500081,India,Male,Sales,187548,INR,2022-12-20,No,"H.No 200, Banjara Hills , Hyderabad",Needs improvement,1.82
+4,Sneha Reddy,57,sneha.reddy38@corp.com,9562265906,Nizamabad,Telangana,503001,India,Female,Sales,80407,INR,2023-02-02,Yes,"H.No 198, Ameerpet , Nizamabad",Good employee,4.42
+424,Kavya Iyer,NULL,kavya.iyer77@corp.com,8577418939,HYD,Telangana,503001,India,Male,ENGINEERING,102905,INR,2023/05/15,Yes,"H.No 13, Jubilee Hills , Hyderabad",Excellent team player,1.22
+186,Amit Rao,32,amit.rao95@corp.com,7047598131,Khammam,Telangana,507001,India,Male,Sales,71978,INR,2020-09-14,No,"H.No 60, Kukatpally , Khammam",Excellent team player,1.75
+461,Sunil Rao,120,sunil.rao57@corp.com,8244817796,Secundrabad,Andhra Pradesh,50 50 01,India,Male,Engineering,67582,INR,31/02/2023,Yes,"Apt 4B, Building, 2nd Floor, Hyderabad",Good employee,2.45
+208,Vivaan Nair,54,vivaan.nair37@corp.com,8699690577,Nizamabad,Telangana,503001,India,Female,Marketing,135454,INR,2018-11-18,Yes,"H.No 72, Banjara Hills , Nizamabad",Needs improvement,1.32
+31,Sunil Menon,42,sunil.menon52@corp.com,8994487334,Warangal,Telangana,506002,India,Male,HR,140217,INR,2023-07-22,Yes,"H.No 158, Ameerpet , Warangal",Promoted last year,3.19
+ID_67,Arjun Joshi,N/A, CHARLIE@EXAMPLE.COM ,6195792723,Khammam,TG,507001,India,Male,Finance,"$1,200.50",INR,13/01/2022,No,"Apt 4B, Building, 2nd Floor, Hyderabad",Excellent team player,2.75
+209,Rahul Kumar,56,rahul.kumar42@corp.com,7678179022,Khammam,Telangana,507001,India,Male,Finance,144684,INR,2023-04-02,Yes,"H.No 23, Kukatpally , Khammam",Good employee,2.81
+128,Sunil Nair,41,sunil.nair59@corp.com,6313416738,Nizamabad,Telangana,503001,India,Male,HR,145239,INR,2021-08-15,Yes,"H.No 88, Jubilee Hills , Nizamabad",Needs improvement,4.45
+49,Aarav Reddy,40,aarav.reddy29@corp.com,7736889606,Nizamabad,Telangana,503001,India,Male,Finance,182451,INR,2020-08-18,No,"H.No 109, Ameerpet , Nizamabad",Needs improvement,3.81
+269,Ananya Reddy,45,ananya.reddy44@corp.com,6785418196,Hyderabad,Telangana,500081,India,Female,Marketing,149678,INR,2020-07-23,No,"H.No 108, Jubilee Hills , Hyderabad",Good employee,1.53
+1,Amit Rao,23,amit.rao95@corp.com,7181241943,Secunderabad,Telangana,500003,India,Male,HR,56868,INR,2023-12-18,Yes,"H.No 152, Kukatpally , Secunderabad",Good employee,1.12
+260,Kiran Gupta,45,kiran.gupta2@corp.com,9831138280,Warangal,Telangana,506002,India,Male,Engineering,31081,INR,2023-12-08,Yes,"H.No 178, Ameerpet , Warangal",Needs improvement,1.52
+456,Priya Mehta,twenty-five,priya.mehta73@corp.com,7872899986,HYD,Telengana,50 50 01,India,Female,Operations,INR 50000,INR,31/02/2023,Yes,"H.No 67, Jubilee Hills , Adilabad",NULL,1.58
+431,Neha Rao,, CHARLIE@EXAMPLE.COM ,8939810510,Nizamabad ,Telengana,50081,India,female,Marketing,90737,INR,13/01/2022,No,"""Plot 45, Jubilee Hills""",Excellent team player,3.8
+40,Neha Kumar,56,neha.kumar4@corp.com,9895229819,Karimnagar,Telangana,505001,India,Male,Engineering,198492,INR,2021-03-28,No,"H.No 47, Banjara Hills , Karimnagar",Needs improvement,2.52
+113,Priya Varma,23,priya.varma46@corp.com,9386667704,Hyderabad,Telangana,500081,India,Female,HR,194693,INR,2018-10-24,No,"H.No 35, Banjara Hills , Hyderabad",Needs improvement,3.18
+149,Rohan Das,35,rohan.das98@corp.com,7062855922,Nizamabad,Telangana,503001,India,Male,Sales,147112,INR,2022-12-12,Yes,"H.No 145, Banjara Hills , Nizamabad",Good employee,4.32
+277,Amit Chowdary,57,amit.chowdary67@corp.com,7605846862,Nizamabad,Telangana,503001,India,Male,Engineering,73032,INR,2021-03-27,No,"H.No 28, Ameerpet , Nizamabad",Excellent team player,1.75
+443,Rakesh Reddy,25.5,rakesh.reddy95@corp.com,6608126462,Karimnagar,Telangana,507001,India,FEMALE,Marketing,192102,INR,31/02/2023,Yes,"H.No 4, Jubilee Hills , Karimnagar",Good employee,4.62
+109,Aditya Desai,36,aditya.desai4@corp.com,7368741091,Hyderabad,Telangana,500081,India,Female,Support,68285,INR,2019-01-10,No,"H.No 179, Jubilee Hills , Hyderabad",Promoted last year,2.79
+216,Rohan Gupta,56,rohan.gupta98@corp.com,9418680334,Secunderabad,Telangana,500003,India,Male,Engineering,137488,INR,2018-04-18,No,"H.No 163, Banjara Hills , Secunderabad",Needs improvement,1.01
+83,Vivaan Kumar,48,vivaan.kumar68@corp.com,6488120041,Nizamabad,Telangana,503001,India,Male,Marketing,147512,INR,2020-09-19,Yes,"H.No 116, Jubilee Hills , Nizamabad",Good employee,3.91
+174,  amit kumar  ,46, AMIT.KUMAR41@CORP.COM ,7549195708,hyderabad, Telangana , 500081 ,India,male, engineering ,110810,INR,2021-06-25,No,"H.No 27, Jubilee Hills , Hyderabad",Good employee,1.75
+82,Arjun Kumar,56,arjun.kumar33@corp.com,9429590757,Secunderabad,Telangana,500003,India,Male,Operations,36758,INR,2019-01-12,Yes,"H.No 151, Ameerpet , Secunderabad",Good employee,1.7
+258,Rahul Joshi,48,rahul.joshi73@corp.com,9834740605,Karimnagar,Telangana,505001,India,Male,Finance,77279,INR,2018-08-11,Yes,"H.No 81, Banjara Hills , Karimnagar",Good employee,2.81
+90,Suresh Chowdary,43,suresh.chowdary45@corp.com,6026224160,Secunderabad,Telangana,500003,India,Male,Sales,135063,INR,2018-03-24,Yes,"H.No 24, Jubilee Hills , Secunderabad",Promoted last year,2.68
+217,Sunil Nair,41,sunil.nair14@corp.com,6881303105,Khammam,Telangana,507001,India,Male,Marketing,158982,INR,2018-03-23,No,"H.No 24, Banjara Hills , Khammam",Excellent team player,4.59
+110,Aarav Reddy,23,aarav.reddy33@corp.com,6926230061,Adilabad,Telangana,504001,India,Male,Sales,189614,INR,2022-07-04,No,"H.No 61, Ameerpet , Adilabad",Good employee,1.19
+124,Aditya Kumar,42,aditya.kumar83@corp.com,6318536327,Karimnagar,Telangana,505001,India,Female,Operations,165622,INR,2020-03-27,Yes,"H.No 197, Jubilee Hills , Karimnagar",Promoted last year,3.01
+162,Kiran Desai,41,kiran.desai34@corp.com,7544661869,Khammam,Telangana,507001,India,Female,Marketing,55849,INR,2023-08-25,No,"H.No 53, Ameerpet , Khammam",Needs improvement,2.66
+250,Ananya Reddy,40,ananya.reddy4@corp.com,7660286914,Hyderabad,Telangana,500081,India,Male,Support,180014,INR,2019-04-21,Yes,"H.No 174, Jubilee Hills , Hyderabad",Needs improvement,3.61
+36,  mahesh ali  ,49, MAHESH.ALI71@CORP.COM ,7915184358,secunderabad,telangana, 500003 ,India,female, marketing ,97945,INR,2019-11-09,No,"H.No 161, Jubilee Hills , Secunderabad",Needs improvement,2.76
+ID_53,Sai Rao,twenty-five,sai.rao47@corp.com,6674449642,Secundrabad,Andhra Pradesh,503001,India,Female,Operations,INR 50000,INR,08/15/2022, yes ,,Needs improvement,4.28
+172,Priya Patel,28,priya.patel56@corp.com,6997050893,Adilabad,Telangana,504001,India,Male,Finance,188641,INR,2022-10-13,No,"H.No 8, Ameerpet , Adilabad",Promoted last year,2.96
+195,Arjun Gupta,35,arjun.gupta8@corp.com,8448450685,Warangal,Telangana,506002,India,Female,Sales,171234,INR,2019-06-23,No,"H.No 75, Ameerpet , Warangal",Good employee,1.54
+258,Rahul Joshi,48,rahul.joshi73@corp.com,9834740605,Karimnagar,Telangana,505001,India,Male,Finance,77279,INR,2018-08-11,Yes,"H.No 81, Banjara Hills , Karimnagar",Good employee,2.81
+298,Mahesh Mehta,53,mahesh.mehta43@corp.com,7533897596,Secunderabad,Telangana,500003,India,Male,Engineering,104746,INR,2022-02-07,No,"H.No 125, Kukatpally , Secunderabad",Needs improvement,3.47
+143,Amit Patel,27,amit.patel84@corp.com,8465883999,Secunderabad,Telangana,500003,India,Male,HR,139546,INR,2019-01-27,No,"H.No 127, Jubilee Hills , Secunderabad",Needs improvement,4.51
+87,Aditya Reddy,49,aditya.reddy13@corp.com,9197985262,Nizamabad,Telangana,503001,India,Female,Support,64108,INR,2022-01-19,No,"H.No 172, Banjara Hills , Nizamabad",Promoted last year,2.41
+226,Suresh Desai,52,suresh.desai70@corp.com,9356238229,Karimnagar,Telangana,505001,India,Female,Sales,161699,INR,2020-07-09,Yes,"H.No 7, Ameerpet , Karimnagar",Excellent team player,1.12
+414,Pooja Sharma,NULL,pooja.sharma18@corp.com,9823914858,HYD,Telangana,,India,Male,Finance,-1000,INR,2019-06-01,No,  ,Good employee,1.15
+463,Ishita Nair,N/A,alice.com,6154537730,Karimnagar,Andhra pradesh ,500003,India,Male ,Hr,"1,00,000",INR,2023-03-16,Yes,"H.No 35, Ameerpet , Hyderabad",NULL,2.95
+147,Neha Varma,43,neha.varma39@corp.com,8501649877,Nizamabad,Telangana,503001,India,Male,Finance,124254,INR,2023-04-02,Yes,"H.No 120, Ameerpet , Nizamabad",Excellent team player,2.62
+137,Suresh Rao,34,suresh.rao3@corp.com,7894246230,Warangal,Telangana,506002,India,Female,HR,138255,INR,2023-04-14,No,"H.No 189, Banjara Hills , Warangal",Excellent team player,3.07
+4,  sneha reddy  ,57,  sneha.reddy38@corp.com ,9562265906, NIZAMABAD ,telangana, 503001 ,India,female, sales ,80407,INR,2023-02-02,Yes,"H.No 198, Ameerpet , Nizamabad",Good employee,4.42
+262,Rohan Desai,34,rohan.desai22@corp.com,9895081081,Adilabad,Telangana,504001,India,Female,Engineering,89878,INR,2019-12-05,Yes,"H.No 188, Banjara Hills , Adilabad",Excellent team player,1.49
+ID_30,Aarav Joshi,120,eve@.com,7932999727,Karimnagar,Telengana,506002,India,Male,Finance,84790,INR,15-08-2022, yes ,,Promoted last year,3.49
+238,Aarav Menon,27,aarav.menon38@corp.com,9538611992,Nizamabad,Telangana,503001,India,Female,HR,55424,INR,2018-04-06,No,"H.No 21, Kukatpally , Nizamabad",Good employee,2.23
+38,Ishita Das,51,ishita.das54@corp.com,6267429212,Secunderabad,Telangana,500003,India,Female,Marketing,183112,INR,2023-01-28,No,"H.No 123, Banjara Hills , Secunderabad",Needs improvement,2.19
+23,Vikram Das,31,vikram.das35@corp.com,7210133979,Khammam,Telangana,507001,India,Male,Operations,119884,INR,2019-11-21,No,"H.No 130, Kukatpally , Khammam",Needs improvement,4.62
+26,Priya Das,48,priya.das80@corp.com,9218981849,Secunderabad,Telangana,500003,India,Male,Support,72598,INR,2019-07-01,Yes,"H.No 189, Ameerpet , Secunderabad",Promoted last year,4.21
+493,Ishita Gupta,51,ishita.gupta77@corp.com,7410713142,Karimnagar,Andhra pradesh ,504001,India, Other,Hr,30536,INR,13/01/2022,Yes,"Line1
+Line2",Promoted last year,3.22
+104,  diya singh  ,35, DIYA.SINGH44@CORP.COM ,9290615870,karimnagar, Telangana , 505001 ,India,male, hr ,66061,INR,2019-02-10,Yes,"H.No 130, Banjara Hills , Karimnagar",Needs improvement,4.51
+470,Rohan Khan,25.5,@corp.com,9081149490,Hydrabad,TS,504001,India,Male,Support,50000 USD,INR,08/15/2022,Yes,"H.No 91, Kukatpally , Karimnagar",Needs improvement,2.81
+16,Ishita Rao,37,ishita.rao25@corp.com,6816941039,Khammam,Telangana,507001,India,Female,HR,140593,INR,2019-05-15,Yes,"H.No 20, Kukatpally , Khammam",Good employee,1.2
+429,Arjun Gupta,-10,eve@.com,7664678697,khammam,TELANGANA,5000AB,India,M,ENGINEERING,INR 50000,INR,2023-02-30,Yes,"H.No 86, Kukatpally , Nizamabad","Works on ""AI, ML"" team",1.41
+268,Diya Desai,42,diya.desai55@corp.com,9172006012,Hyderabad,Telangana,500081,India,Male,Support,42029,INR,2018-03-22,Yes,"H.No 85, Ameerpet , Hyderabad",Promoted last year,4.82
+432,  Pooja Naidu  ,57,pooja.naidu21@corp.com,8071783372,Adilabad,Telangana,503001,India,Male,Finance,"1,00,000",INR,13/01/2022,No,"H.No 146, Ameerpet , Karimnagar",,1.69
+63,Kiran Menon,27,kiran.menon29@corp.com,9613809882,Hyderabad,Telangana,500081,India,Female,Engineering,199793,INR,2019-08-23,No,"H.No 131, Ameerpet , Hyderabad",Promoted last year,4.34
+481,  Neha Naidu  ,N/A,david@corp,8523974937,Nizamabad,TELANGANA, 500081 ,India,f,Sales,"1,00,000",INR,2019-05-24,Yes,"H.No 107, Ameerpet , Nizamabad","😊 Unicode test - café, naïve",4.2
+279,Siddharth Kumar,53,siddharth.kumar1@corp.com,8277897510,Nizamabad,Telangana,503001,India,Male,Sales,143458,INR,2022-08-17,Yes,"H.No 178, Jubilee Hills , Nizamabad",Excellent team player,1.41
+294,LAKSHMI PATEL ,26,  lakshmi.patel46@corp.com ,9985934731,khammam,telangana, 507001 ,India,male, finance ,108997,INR,2022-02-10,No,"H.No 98, Kukatpally , Khammam",Good employee,2.9
+125,Vivaan Rao,55,vivaan.rao20@corp.com,7306204982,Secunderabad,Telangana,500003,India,Male,Finance,89105,INR,2020-09-10,Yes,"H.No 65, Jubilee Hills , Secunderabad",Needs improvement,1.5
+153,Arjun Menon,45,arjun.menon49@corp.com,7926452312,Adilabad,Telangana,504001,India,Female,Marketing,51037,INR,2023-11-28,Yes,"H.No 168, Ameerpet , Adilabad",Good employee,1.71
+164,Sunil Joshi,38,sunil.joshi98@corp.com,9528710502,Karimnagar,Telangana,505001,India,Female,Marketing,74101,INR,2023-06-06,Yes,"H.No 185, Kukatpally , Karimnagar",Excellent team player,4.67
+35,Rakesh Singh,55,rakesh.singh60@corp.com,6215686308,Khammam,Telangana,507001,India,Male,Support,61813,INR,2021-03-26,No,"H.No 171, Ameerpet , Khammam",Promoted last year,3.45
+412,Rakesh Shah,120,test@domain..com,9995225968,  Karimnagar,TG,500003,India,Female,Support,"1,00,000",INR,,No,"H.No 143, Kukatpally , Secunderabad",Needs improvement,4.18
+160,Rahul Patel,39,rahul.patel49@corp.com,8893398852,Khammam,Telangana,507001,India,Male,Support,49079,INR,2019-10-24,Yes,"H.No 123, Jubilee Hills , Khammam",Needs improvement,2.21
+3,Arjun Gupta,43,arjun.gupta14@corp.com,6398340369,Karimnagar,Telangana,505001,India,Male,Finance,120165,INR,2022-05-26,Yes,"H.No 187, Kukatpally , Karimnagar",Good employee,4.89
+10,Mahesh Varma,54,mahesh.varma98@corp.com,6767303988,Khammam,Telangana,507001,India,Male,Support,193918,INR,2020-11-17,Yes,"H.No 40, Ameerpet , Khammam",Excellent team player,3.16
+489,Vivaan Iyer,39,@corp.com,6380232984,Adilabad,Telangana,500003,India,female, engineering ,"$1,200.50",INR,Jan 5th 2023,No,"H.No 144, Banjara Hills , Adilabad","Works on ""AI, ML"" team",1.77
+50,Ananya Chowdary,38,ananya.chowdary30@corp.com,6518213060,Nizamabad,Telangana,503001,India,Male,Finance,61340,INR,2023-09-25,Yes,"H.No 50, Jubilee Hills , Nizamabad",Promoted last year,2.11
+221,Ishita Kumar,27,ishita.kumar92@corp.com,7066091571,Warangal,Telangana,506002,India,Female,Sales,42832,INR,2023-05-09,Yes,"H.No 8, Kukatpally , Warangal",Promoted last year,3.22
+119,Aditya Naidu,45,aditya.naidu47@corp.com,7644347110,Khammam,Telangana,507001,India,Male,Sales,70222,INR,2023-08-12,No,"H.No 114, Banjara Hills , Khammam",Excellent team player,3.12
+23,VIKRAM DAS ,31, VIKRAM.DAS35@CORP.COM ,7210133979, KHAMMAM ,telangana, 507001 ,India,male, operations ,119884,INR,2019-11-21,No,"H.No 130, Kukatpally , Khammam",Needs improvement,4.62
+284,Kiran Patel,44,kiran.patel58@corp.com,6440148273,Khammam,Telangana,507001,India,Male,Operations,199638,INR,2022-07-08,No,"H.No 178, Banjara Hills , Khammam",Promoted last year,2.55
+434,Rakesh Menon,N/A,alice.com,8685274976,Warangal,Andhra Pradesh,5000811,India,m,Marketing,130024,INR,2021-09-07,Yes,"Apt 4B, Building, 2nd Floor, Hyderabad",Excellent team player,3.22
+190,Priya Kumar,54,priya.kumar50@corp.com,7796323275,Khammam,Telangana,507001,India,Male,Sales,130587,INR,2021-03-16,Yes,"H.No 143, Jubilee Hills , Khammam",Promoted last year,2.16
+249,Ananya Desai,51,ananya.desai65@corp.com,7704854104,Nizamabad,Telangana,503001,India,Male,Operations,38011,INR,2019-06-16,No,"H.No 46, Kukatpally , Nizamabad",Needs improvement,2.38
+468,Deepak Ali,?,deepak.ali64@corp.com,9799177162,Secundrabad,Telangana,,India,f,Sales,INR 50000,INR,2023-05-15T10:30:00Z,No,"H.No 192, Jubilee Hills , Hyderabad",Promoted last year,1.87
+NULL,Deepak Naidu,42,deepak.naidu46@corp.com,9856593038,Nizamabad,Telangana, 506002,India,?,Finance,44276,INR,2018-06-12,1,"H.No 125, Banjara Hills , Warangal","Needs improvement, but okay",3.84
+281,Suresh Ali,41,suresh.ali90@corp.com,8352808730,Adilabad,Telangana,504001,India,Female,Operations,175118,INR,2023-04-07,Yes,"H.No 160, Ameerpet , Adilabad",Needs improvement,4.68
+478,Mahesh Mehta,-10,mahesh.mehta46@corp.com,7094616253,khammam,ap,507001,India,Male,Support,50000 USD,INR,2022-12-31,TRUE,"H.No 5, Road No 2, ""Banjara Hills"", Hyderabad","Excellent ""team player""",1.18
+,  Siddharth Menon  ,twenty-five,@corp.com,6579265528,Adilabad,Andhra Pradesh, 506002,India,Male,ENGINEERING,  75000  ,INR,2023-10-07,Y,  123 Main St  ,NULL,4.11
+134,Arjun Joshi,52,arjun.joshi67@corp.com,7962750929,Secunderabad,Telangana,500003,India,Male,Finance,190712,INR,2020-03-13,No,"H.No 152, Ameerpet , Secunderabad",Promoted last year,3.83
+208,  vivaan nair  ,54, VIVAAN.NAIR37@CORP.COM ,8699690577, NIZAMABAD ,telangana, 503001 ,India,female, marketing ,135454,INR,2018-11-18,Yes,"H.No 72, Banjara Hills , Nizamabad",Needs improvement,1.32
+84,Sunil Ali,41,sunil.ali59@corp.com,8763127185,Hyderabad,Telangana,500081,India,Male,Marketing,135281,INR,2021-11-04,No,"H.No 183, Kukatpally , Hyderabad",Good employee,4.6
+130,Sneha Shah,48,sneha.shah32@corp.com,9716467404,Secunderabad,Telangana,500003,India,Female,Sales,111976,INR,2019-03-16,No,"H.No 128, Ameerpet , Secunderabad",Promoted last year,1.09
+27,Mahesh Naidu,39,mahesh.naidu21@corp.com,9381747775,Nizamabad,Telangana,503001,India,Male,Marketing,40151,INR,2021-04-07,No,"H.No 90, Ameerpet , Nizamabad",Excellent team player,1.89
+268,DIYA DESAI ,42, DIYA.DESAI55@CORP.COM ,9172006012,hyderabad, Telangana , 500081 ,India,male, support ,42029,INR,2018-03-22,Yes,"H.No 85, Ameerpet , Hyderabad",Promoted last year,4.82
+95,Lakshmi Nair,48,lakshmi.nair38@corp.com,6494665880,Karimnagar,Telangana,505001,India,Male,Finance,75055,INR,2022-08-27,No,"H.No 23, Kukatpally , Karimnagar",Good employee,1.97
+32,Aarav Chowdary,40,aarav.chowdary27@corp.com,7846355528,Adilabad,Telangana,504001,India,Female,Marketing,145811,INR,2021-11-07,No,"H.No 189, Jubilee Hills , Adilabad",Good employee,2.14
+134,  arjun joshi  ,52,  arjun.joshi67@corp.com ,7962750929, SECUNDERABAD , Telangana , 500003 ,India,male, finance ,190712,INR,2020-03-13,No,"H.No 152, Ameerpet , Secunderabad",Promoted last year,3.83
+271,Mahesh Kumar,52,mahesh.kumar63@corp.com,6485062769,Karimnagar,Telangana,505001,India,Female,Engineering,46603,INR,2020-11-11,Yes,"H.No 181, Jubilee Hills , Karimnagar",Needs improvement,3.08
+484,Siddharth Desai,23,siddharth.desai57@corp.com,6625279820,HYD,Telangana,504001,India,Male,Operations,165619,INR,2018-02-11,No,"H.No 103, Jubilee Hills , Adilabad",Promoted last year,1.25
+287,Neha Kumar,24,neha.kumar20@corp.com,9988427908,Warangal,Telangana,506002,India,Male,Support,193936,INR,2022-11-10,No,"H.No 147, Ameerpet , Warangal",Good employee,4.14
+253,Rohan Reddy,43,rohan.reddy36@corp.com,8751333497,Warangal,Telangana,506002,India,Female,Finance,108326,INR,2019-03-17,Yes,"H.No 15, Kukatpally , Warangal",Needs improvement,3.72
+229,Rohan Das,41,rohan.das23@corp.com,8106408413,Hyderabad,Telangana,500081,India,Male,Engineering,90980,INR,2022-04-01,No,"H.No 1, Ameerpet , Hyderabad",Excellent team player,4.23
+75,Mahesh Kumar,27,mahesh.kumar38@corp.com,7403247962,Nizamabad,Telangana,503001,India,Female,HR,82637,INR,2019-09-12,No,"H.No 43, Ameerpet , Nizamabad",Promoted last year,4.87
+441,aarav khan,31,aarav.khan84@corp.com,8750219066,Hyderbad,Telengana,500003,India,Male,Operations,999999999,INR,15-08-2022,No,,"Needs review, promotion? Yes, soon",2.91
+190,  priya kumar  ,54,  priya.kumar50@corp.com ,7796323275,khammam,telangana, 507001 ,India,male, sales ,130587,INR,2021-03-16,Yes,"H.No 143, Jubilee Hills , Khammam",Promoted last year,2.16
+413,Lakshmi Desai,51,lakshmi.desai90@corp.com,8857194152,Karimnagar,AP,505001,India,NULL,HR,-1000,INR,Jan 5th 2023,No,"Apt 4B, Building, 2nd Floor, Hyderabad",Promoted last year,4.73
+459,pooja gupta,-10,pooja.gupta26@corp.com,6793631899,Adilabad,Andhra pradesh ,5000AB,India,Female,Engineering,0,INR,Jan 5th 2023,No,  ,,3.02
+62,Deepak Patel,35,deepak.patel35@corp.com,8358880404,Secunderabad,Telangana,500003,India,Female,Marketing,157064,INR,2018-01-21,Yes,"H.No 182, Jubilee Hills , Secunderabad",Needs improvement,3.2
+260,Kiran Gupta,45,kiran.gupta2@corp.com,9831138280,Warangal,Telangana,506002,India,Male,Engineering,31081,INR,2023-12-08,Yes,"H.No 178, Ameerpet , Warangal",Needs improvement,1.52
+187,Sunil Menon,47,sunil.menon4@corp.com,9167058912,Khammam,Telangana,507001,India,Male,Marketing,185242,INR,2021-07-01,Yes,"H.No 53, Ameerpet , Khammam",Good employee,3.31
+200,Sai Iyer,51,sai.iyer1@corp.com,7837384013,Secunderabad,Telangana,500003,India,Male,Operations,109132,INR,2019-05-03,No,"H.No 65, Banjara Hills , Secunderabad",Needs improvement,3.66
+25,Suresh Kumar,56,suresh.kumar5@corp.com,9584558315,Warangal,Telangana,506002,India,Male,Marketing,63409,INR,2018-05-12,Yes,"H.No 92, Jubilee Hills , Warangal",Excellent team player,3.67
+465,Rahul Khan,twenty-five,eve@.com,6919467055,Adilabad,Telangana,5000AB,India,,Engineering,NULL,INR,2023-05-15T10:30:00Z,Yes,"H.No 160, Banjara Hills , Warangal",Good employee,3.37
+179,Sai Nair,42,sai.nair38@corp.com,9156261362,Nizamabad,Telangana,503001,India,Female,Sales,93550,INR,2020-07-09,No,"H.No 94, Banjara Hills , Nizamabad",Excellent team player,3.37
+47,Rakesh Iyer,58,rakesh.iyer79@corp.com,8869847630,Karimnagar,Telangana,505001,India,Female,Engineering,159579,INR,2020-03-16,Yes,"H.No 91, Ameerpet , Karimnagar",Needs improvement,2.12
+482,  Vivaan Reddy  ,43,vivaan.reddy56@corp.com,6489494385,Khammam,Telangana,50081,India,Male,Engineering,"1,20,000.00",INR,2019-08-09,No,"H.No 91, Banjara Hills , Khammam",Needs improvement,4.59
+99,Lakshmi Patel,44,lakshmi.patel65@corp.com,6318646463,Warangal,Telangana,506002,India,Female,Marketing,39858,INR,2018-06-27,No,"H.No 20, Banjara Hills , Warangal",Promoted last year,2.85
+213,Siddharth Sharma,24,siddharth.sharma2@corp.com,7050340486,Hyderabad,Telangana,500081,India,Female,Finance,130395,INR,2019-03-28,Yes,"H.No 142, Kukatpally , Hyderabad",Excellent team player,2.29
+75,Mahesh Kumar,27,mahesh.kumar38@corp.com,7403247962,Nizamabad,Telangana,503001,India,Female,HR,82637,INR,2019-09-12,No,"H.No 43, Ameerpet , Nizamabad",Promoted last year,4.87
+188,Kiran Singh,45,kiran.singh42@corp.com,6846427583,Karimnagar,Telangana,505001,India,Male,Finance,158315,INR,2022-11-11,No,"H.No 157, Kukatpally , Karimnagar",Good employee,2.39
+159,Arjun Iyer,25,arjun.iyer72@corp.com,7772436303,Karimnagar,Telangana,505001,India,Male,Marketing,93663,INR,2020-04-11,Yes,"H.No 116, Ameerpet , Karimnagar",Good employee,3.14
+46,Mahesh Ali,39,mahesh.ali79@corp.com,9471189200,Khammam,Telangana,507001,India,Female,Marketing,144183,INR,2023-10-09,No,"H.No 63, Banjara Hills , Khammam",Needs improvement,4.53
+246,AARAV JOSHI ,41,  aarav.joshi40@corp.com ,7204079697,adilabad, Telangana , 504001 ,India,female, support ,55747,INR,2019-03-10,No,"H.No 199, Ameerpet , Adilabad",Needs improvement,3.92
+,Deepak Sharma,31,deepak.sharma85@corp.com,6640879683,Karimnagar,Andhra Pradesh,505001,India,m,Marketing,,INR,2022-08-07,Yes,,Needs improvement,3.28
+45,Sunil Desai,26,sunil.desai65@corp.com,8781177100,Warangal,Telangana,506002,India,Male,Support,140115,INR,2021-02-14,No,"H.No 163, Kukatpally , Warangal",Excellent team player,2.74
+188,Kiran Singh,45,kiran.singh42@corp.com,6846427583,Karimnagar,Telangana,505001,India,Male,Finance,158315,INR,2022-11-11,No,"H.No 157, Kukatpally , Karimnagar",Good employee,2.39
+9,KIRAN SHARMA ,29, KIRAN.SHARMA88@CORP.COM ,9800137469,khammam, Telangana , 507001 ,India,female, support ,198024,INR,2020-02-10,No,"H.No 41, Kukatpally , Khammam",Good employee,4.82
+250,Ananya Reddy,40,ananya.reddy4@corp.com,7660286914,Hyderabad,Telangana,500081,India,Male,Support,180014,INR,2019-04-21,Yes,"H.No 174, Jubilee Hills , Hyderabad",Needs improvement,3.61
+183,Ishita Menon,28,ishita.menon2@corp.com,6423511939,Warangal,Telangana,506002,India,Male,Sales,165999,INR,2022-10-23,Yes,"H.No 115, Ameerpet , Warangal",Promoted last year,2.85
+180,Kiran Singh,57,kiran.singh4@corp.com,9123357626,Karimnagar,Telangana,505001,India,Male,Marketing,106370,INR,2023-02-27,No,"H.No 173, Kukatpally , Karimnagar",Excellent team player,3.53
+89,Priya Rao,39,priya.rao74@corp.com,6971345904,Adilabad,Telangana,504001,India,Female,Support,177053,INR,2022-10-22,Yes,"H.No 156, Ameerpet , Adilabad",Good employee,1.72
+184,Sunil Mehta,54,sunil.mehta20@corp.com,7481623643,Hyderabad,Telangana,500081,India,Female,Engineering,107445,INR,2021-02-04,Yes,"H.No 90, Ameerpet , Hyderabad",Needs improvement,2.82
+166,Neha Desai,25,neha.desai80@corp.com,8739023440,Nizamabad,Telangana,503001,India,Female,Operations,157888,INR,2018-01-18,No,"H.No 4, Banjara Hills , Nizamabad",Needs improvement,3.14
+74,Rakesh Shah,44,rakesh.shah29@corp.com,8734252963,Secunderabad,Telangana,500003,India,Female,Operations,65855,INR,2023-02-21,Yes,"H.No 80, Kukatpally , Secunderabad",Good employee,3.32
+,Arjun Reddy,,arjun.reddy34@corp.com,8447715974,Hydrabad,Telangana,50 50 01,India,Male ,fin,"$1,200.50",INR,2019-11-01,No,"H.No 175, Kukatpally , Adilabad",,4.75
+290,Vikram Nair,38,vikram.nair70@corp.com,9109451569,Warangal,Telangana,506002,India,Male,Sales,128293,INR,2022-09-15,No,"H.No 12, Ameerpet , Warangal",Excellent team player,2.28
+11,Deepak Ali,22,deepak.ali77@corp.com,7392239675,Karimnagar,Telangana,505001,India,Male,Engineering,125153,INR,2020-04-02,Yes,"H.No 146, Banjara Hills , Karimnagar",Good employee,3.93
+236,Sai Nair,32,sai.nair94@corp.com,6322132937,Khammam,Telangana,507001,India,Male,Finance,185721,INR,2022-08-23,Yes,"H.No 111, Jubilee Hills , Khammam",Promoted last year,1.63
+119,Aditya Naidu,45,aditya.naidu47@corp.com,7644347110,Khammam,Telangana,507001,India,Male,Sales,70222,INR,2023-08-12,No,"H.No 114, Banjara Hills , Khammam",Excellent team player,3.12
+229,Rohan Das,41,rohan.das23@corp.com,8106408413,Hyderabad,Telangana,500081,India,Male,Engineering,90980,INR,2022-04-01,No,"H.No 1, Ameerpet , Hyderabad",Excellent team player,4.23
+,Arjun Patel,50,,7294808407,Warangal ,Telangana,507001,India,Male,Engineering,56693,INR,2023-01-18,Yes,,Promoted last year,1.38
+272,Suresh Shah,28,suresh.shah56@corp.com,8842036826,Nizamabad,Telangana,503001,India,Male,Marketing,120636,INR,2023-11-21,No,"H.No 39, Banjara Hills , Nizamabad",Good employee,3.57
+85,Ishita Shah,31,ishita.shah9@corp.com,6541988748,Warangal,Telangana,506002,India,Female,Marketing,186602,INR,2022-05-15,No,"H.No 26, Banjara Hills , Warangal",Excellent team player,2.72
+135,Diya Khan,23,diya.khan48@corp.com,7422663210,Nizamabad,Telangana,503001,India,Male,Marketing,183014,INR,2020-12-28,Yes,"H.No 153, Kukatpally , Nizamabad",Needs improvement,4.87
+64,Rohan Naidu,51,rohan.naidu71@corp.com,6621232513,Karimnagar,Telangana,505001,India,Male,Sales,163232,INR,2023-03-28,Yes,"H.No 71, Kukatpally , Karimnagar",Needs improvement,4.74
+109,Aditya Desai,36,aditya.desai4@corp.com,7368741091,Hyderabad,Telangana,500081,India,Female,Support,68285,INR,2019-01-10,No,"H.No 179, Jubilee Hills , Hyderabad",Promoted last year,2.79
+435,  Neha Ali  ,N/A,neha.ali71@corp.com,9522179956,Nizamabad,Telengana,505001,India,Female,Sales ,89176,INR,08/15/2022,Yes,"H.No 148, Kukatpally , Karimnagar",Excellent team player,3.85
+273,  sai ali  ,52,  sai.ali64@corp.com ,9734111722, SECUNDERABAD , Telangana , 500003 ,India,male, support ,158882,INR,2020-04-11,No,"H.No 13, Jubilee Hills , Secunderabad",Promoted last year,2.61
+212,Lakshmi Reddy,53,lakshmi.reddy59@corp.com,8193791472,Warangal,Telangana,506002,India,Male,Marketing,178605,INR,2019-06-06,No,"H.No 198, Banjara Hills , Warangal",Good employee,1.91
+77,SUNIL VARMA ,59,  sunil.varma49@corp.com ,9532255403,nizamabad, Telangana , 503001 ,India,female, engineering ,91295,INR,2021-01-20,No,"H.No 157, Jubilee Hills , Nizamabad",Good employee,3.54
+115,Rahul Patel,42,rahul.patel40@corp.com,8213555655,Karimnagar,Telangana,505001,India,Female,Finance,39599,INR,2023-04-10,No,"H.No 200, Banjara Hills , Karimnagar",Needs improvement,2.09
+295,KIRAN NAIDU ,30,  kiran.naidu96@corp.com ,7679300279, ADILABAD , Telangana , 504001 ,India,female, operations ,67768,INR,2020-11-26,No,"H.No 3, Jubilee Hills , Adilabad",Good employee,1.17
+2,Rahul Naidu,54,rahul.naidu78@corp.com,6113971123,Khammam,Telangana,507001,India,Male,Operations,172853,INR,2021-04-15,No,"H.No 2, Jubilee Hills , Khammam",Promoted last year,2.36
+267,Deepak Ali,26,deepak.ali93@corp.com,9107736331,Hyderabad,Telangana,500081,India,Female,Operations,90597,INR,2021-05-09,No,"H.No 13, Banjara Hills , Hyderabad",Excellent team player,4.5
+118,MAHESH DESAI ,49,  mahesh.desai36@corp.com ,8746499773, ADILABAD ,telangana, 504001 ,India,male, engineering ,197120,INR,2021-06-17,Yes,"H.No 8, Jubilee Hills , Adilabad",Promoted last year,1.14
+410,Deepak Patel,25.5,deepak.patel46@corp.com,8768428107,HYD,Telengana,500081,India,,HR,  75000  ,INR,NULL,No,"H.No 113, Jubilee Hills , Secunderabad","Excellent ""team player""",3.76
+176,Deepak Reddy,57,deepak.reddy32@corp.com,8456551333,Khammam,Telangana,507001,India,Male,Operations,129806,INR,2019-03-09,No,"H.No 69, Kukatpally , Khammam",Excellent team player,1.25
+197,  amit varma  ,48,  amit.varma49@corp.com ,7941289685,hyderabad, Telangana , 500081 ,India,male, marketing ,165164,INR,2023-05-23,No,"H.No 117, Kukatpally , Hyderabad",Needs improvement,3.33
+449,Suresh Joshi,?, frank@corp.com ,7273844284,ADILABAD,Telangana, 506002,India,FEMALE,Operations,190563,INR,31/02/2023,No,"H.No 176, Banjara Hills , Karimnagar",Needs improvement,3.94
+52,Vivaan Das,40,vivaan.das90@corp.com,6542366274,Nizamabad,Telangana,503001,India,Female,Engineering,33215,INR,2022-05-16,No,"H.No 113, Ameerpet , Nizamabad",Excellent team player,4.86
+200,  sai iyer  ,51,  sai.iyer1@corp.com ,7837384013, SECUNDERABAD , Telangana , 500003 ,India,male, operations ,109132,INR,2019-05-03,No,"H.No 65, Banjara Hills , Secunderabad",Needs improvement,3.66
+288,Ishita Ali,36,ishita.ali24@corp.com,8235986982,Hyderabad,Telangana,500081,India,Male,Marketing,172365,INR,2022-07-03,No,"H.No 57, Jubilee Hills , Hyderabad",Needs improvement,2.32
+148,Siddharth Chowdary,29,siddharth.chowdary82@corp.com,9934750046,Warangal,Telangana,506002,India,Female,Sales,87894,INR,2019-03-16,Yes,"H.No 117, Ameerpet , Warangal",Promoted last year,3.81
+146,  amit nair  ,49,  amit.nair66@corp.com ,7408434291,hyderabad, Telangana , 500081 ,India,female, operations ,55004,INR,2019-03-16,No,"H.No 64, Banjara Hills , Hyderabad",Needs improvement,2.53
+204,  mahesh gupta  ,31,  mahesh.gupta53@corp.com ,8646026315,nizamabad, Telangana , 503001 ,India,female, support ,86949,INR,2018-02-05,Yes,"H.No 151, Kukatpally , Nizamabad",Needs improvement,4.85
+122,Diya Chowdary,32,diya.chowdary92@corp.com,9047553254,Nizamabad,Telangana,503001,India,Male,Support,124763,INR,2022-04-04,Yes,"H.No 36, Jubilee Hills , Nizamabad",Promoted last year,1.11
+77,  sunil varma  ,59,  sunil.varma49@corp.com ,9532255403,nizamabad,telangana, 503001 ,India,female, engineering ,91295,INR,2021-01-20,No,"H.No 157, Jubilee Hills , Nizamabad",Good employee,3.54
+277,Amit Chowdary,57,amit.chowdary67@corp.com,7605846862,Nizamabad,Telangana,503001,India,Male,Engineering,73032,INR,2021-03-27,No,"H.No 28, Ameerpet , Nizamabad",Excellent team player,1.75
+133,ANANYA SHAH ,29, ANANYA.SHAH17@CORP.COM ,6415243819,karimnagar,telangana, 505001 ,India,female, support ,118889,INR,2022-06-25,Yes,"H.No 51, Kukatpally , Karimnagar",Good employee,1.18
+111,Kavya Shah,51,kavya.shah9@corp.com,6476131010,Adilabad,Telangana,504001,India,Female,Sales,170523,INR,2018-11-17,Yes,"H.No 184, Jubilee Hills , Adilabad",Needs improvement,2.72
+80,Rakesh Desai,28,rakesh.desai88@corp.com,7577691630,Khammam,Telangana,507001,India,Female,Engineering,134369,INR,2020-04-04,No,"H.No 24, Jubilee Hills , Khammam",Good employee,1.2
+NULL,Pooja Patel,60,pooja.patel24@corp.com,9080345195,Karimnagar,Telangana,500081,India,Male,Operations,-1000,INR,2023-02-30,Yes,"Line1
+Line2",Good employee,3.48
+223,Ananya Reddy,23,ananya.reddy9@corp.com,6849331223,Nizamabad,Telangana,503001,India,Female,Support,63761,INR,2018-06-04,Yes,"H.No 119, Banjara Hills , Nizamabad",Excellent team player,4.7
+00255,sneha rao,120,sneha.rao45@corp.com,7534875624,SECUNDERABAD,AP,50 50 01,India, Other,Engineering,"$1,200.50",INR,2019-04-21,No,"H.No 152, Banjara Hills , Karimnagar",,4.48
+53,Ananya Khan,29,ananya.khan9@corp.com,7721025347,Karimnagar,Telangana,505001,India,Male,Sales,195005,INR,2023-01-05,Yes,"H.No 145, Ameerpet , Karimnagar",Good employee,4.98
+118,  mahesh desai  ,49,  mahesh.desai36@corp.com ,8746499773, ADILABAD ,telangana, 504001 ,India,male, engineering ,197120,INR,2021-06-17,Yes,"H.No 8, Jubilee Hills , Adilabad",Promoted last year,1.14
+285,Sunil Joshi,57,sunil.joshi7@corp.com,6055685277,Nizamabad,Telangana,503001,India,Female,HR,192676,INR,2021-04-21,No,"H.No 194, Jubilee Hills , Nizamabad",Excellent team player,2.18
+245,Ananya Nair,31,ananya.nair80@corp.com,8614154439,Nizamabad,Telangana,503001,India,Female,Engineering,133754,INR,2020-12-08,Yes,"H.No 191, Kukatpally , Nizamabad",Needs improvement,4.59
+100,Kiran Patel,50,kiran.patel74@corp.com,8799620568,Secunderabad,Telangana,500003,India,Female,Sales,154683,INR,2022-03-02,No,"H.No 27, Ameerpet , Secunderabad",Good employee,3.02
+18,Sneha Varma,51,sneha.varma37@corp.com,7816803306,Nizamabad,Telangana,503001,India,Female,HR,79780,INR,2020-04-02,Yes,"H.No 192, Ameerpet , Nizamabad",Good employee,1.2
+191,Sai Joshi,50,sai.joshi80@corp.com,6230258601,Adilabad,Telangana,504001,India,Female,Engineering,157037,INR,2019-04-27,No,"H.No 144, Kukatpally , Adilabad",Promoted last year,3.74
+123,Kiran Mehta,45,kiran.mehta60@corp.com,9451700819,Khammam,Telangana,507001,India,Male,Sales,52600,INR,2018-05-13,No,"H.No 135, Kukatpally , Khammam",Promoted last year,4.29
+283,Siddharth Rao,23,siddharth.rao49@corp.com,6624173500,Hyderabad,Telangana,500081,India,Male,HR,99986,INR,2019-05-22,No,"H.No 38, Banjara Hills , Hyderabad",Needs improvement,1.82
+67,Arjun Ali,59,arjun.ali43@corp.com,9735334423,Hyderabad,Telangana,500081,India,Female,Engineering,167874,INR,2021-01-24,Yes,"H.No 105, Jubilee Hills , Hyderabad",Good employee,2.88
+57,Rakesh Kumar,39,rakesh.kumar19@corp.com,6306702926,Hyderabad,Telangana,500081,India,Male,Support,110638,INR,2022-12-27,No,"H.No 113, Banjara Hills , Hyderabad",Promoted last year,3.75
+422,diya iyer,32,user@domain,7264523083,Khammam,TS,500003 ,India,FEMALE,Operations,165520,INR,2019-08-27,No,"H.No 24, Banjara Hills , Khammam",Excellent team player,4.11
+NULL,Priya Reddy,150,priya.reddy91@corp.com,7649642719,Hydrabad,TELANGANA,503001,India,Male ,Marketing,50000 USD,INR,2021-01-25,0,"H.No 86, Jubilee Hills , Nizamabad",Excellent team player,4.48
+211,Mahesh Varma,32,mahesh.varma48@corp.com,6545162815,Nizamabad,Telangana,503001,India,Female,Operations,60947,INR,2018-06-26,No,"H.No 70, Banjara Hills , Nizamabad",Needs improvement,3.85
+485,siddharth shah,,test@domain..com,7734900802,Nizamabad,TS,505001,India,Male,Sales,193672,INR,02/30/2023,No,NULL,Excellent team player,4.52
+419,Pooja Naidu,0,pooja.naidu31@corp.com,8460580557,Khammam,Telangana,5000811,India,Female,Finance,0,INR,15-05-2023,Yes,"H.No 53, Jubilee Hills , Secunderabad",Excellent team player,4.45
+6,Rakesh Singh,51,rakesh.singh49@corp.com,7159417075,Nizamabad,Telangana,503001,India,Male,Operations,115008,INR,2018-04-27,Yes,"H.No 81, Kukatpally , Nizamabad",Needs improvement,1.26
+235,  sneha rao  ,52, SNEHA.RAO74@CORP.COM ,8795892991,adilabad, Telangana , 504001 ,India,male, hr ,148302,INR,2018-01-10,Yes,"H.No 82, Ameerpet , Adilabad",Good employee,1.3
+30,Kavya Sharma,55,kavya.sharma69@corp.com,8950028965,Nizamabad,Telangana,503001,India,Male,Finance,143062,INR,2018-11-11,No,"H.No 170, Banjara Hills , Nizamabad",Needs improvement,3.03
+233,Arjun Joshi,26,arjun.joshi31@corp.com,7489538120,Warangal,Telangana,506002,India,Male,Operations,53258,INR,2023-11-21,No,"H.No 115, Banjara Hills , Warangal",Needs improvement,1.84
+440,Sai Rao,33,david@corp,7265162573,Hyderabad,Telengana,,India,Male,Operations,"1,20,000.00",INR,, yes ,"Apt 4B, Building, 2nd Floor, Hyderabad",Good employee,2.11
+150,Siddharth Gupta,58,siddharth.gupta69@corp.com,6643611097,Secunderabad,Telangana,500003,India,Female,Support,166404,INR,2021-02-22,Yes,"H.No 184, Kukatpally , Secunderabad",Good employee,4.6
+290,Vikram Nair,38,vikram.nair70@corp.com,9109451569,Warangal,Telangana,506002,India,Male,Sales,128293,INR,2022-09-15,No,"H.No 12, Ameerpet , Warangal",Excellent team player,2.28
+106,Pooja Chowdary,50,pooja.chowdary30@corp.com,8293560436,Secunderabad,Telangana,500003,India,Female,Support,152949,INR,2019-06-22,No,"H.No 119, Ameerpet , Secunderabad",Promoted last year,3.01
+146,Amit Nair,49,amit.nair66@corp.com,7408434291,Hyderabad,Telangana,500081,India,Female,Operations,55004,INR,2019-03-16,No,"H.No 64, Banjara Hills , Hyderabad",Needs improvement,2.53
+290,Vikram Nair,38,vikram.nair70@corp.com,9109451569,Warangal,Telangana,506002,India,Male,Sales,128293,INR,2022-09-15,No,"H.No 12, Ameerpet , Warangal",Excellent team player,2.28
+36,Mahesh Ali,49,mahesh.ali71@corp.com,7915184358,Secunderabad,Telangana,500003,India,Female,Marketing,97945,INR,2019-11-09,No,"H.No 161, Jubilee Hills , Secunderabad",Needs improvement,2.76
+102,Vikram Das,46,vikram.das37@corp.com,7082313657,Nizamabad,Telangana,503001,India,Male,Finance,51365,INR,2022-11-05,No,"H.No 80, Kukatpally , Nizamabad",Excellent team player,3.38
+96,Lakshmi Nair,55,lakshmi.nair11@corp.com,7699805002,Adilabad,Telangana,504001,India,Female,Operations,119001,INR,2019-06-25,Yes,"H.No 20, Banjara Hills , Adilabad",Excellent team player,4.62
+14,Amit Patel,36,amit.patel9@corp.com,9888749350,Hyderabad,Telangana,500081,India,Female,Engineering,164782,INR,2019-05-22,No,"H.No 55, Jubilee Hills , Hyderabad",Promoted last year,1.97
+473,Suresh Menon,60,suresh.menon33@corp.com,6313771499,ADILABAD,Andhra pradesh ,ABC123,India,Male,Hr,117257,INR,15-05-2023,true,"H.No 12, Banjara Hills, Hyderabad",Promoted last year,2.21
+39,Sneha Menon,56,sneha.menon96@corp.com,9155229266,Khammam,Telangana,507001,India,Male,Marketing,87520,INR,2020-07-16,Yes,"H.No 100, Ameerpet , Khammam",Promoted last year,3.9
+91,Ishita Singh,45,ishita.singh40@corp.com,9099231080,Warangal,Telangana,506002,India,Male,Engineering,70784,INR,2019-10-02,Yes,"H.No 70, Kukatpally , Warangal",Promoted last year,2.94
+54,Vikram Das,48,vikram.das78@corp.com,8560345306,Adilabad,Telangana,504001,India,Male,Support,166989,INR,2021-08-15,No,"H.No 151, Kukatpally , Adilabad",Needs improvement,3.27
+88,Sunil Menon,25,sunil.menon37@corp.com,8578741716,Warangal,Telangana,506002,India,Female,Engineering,181497,INR,2022-04-05,No,"H.No 58, Banjara Hills , Warangal",Needs improvement,4.38
+48,Pooja Varma,57,pooja.varma2@corp.com,8218897149,Secunderabad,Telangana,500003,India,Male,HR,136542,INR,2021-09-25,Yes,"H.No 177, Kukatpally , Secunderabad",Promoted last year,2.79
+156,Sunil Patel,37,sunil.patel95@corp.com,6189995314,Karimnagar,Telangana,505001,India,Female,HR,171494,INR,2019-01-05,No,"H.No 60, Ameerpet , Karimnagar",Needs improvement,1.95
+430,  Lakshmi Naidu  ,,lakshmi.naidu10@corp.com,7337356436,Hyderabad,Telangana,507001,India,Female,Sales,-1000,INR,2018-03-01,No,"H.No 173, Banjara Hills , Khammam",Good employee,2.53
+94,  kiran naidu  ,54, KIRAN.NAIDU72@CORP.COM ,9579229053, NIZAMABAD ,telangana, 503001 ,India,female, engineering ,134089,INR,2023-01-14,Yes,"H.No 118, Banjara Hills , Nizamabad",Needs improvement,3.3
+56,Pooja Khan,40,pooja.khan5@corp.com,6994182853,Warangal,Telangana,506002,India,Female,Operations,149021,INR,2018-11-08,No,"H.No 161, Jubilee Hills , Warangal",Promoted last year,1.46
+244,Lakshmi Mehta,28,lakshmi.mehta14@corp.com,8416708343,Adilabad,Telangana,504001,India,Male,Support,104997,INR,2022-06-14,No,"H.No 99, Kukatpally , Adilabad",Promoted last year,1.15
+6,Rakesh Singh,51,rakesh.singh49@corp.com,7159417075,Nizamabad,Telangana,503001,India,Male,Operations,115008,INR,2018-04-27,Yes,"H.No 81, Kukatpally , Nizamabad",Needs improvement,1.26
+198,Deepak Reddy,51,deepak.reddy82@corp.com,8852475970,Nizamabad,Telangana,503001,India,Female,Support,46601,INR,2022-07-07,No,"H.No 55, Kukatpally , Nizamabad",Needs improvement,2.29
+274,Rakesh Reddy,51,rakesh.reddy57@corp.com,9441391011,Khammam,Telangana,507001,India,Female,Engineering,160667,INR,2021-06-04,No,"H.No 191, Banjara Hills , Khammam",Good employee,2.61
+33,Sunil Shah,43,sunil.shah12@corp.com,9515101988,Adilabad,Telangana,504001,India,Male,Operations,111374,INR,2019-04-05,Yes,"H.No 12, Jubilee Hills , Adilabad",Promoted last year,3.45
+437,Ananya Varma,150, CHARLIE@EXAMPLE.COM ,7206765277,Warangal ,Andhra pradesh ,506002,India, Other,Engineering,59242,INR,2022-03-19,0,"H.No 169, Kukatpally , Warangal","Contains, comma, and ""quote""",4.23
+105,Pooja Kumar,60,pooja.kumar49@corp.com,6662510569,Secunderabad,Telangana,500003,India,Male,Support,193771,INR,2019-12-15,Yes,"H.No 106, Ameerpet , Secunderabad",Excellent team player,4.88
+100,KIRAN PATEL ,50,  kiran.patel74@corp.com ,8799620568, SECUNDERABAD , Telangana , 500003 ,India,female, sales ,154683,INR,2022-03-02,No,"H.No 27, Ameerpet , Secunderabad",Good employee,3.02
+201,Amit Singh,25,amit.singh51@corp.com,8686949912,Warangal,Telangana,506002,India,Male,Marketing,53907,INR,2023-02-01,Yes,"H.No 123, Banjara Hills , Warangal",Excellent team player,3.37
+294,Lakshmi Patel,26,lakshmi.patel46@corp.com,9985934731,Khammam,Telangana,507001,India,Male,Finance,108997,INR,2022-02-10,No,"H.No 98, Kukatpally , Khammam",Good employee,2.9
+10,Mahesh Varma,54,mahesh.varma98@corp.com,6767303988,Khammam,Telangana,507001,India,Male,Support,193918,INR,2020-11-17,Yes,"H.No 40, Ameerpet , Khammam",Excellent team player,3.16
+170,Suresh Mehta,52,suresh.mehta35@corp.com,6199982132,Hyderabad,Telangana,500081,India,Female,Sales,177720,INR,2023-01-06,No,"H.No 5, Jubilee Hills , Hyderabad",Excellent team player,4.01
+79,Mahesh Das,48,mahesh.das76@corp.com,9188021127,Nizamabad,Telangana,503001,India,Male,Marketing,55957,INR,2021-10-14,No,"H.No 9, Ameerpet , Nizamabad",Excellent team player,2.77
+149,Rohan Das,35,rohan.das98@corp.com,7062855922,Nizamabad,Telangana,503001,India,Male,Sales,147112,INR,2022-12-12,Yes,"H.No 145, Banjara Hills , Nizamabad",Good employee,4.32
+17,Kiran Sharma,27,kiran.sharma97@corp.com,9645120421,Secunderabad,Telangana,500003,India,Male,Marketing,157307,INR,2021-04-28,No,"H.No 16, Jubilee Hills , Secunderabad",Promoted last year,1.01
+291,Aditya Rao,32,aditya.rao99@corp.com,8310584302,Khammam,Telangana,507001,India,Male,Operations,47163,INR,2019-11-21,Yes,"H.No 176, Kukatpally , Khammam",Good employee,1.82
+12,Aditya Das,30,aditya.das17@corp.com,8833608204,Karimnagar,Telangana,505001,India,Male,Finance,168326,INR,2022-07-07,Yes,"H.No 183, Ameerpet , Karimnagar",Promoted last year,4.98
+120,Sneha Joshi,39,sneha.joshi32@corp.com,6487258103,Hyderabad,Telangana,500081,India,Male,Marketing,165723,INR,2021-09-04,No,"H.No 199, Ameerpet , Hyderabad",Promoted last year,1.86
+167,Diya Sharma,54,diya.sharma90@corp.com,8894949501,Karimnagar,Telangana,505001,India,Male,Engineering,55248,INR,2022-03-08,Yes,"H.No 159, Ameerpet , Karimnagar",Needs improvement,2.07
+193,  lakshmi khan  ,57,  lakshmi.khan66@corp.com ,6486237535, KHAMMAM ,telangana, 507001 ,India,male, finance ,172372,INR,2020-09-27,Yes,"H.No 195, Kukatpally , Khammam",Excellent team player,4.96
+276,Neha Joshi,57,neha.joshi99@corp.com,8661840210,Khammam,Telangana,507001,India,Female,Operations,125235,INR,2023-08-04,Yes,"H.No 195, Jubilee Hills , Khammam",Good employee,2.37
+24,VIVAAN REDDY ,49, VIVAAN.REDDY36@CORP.COM ,6189351213, HYDERABAD ,telangana, 500081 ,India,female, support ,64293,INR,2023-05-06,No,"H.No 142, Kukatpally , Hyderabad",Good employee,1.45
+425,Ishita Desai,46,ishita.desai9@corp.com,9257483542, hyd ,Andhra pradesh ,505001,India,Male,Finance,153421,INR,2022-12-31,FALSE,"H.No 85, Kukatpally , Karimnagar","Excellent ""team player""",3.78
+215,Deepak Chowdary,42,deepak.chowdary12@corp.com,8375509447,Karimnagar,Telangana,505001,India,Male,Finance,82604,INR,2020-10-26,No,"H.No 190, Jubilee Hills , Karimnagar",Promoted last year,2.47
+116,Priya Menon,47,priya.menon96@corp.com,7888654461,Karimnagar,Telangana,505001,India,Female,HR,160076,INR,2023-08-12,No,"H.No 22, Kukatpally , Karimnagar",Good employee,2.72
+174,Amit Kumar,46,amit.kumar41@corp.com,7549195708,Hyderabad,Telangana,500081,India,Male,Engineering,110810,INR,2021-06-25,No,"H.No 27, Jubilee Hills , Hyderabad",Good employee,1.75
+182,Priya Das,60,priya.das82@corp.com,9927323476,Hyderabad,Telangana,500081,India,Male,Support,95072,INR,2023-11-12,Yes,"H.No 166, Banjara Hills , Hyderabad",Promoted last year,4.87
+0048,kavya chowdary,38,kavya.chowdary79@corp.com,9563058395,Warangal ,ap,500081,India,Female,Sales,  75000  ,INR,2021-03-11,No,"H.No 196, Jubilee Hills , Adilabad",Promoted last year,1.21
+446,Deepak Iyer,200,david@corp,9180066307,Nizamabad ,TG,50081,India,,FINANCE,,INR,2023-05-15T10:30:00Z,1,"Apt 4B, Building, 2nd Floor, Hyderabad",Needs improvement,2.68
+426,  Rohan Khan  ,twenty-five,,6999531839,Nizamabad,Telangana,504001,India,FEMALE,HR,  75000  ,INR,2018-01-15, no ,"H.No 189, Jubilee Hills , Nizamabad",Promoted last year,2.66
+66,Rahul Naidu,58,rahul.naidu50@corp.com,7003143045,Adilabad,Telangana,504001,India,Female,Engineering,113408,INR,2023-08-23,No,"H.No 99, Jubilee Hills , Adilabad",Promoted last year,4.86
+296,Lakshmi Shah,47,lakshmi.shah69@corp.com,8351603889,Hyderabad,Telangana,500081,India,Female,HR,120138,INR,2019-07-21,Yes,"H.No 42, Jubilee Hills , Hyderabad",Excellent team player,3.47
+72,Sunil Das,32,sunil.das10@corp.com,7897214963,Warangal,Telangana,506002,India,Female,Operations,141230,INR,2023-05-15,No,"H.No 51, Kukatpally , Warangal",Promoted last year,1.43
+421,Pooja Khan,42,pooja.khan59@corp.com,9812156793,Nizamabad,Telengana,500081,India, Other,Marketing,NULL,INR,08/15/2022,No,"H.No 185, Ameerpet , Secunderabad","😊 Unicode test - café, naïve",3.45
+16,Ishita Rao,37,ishita.rao25@corp.com,6816941039,Khammam,Telangana,507001,India,Female,HR,140593,INR,2019-05-15,Yes,"H.No 20, Kukatpally , Khammam",Good employee,1.2
+286,Sai Reddy,33,sai.reddy23@corp.com,9157142361,Khammam,Telangana,507001,India,Male,Marketing,40652,INR,2021-05-18,No,"H.No 34, Jubilee Hills , Khammam",Needs improvement,1.02
+469,  Aarav Shah  ,-10,aarav.shah95@corp.com,8844227995,Warangal,Andhra Pradesh,504001,India,?,Operations,-1000,INR,2020-09-13,No,"H.No 164, Ameerpet , Adilabad",Good employee,3.14
+225,Pooja Naidu,40,pooja.naidu64@corp.com,7769493025,Khammam,Telangana,507001,India,Female,Engineering,52995,INR,2020-07-05,No,"H.No 52, Jubilee Hills , Khammam",Good employee,4.96
+NULL,Sai Mehta,53,sai.mehta28@corp.com,8838141056,HYD,TELANGANA,504001,India,Male ,Finance,197228,INR,2022-10-28,No,  ,Has null byte,2.46
+214,Kavya Joshi,39,kavya.joshi10@corp.com,8454728281,Warangal,Telangana,506002,India,Male,Sales,43807,INR,2019-04-26,Yes,"H.No 103, Banjara Hills , Warangal",Promoted last year,4.46
+499,Sunil Khan,51,sunil.khan77@corp.com,8973894808,Warangal ,ap,NULL,India,M,Sales,108546,INR,2023-05-15T10:30:00Z,No,,"😊 Unicode test - café, naïve",1.88
+491,Deepak Ali,0,user@domain,7156581143,Hyderabad, telangana ,500081,India,Female,Marketing,174997,INR,31/02/2023,Y,"H.No 105, Jubilee Hills , Hyderabad",Good employee,2.08
+161,Aarav Gupta,34,aarav.gupta95@corp.com,6503869216,Nizamabad,Telangana,503001,India,Female,HR,188440,INR,2023-04-13,Yes,"H.No 142, Ameerpet , Nizamabad",Needs improvement,2.52
+,Deepak Joshi,44,deepak.joshi56@corp.com,7788947133,Nizamabad,AP,NULL,India,Male,fin,89432,INR,2023-11-28,1,"H.No 5, Road No 2, ""Banjara Hills"", Hyderabad",NULL,2.22
+175,Neha Das,57,neha.das66@corp.com,7752536389,Hyderabad,Telangana,500081,India,Male,Engineering,122776,INR,2022-02-20,No,"H.No 99, Banjara Hills , Hyderabad",Needs improvement,2.66
+237,Vikram Joshi,35,vikram.joshi25@corp.com,7757843634,Nizamabad,Telangana,503001,India,Female,Operations,103799,INR,2020-04-04,Yes,"H.No 101, Kukatpally , Nizamabad",Excellent team player,1.22
+401,Suresh Varma,200,suresh.varma37@corp.com,6399472479,Secundrabad, telangana ,NULL,India,F,Engineering,175372,INR,2019-08-11,No,"H.No 56, Ameerpet , Karimnagar",Excellent team player,4.79
+283,Siddharth Rao,23,siddharth.rao49@corp.com,6624173500,Hyderabad,Telangana,500081,India,Male,HR,99986,INR,2019-05-22,No,"H.No 38, Banjara Hills , Hyderabad",Needs improvement,1.82
+492,Aarav Iyer,40,aarav.iyer84@corp.com,6718898818,Adilabad,TG,50081,India,NULL,Hr,101644,INR,2022-05-27,No,,Needs improvement,1.18
+265,Vikram Ali,29,vikram.ali37@corp.com,6489680170,Adilabad,Telangana,504001,India,Male,Marketing,82074,INR,2022-04-25,No,"H.No 134, Jubilee Hills , Adilabad",Needs improvement,3.81
+123,  kiran mehta  ,45, KIRAN.MEHTA60@CORP.COM ,9451700819, KHAMMAM , Telangana , 507001 ,India,male, sales ,52600,INR,2018-05-13,No,"H.No 135, Kukatpally , Khammam",Promoted last year,4.29
+442,Sneha Gupta,-5,,7675487027,Hyderabad,Andhra Pradesh,505001,India,F,,"$1,200.50",INR,08/15/2022, yes ,"H.No 36, Banjara Hills , Hyderabad",Excellent team player,1.1
+496,Aditya Naidu,34,bob@@corp.com,7414009054,Nizamabad ,Telangana,506002,India,Male,Operations,193917,INR,2018-01-16,No,"H.No 12, Banjara Hills, Hyderabad",Needs improvement,1.99
+21,Diya Iyer,42,diya.iyer97@corp.com,6311570307,Hyderabad,Telangana,500081,India,Female,Sales,177585,INR,2018-02-18,Yes,"H.No 130, Ameerpet , Hyderabad",Excellent team player,4.73
+162,KIRAN DESAI ,41,  kiran.desai34@corp.com ,7544661869, KHAMMAM ,telangana, 507001 ,India,female, marketing ,55849,INR,2023-08-25,No,"H.No 53, Ameerpet , Khammam",Needs improvement,2.66
+204,Mahesh Gupta,31,mahesh.gupta53@corp.com,8646026315,Nizamabad,Telangana,503001,India,Female,Support,86949,INR,2018-02-05,Yes,"H.No 151, Kukatpally , Nizamabad",Needs improvement,4.85
+486,Amit Ali,-10,amit.ali16@corp.com,6205011109,Adilabad,Andhra Pradesh,NULL,India,Male,Marketing,INR 50000,INR,2023-05-15T10:30:00Z,Yes,"Line1
+Line2",Excellent team player,2.4
+229,  rohan das  ,41, ROHAN.DAS23@CORP.COM ,8106408413, HYDERABAD ,telangana, 500081 ,India,male, engineering ,90980,INR,2022-04-01,No,"H.No 1, Ameerpet , Hyderabad",Excellent team player,4.23
+82,Arjun Kumar,56,arjun.kumar33@corp.com,9429590757,Secunderabad,Telangana,500003,India,Male,Operations,36758,INR,2019-01-12,Yes,"H.No 151, Ameerpet , Secunderabad",Good employee,1.7
+242,Sai Gupta,34,sai.gupta17@corp.com,6183291591,Karimnagar,Telangana,505001,India,Male,Operations,144135,INR,2019-11-05,No,"H.No 82, Banjara Hills , Karimnagar",Good employee,2.55
+7,Lakshmi Joshi,35,lakshmi.joshi84@corp.com,8144181937,Karimnagar,Telangana,505001,India,Female,HR,99436,INR,2019-04-24,No,"H.No 192, Kukatpally , Karimnagar",Promoted last year,2.45
+92,Neha Menon,39,neha.menon28@corp.com,9242456102,Khammam,Telangana,507001,India,Male,Finance,142699,INR,2018-05-22,No,"H.No 135, Ameerpet , Khammam",Good employee,1.88
+297,Ananya Gupta,29,ananya.gupta24@corp.com,8881828165,Adilabad,Telangana,504001,India,Male,Support,173878,INR,2021-11-18,Yes,"H.No 75, Banjara Hills , Adilabad",Needs improvement,1.39
+208,Vivaan Nair,54,vivaan.nair37@corp.com,8699690577,Nizamabad,Telangana,503001,India,Female,Marketing,135454,INR,2018-11-18,Yes,"H.No 72, Banjara Hills , Nizamabad",Needs improvement,1.32
+207,Ishita Kumar,46,ishita.kumar73@corp.com,7807595119,Warangal,Telangana,506002,India,Male,Support,153473,INR,2018-01-19,Yes,"H.No 4, Ameerpet , Warangal",Excellent team player,1.16
+178,Diya Sharma,47,diya.sharma43@corp.com,9614701965,Khammam,Telangana,507001,India,Female,Support,116387,INR,2021-06-14,Yes,"H.No 77, Ameerpet , Khammam",Excellent team player,2.92
+145,Vikram Joshi,32,vikram.joshi94@corp.com,7971022633,Nizamabad,Telangana,503001,India,Female,Operations,78810,INR,2018-12-11,No,"H.No 146, Jubilee Hills , Nizamabad",Excellent team player,3.44
+154,Kiran Nair,55,kiran.nair17@corp.com,9126126880,Secunderabad,Telangana,500003,India,Male,Support,35959,INR,2020-08-22,No,"H.No 137, Kukatpally , Secunderabad",Excellent team player,1.99
+5,Vikram Nair,39,vikram.nair59@corp.com,8730243887,Adilabad,Telangana,504001,India,Female,HR,127040,INR,2020-04-22,No,"H.No 180, Banjara Hills , Adilabad",Excellent team player,3.14
+134,Arjun Joshi,52,arjun.joshi67@corp.com,7962750929,Secunderabad,Telangana,500003,India,Male,Finance,190712,INR,2020-03-13,No,"H.No 152, Ameerpet , Secunderabad",Promoted last year,3.83
+279,Siddharth Kumar,53,siddharth.kumar1@corp.com,8277897510,Nizamabad,Telangana,503001,India,Male,Sales,143458,INR,2022-08-17,Yes,"H.No 178, Jubilee Hills , Nizamabad",Excellent team player,1.41
+71,Sneha Shah,37,sneha.shah64@corp.com,9920570781,Khammam,Telangana,507001,India,Male,HR,150887,INR,2023-05-15,No,"H.No 171, Banjara Hills , Khammam",Promoted last year,4.6
+19,Rohan Ali,55,rohan.ali21@corp.com,6244295904,Khammam,Telangana,507001,India,Male,Support,78712,INR,2018-10-03,Yes,"H.No 104, Banjara Hills , Khammam",Excellent team player,3.32
+98,Deepak Mehta,50,deepak.mehta88@corp.com,9969212295,Khammam,Telangana,507001,India,Female,Support,194421,INR,2020-03-15,Yes,"H.No 121, Kukatpally , Khammam",Needs improvement,4.19
+141,Kiran Varma,57,kiran.varma90@corp.com,7166605339,Secunderabad,Telangana,500003,India,Male,Sales,183834,INR,2019-04-02,Yes,"H.No 164, Jubilee Hills , Secunderabad",Good employee,1.4
+22,Aditya Naidu,45,aditya.naidu37@corp.com,6677517496,Karimnagar,Telangana,505001,India,Female,Sales,168658,INR,2018-11-27,No,"H.No 170, Banjara Hills , Karimnagar",Excellent team player,2.06
+155,Priya Kumar,39,priya.kumar25@corp.com,9758990493,Nizamabad,Telangana,503001,India,Male,Engineering,139901,INR,2022-01-08,Yes,"H.No 18, Banjara Hills , Nizamabad",Good employee,2.79
+129,Ishita Desai,47,ishita.desai17@corp.com,9267031264,Warangal,Telangana,506002,India,Male,Finance,93370,INR,2021-02-09,No,"H.No 64, Jubilee Hills , Warangal",Good employee,1.2
+169,Sneha Das,52,sneha.das8@corp.com,8734812163,Hyderabad,Telangana,500081,India,Male,Engineering,161034,INR,2021-11-26,No,"H.No 145, Banjara Hills , Hyderabad",Good employee,1.92
+33,Sunil Shah,43,sunil.shah12@corp.com,9515101988,Adilabad,Telangana,504001,India,Male,Operations,111374,INR,2019-04-05,Yes,"H.No 12, Jubilee Hills , Adilabad",Promoted last year,3.45
+101,Sai Patel,37,sai.patel91@corp.com,7880157459,Karimnagar,Telangana,505001,India,Male,Finance,127740,INR,2020-07-14,No,"H.No 174, Banjara Hills , Karimnagar",Needs improvement,1.26
+171,Suresh Nair,26,suresh.nair39@corp.com,6697718498,Khammam,Telangana,507001,India,Male,Sales,132015,INR,2023-09-11,No,"H.No 194, Jubilee Hills , Khammam",Good employee,3.0
+103,Aditya Chowdary,57,aditya.chowdary49@corp.com,8763782498,Adilabad,Telangana,504001,India,Female,Support,63500,INR,2023-12-27,Yes,"H.No 166, Kukatpally , Adilabad",Needs improvement,1.07
+204,  mahesh gupta  ,31, MAHESH.GUPTA53@CORP.COM ,8646026315,nizamabad,telangana, 503001 ,India,female, support ,86949,INR,2018-02-05,Yes,"H.No 151, Kukatpally , Nizamabad",Needs improvement,4.85
+20,Vivaan Shah,27,vivaan.shah54@corp.com,8823396242,Khammam,Telangana,507001,India,Female,Finance,83545,INR,2023-12-11,Yes,"H.No 68, Kukatpally , Khammam",Excellent team player,3.69
+185,Rahul Ali,52,rahul.ali45@corp.com,8045102506,Hyderabad,Telangana,500081,India,Female,Operations,148606,INR,2020-02-10,Yes,"H.No 182, Banjara Hills , Hyderabad",Good employee,4.4
+37,Suresh Chowdary,37,suresh.chowdary35@corp.com,7442454200,Warangal,Telangana,506002,India,Male,HR,69539,INR,2019-07-23,Yes,"H.No 181, Jubilee Hills , Warangal",Good employee,2.66
+61,Ishita Varma,42,ishita.varma15@corp.com,9318068090,Karimnagar,Telangana,505001,India,Male,Operations,172237,INR,2021-07-02,Yes,"H.No 133, Ameerpet , Karimnagar",Promoted last year,3.5
+51,Lakshmi Ali,60,lakshmi.ali37@corp.com,6431756350,Adilabad,Telangana,504001,India,Male,Finance,89633,INR,2020-03-10,Yes,"H.No 182, Jubilee Hills , Adilabad",Needs improvement,1.18
+117,Sai Das,40,sai.das42@corp.com,6440654676,Hyderabad,Telangana,500081,India,Female,Operations,107500,INR,2020-08-20,No,"H.No 43, Kukatpally , Hyderabad",Needs improvement,2.79
+142,Ishita Khan,28,ishita.khan88@corp.com,9310415016,Secunderabad,Telangana,500003,India,Male,Sales,71403,INR,2021-11-16,No,"H.No 167, Jubilee Hills , Secunderabad",Needs improvement,2.28
+41,Rahul Iyer,42,rahul.iyer44@corp.com,9269456693,Karimnagar,Telangana,505001,India,Female,Support,140510,INR,2020-02-16,Yes,"H.No 192, Banjara Hills , Karimnagar",Needs improvement,1.9
+123,Kiran Mehta,45,kiran.mehta60@corp.com,9451700819,Khammam,Telangana,507001,India,Male,Sales,52600,INR,2018-05-13,No,"H.No 135, Kukatpally , Khammam",Promoted last year,4.29
+280,Sunil Shah,60,sunil.shah42@corp.com,8165136471,Karimnagar,Telangana,505001,India,Female,Sales,95074,INR,2020-07-11,No,"H.No 116, Jubilee Hills , Karimnagar",Excellent team player,2.65
+406,Ishita Khan,-10,alice.com,7170011066,Warangal ,Telangana, 506002,India,Female,HR,171371,INR,NULL,No,"Apt 4B, Building, 2nd Floor, Hyderabad",,4.64
+257,Amit Mehta,59,amit.mehta80@corp.com,6305869263,Karimnagar,Telangana,505001,India,Male,Sales,61409,INR,2023-07-17,No,"H.No 106, Banjara Hills , Karimnagar",Excellent team player,1.55
+NULL,Arjun Kumar,120,arjun.kumar54@corp.com,6208954648,Adilabad,ap,506002,India,Female,HR,77992,INR,2023-02-30,0,"H.No 141, Ameerpet , Warangal",NULL,4.48
+43,Deepak Desai,32,deepak.desai78@corp.com,8608108101,Nizamabad,Telangana,503001,India,Male,Support,72930,INR,2020-02-19,Yes,"H.No 80, Kukatpally , Nizamabad",Promoted last year,4.77
+184,Sunil Mehta,54,sunil.mehta20@corp.com,7481623643,Hyderabad,Telangana,500081,India,Female,Engineering,107445,INR,2021-02-04,Yes,"H.No 90, Ameerpet , Hyderabad",Needs improvement,2.82
+39,Sneha Menon,56,sneha.menon96@corp.com,9155229266,Khammam,Telangana,507001,India,Male,Marketing,87520,INR,2020-07-16,Yes,"H.No 100, Ameerpet , Khammam",Promoted last year,3.9
+458,Diya Desai,30,diya.desai57@corp.com,9821345704,Secundrabad,TG,50081,India,Female,HR,INR 50000,INR,15-08-2022,No,"H.No 57, Jubilee Hills , Khammam","😊 Unicode test - café, naïve",3.75
+136,Deepak Mehta,58,deepak.mehta30@corp.com,9098389895,Hyderabad,Telangana,500081,India,Female,HR,167424,INR,2023-12-20,No,"H.No 38, Jubilee Hills , Hyderabad",Good employee,3.29
+120,Sneha Joshi,39,sneha.joshi32@corp.com,6487258103,Hyderabad,Telangana,500081,India,Male,Marketing,165723,INR,2021-09-04,No,"H.No 199, Ameerpet , Hyderabad",Promoted last year,1.86
+227,Deepak Varma,25,deepak.varma61@corp.com,8273894381,Warangal,Telangana,506002,India,Male,HR,56249,INR,2019-11-08,No,"H.No 137, Banjara Hills , Warangal",Excellent team player,3.3
+451,Siddharth Sharma,40,@corp.com,8930900179,Khammam,Telangana,500003 ,India,Male,Hr,$0,INR,2021-08-24,true,"H.No 75, Jubilee Hills , Khammam",Good employee,1.09
+13,Amit Desai,50,amit.desai67@corp.com,7939118223,Hyderabad,Telangana,500081,India,Male,HR,46784,INR,2020-01-19,Yes,"H.No 151, Jubilee Hills , Hyderabad",Good employee,1.28
+196,Deepak Menon,25,deepak.menon36@corp.com,9723941036,Nizamabad,Telangana,503001,India,Male,Operations,64784,INR,2019-03-23,No,"H.No 64, Kukatpally , Nizamabad",Promoted last year,1.57
+140,Lakshmi Das,46,lakshmi.das51@corp.com,9514904439,Warangal,Telangana,506002,India,Male,Finance,41027,INR,2020-12-03,No,"H.No 114, Ameerpet , Warangal",Promoted last year,1.86
+163,Lakshmi Naidu,31,lakshmi.naidu3@corp.com,7120016279,Khammam,Telangana,507001,India,Female,Finance,69953,INR,2019-06-08,No,"H.No 146, Jubilee Hills , Khammam",Promoted last year,3.2
+255,Sunil Desai,54,sunil.desai39@corp.com,9631048029,Secunderabad,Telangana,500003,India,Male,Finance,55586,INR,2021-03-24,No,"H.No 186, Jubilee Hills , Secunderabad",Needs improvement,3.62
+189,Neha Shah,33,neha.shah87@corp.com,9032196927,Adilabad,Telangana,504001,India,Female,Sales,184709,INR,2018-11-05,No,"H.No 31, Jubilee Hills , Adilabad",Needs improvement,1.47
+210,Pooja Patel,41,pooja.patel86@corp.com,9185549370,Nizamabad,Telangana,503001,India,Male,Engineering,33320,INR,2023-03-23,Yes,"H.No 42, Kukatpally , Nizamabad",Needs improvement,3.09
+222,Kiran Naidu,28,kiran.naidu60@corp.com,6437688716,Adilabad,Telangana,504001,India,Male,Engineering,33134,INR,2018-04-05,Yes,"H.No 103, Ameerpet , Adilabad",Good employee,3.33
+240,Rakesh Varma,58,rakesh.varma8@corp.com,6649101302,Adilabad,Telangana,504001,India,Male,Engineering,120122,INR,2022-07-25,Yes,"H.No 142, Banjara Hills , Adilabad",Promoted last year,4.27
+231,Ishita Kumar,32,ishita.kumar94@corp.com,7876335418,Adilabad,Telangana,504001,India,Female,Operations,113173,INR,2019-12-18,No,"H.No 58, Jubilee Hills , Adilabad",Promoted last year,2.23
+219,Ishita Nair,42,ishita.nair41@corp.com,7944580162,Warangal,Telangana,506002,India,Male,Engineering,83139,INR,2019-10-04,Yes,"H.No 28, Jubilee Hills , Warangal",Promoted last year,2.86
+173,Priya Das,46,priya.das56@corp.com,6797737957,Nizamabad,Telangana,503001,India,Female,Engineering,192166,INR,2020-04-23,Yes,"H.No 22, Ameerpet , Nizamabad",Excellent team player,2.52
+115,Rahul Patel,42,rahul.patel40@corp.com,8213555655,Karimnagar,Telangana,505001,India,Female,Finance,39599,INR,2023-04-10,No,"H.No 200, Banjara Hills , Karimnagar",Needs improvement,2.09
+263,Suresh Patel,46,suresh.patel82@corp.com,7098606132,Adilabad,Telangana,504001,India,Male,Sales,42572,INR,2023-02-21,Yes,"H.No 13, Banjara Hills , Adilabad",Promoted last year,2.78
+239,Sneha Khan,53,sneha.khan85@corp.com,7138185235,Hyderabad,Telangana,500081,India,Female,HR,127260,INR,2021-06-06,No,"H.No 12, Ameerpet , Hyderabad",Promoted last year,2.86
+22,Aditya Naidu,45,aditya.naidu37@corp.com,6677517496,Karimnagar,Telangana,505001,India,Female,Sales,168658,INR,2018-11-27,No,"H.No 170, Banjara Hills , Karimnagar",Excellent team player,2.06
+477,Kavya Reddy,49,kavya.reddy48@corp.com,8636542070,Khammam,ap,500003,India,Female,Operations,-1000,INR,2023/05/15,No,"H.No 119, Jubilee Hills , Secunderabad",Excellent team player,4.72
+118,Mahesh Desai,49,mahesh.desai36@corp.com,8746499773,Adilabad,Telangana,504001,India,Male,Engineering,197120,INR,2021-06-17,Yes,"H.No 8, Jubilee Hills , Adilabad",Promoted last year,1.14
+181,Rakesh Varma,31,rakesh.varma92@corp.com,7817320723,Adilabad,Telangana,504001,India,Female,Engineering,147720,INR,2022-08-19,No,"H.No 137, Kukatpally , Adilabad",Good employee,4.16
+453,Aarav Das,54,alice.com,8779891609,Nizamabad,Telengana,NULL,India,M,Marketing,NULL,INR,31/02/2023,,"""Plot 45, Jubilee Hills""",Promoted last year,4.6
+228,Sneha Desai,33,sneha.desai23@corp.com,7015979384,Khammam,Telangana,507001,India,Female,Support,124052,INR,2022-01-23,No,"H.No 146, Jubilee Hills , Khammam",Excellent team player,4.35
+152,Aarav Gupta,59,aarav.gupta10@corp.com,6194518221,Karimnagar,Telangana,505001,India,Female,Operations,46714,INR,2022-01-03,No,"H.No 9, Ameerpet , Karimnagar",Promoted last year,1.72
+NULL,ishita khan,-10,ishita.khan69@corp.com,6378045890,Hyd,AP,"500081,",India,Male,Sales,999999999,INR,2022-12-01,Yes,,Needs improvement,2.96
+457,diya varma,120,diya.varma13@corp.com,8295317821,Khammam,TS,5000AB,India,Female,Hr,67674,INR,,No,"H.No 96, Kukatpally , Khammam",Promoted last year,2.36
+69,Sunil Chowdary,36,sunil.chowdary96@corp.com,6388176285,Karimnagar,Telangana,505001,India,Male,Support,196133,INR,2023-02-15,Yes,"H.No 178, Ameerpet , Karimnagar",Good employee,1.18
+44,Rahul Reddy,59,rahul.reddy89@corp.com,9567277991,Nizamabad,Telangana,503001,India,Male,Engineering,109058,INR,2023-10-26,Yes,"H.No 145, Banjara Hills , Nizamabad",Needs improvement,3.13
+282,Arjun Singh,54,arjun.singh70@corp.com,8982047218,Nizamabad,Telangana,503001,India,Female,Operations,60252,INR,2020-09-16,No,"H.No 173, Ameerpet , Nizamabad",Promoted last year,4.23
+131,Sneha Ali,51,sneha.ali31@corp.com,6924038246,Khammam,Telangana,507001,India,Female,Engineering,43248,INR,2020-08-20,No,"H.No 74, Banjara Hills , Khammam",Good employee,2.72
+448,  Mahesh Ali  ,24,user@domain,8281150458,khammam,TG,"500081,",India,Female,Support,"1,20,000.00",INR,2023-02-30,NULL,"H.No 143, Banjara Hills , Karimnagar",Promoted last year,4.8
+81,Ishita Naidu,30,ishita.naidu73@corp.com,6881351238,Hyderabad,Telangana,500081,India,Male,Sales,86610,INR,2019-06-25,Yes,"H.No 153, Banjara Hills , Hyderabad",Needs improvement,4.43
+293,Rakesh Varma,48,rakesh.varma50@corp.com,7937569973,Nizamabad,Telangana,503001,India,Female,Marketing,112943,INR,2018-07-22,Yes,"H.No 137, Banjara Hills , Nizamabad",Good employee,4.02
+194,Vikram Naidu,41,vikram.naidu5@corp.com,7931585714,Warangal,Telangana,506002,India,Female,Support,52802,INR,2021-02-25,Yes,"H.No 54, Ameerpet , Warangal",Promoted last year,1.66
+218,Siddharth Menon,45,siddharth.menon59@corp.com,9212203479,Hyderabad,Telangana,500081,India,Male,Sales,64999,INR,2023-07-03,Yes,"H.No 112, Jubilee Hills , Hyderabad",Excellent team player,2.17
+157,Arjun Ali,36,arjun.ali53@corp.com,7290641764,Warangal,Telangana,506002,India,Male,Sales,185101,INR,2023-03-21,No,"H.No 143, Kukatpally , Warangal",Good employee,4.89
+112,Pooja Desai,37,pooja.desai74@corp.com,7789144223,Secunderabad,Telangana,500003,India,Male,Sales,124530,INR,2018-09-18,Yes,"H.No 100, Kukatpally , Secunderabad",Good employee,3.54
+203,Vikram Rao,42,vikram.rao48@corp.com,9783818927,Warangal,Telangana,506002,India,Male,Marketing,64903,INR,2023-11-05,Yes,"H.No 136, Banjara Hills , Warangal",Excellent team player,2.76
+121,Pooja Chowdary,53,pooja.chowdary26@corp.com,6526723719,Secunderabad,Telangana,500003,India,Male,Marketing,75260,INR,2023-08-03,No,"H.No 171, Ameerpet , Secunderabad",Good employee,3.2
+232,Suresh Chowdary,30,suresh.chowdary23@corp.com,9130305126,Hyderabad,Telangana,500081,India,Female,Support,178762,INR,2018-03-20,No,"H.No 157, Jubilee Hills , Hyderabad",Good employee,4.75
+104,Diya Singh,35,diya.singh44@corp.com,9290615870,Karimnagar,Telangana,505001,India,Male,HR,66061,INR,2019-02-10,Yes,"H.No 130, Banjara Hills , Karimnagar",Needs improvement,4.51
+113,Priya Varma,23,priya.varma46@corp.com,9386667704,Hyderabad,Telangana,500081,India,Female,HR,194693,INR,2018-10-24,No,"H.No 35, Banjara Hills , Hyderabad",Needs improvement,3.18
+107,Kavya Singh,34,kavya.singh78@corp.com,6594417160,Adilabad,Telangana,504001,India,Female,Engineering,198081,INR,2021-06-18,Yes,"H.No 183, Banjara Hills , Adilabad",Needs improvement,1.34
+19,Rohan Ali,55,rohan.ali21@corp.com,6244295904,Khammam,Telangana,507001,India,Male,Support,78712,INR,2018-10-03,Yes,"H.No 104, Banjara Hills , Khammam",Excellent team player,3.32
+72,Sunil Das,32,sunil.das10@corp.com,7897214963,Warangal,Telangana,506002,India,Female,Operations,141230,INR,2023-05-15,No,"H.No 51, Kukatpally , Warangal",Promoted last year,1.43
+299,Diya Mehta,31,diya.mehta73@corp.com,8434653305,Warangal,Telangana,506002,India,Female,Marketing,74207,INR,2018-06-08,Yes,"H.No 183, Kukatpally , Warangal",Needs improvement,4.36
+467,Rohan Das,49,rohan.das55@corp.com,8778509037,Hyd,TG,"500081,",India,Male,,  75000  ,INR,2019-01-09,,"H.No 169, Jubilee Hills , Hyderabad","Needs improvement, but okay",4.86
+187,Sunil Menon,47,sunil.menon4@corp.com,9167058912,Khammam,Telangana,507001,India,Male,Marketing,185242,INR,2021-07-01,Yes,"H.No 53, Ameerpet , Khammam",Good employee,3.31
+206,Pooja Ali,34,pooja.ali96@corp.com,7682557807,Warangal,Telangana,506002,India,Male,Support,92741,INR,2021-07-04,Yes,"H.No 128, Banjara Hills , Warangal",Good employee,4.95
+298,Mahesh Mehta,53,mahesh.mehta43@corp.com,7533897596,Secunderabad,Telangana,500003,India,Male,Engineering,104746,INR,2022-02-07,No,"H.No 125, Kukatpally , Secunderabad",Needs improvement,3.47
+138,Kiran Joshi,52,kiran.joshi68@corp.com,7618450083,Warangal,Telangana,506002,India,Male,Marketing,169756,INR,2020-09-12,No,"H.No 157, Kukatpally , Warangal",Excellent team player,4.83
+243,Sneha Das,42,sneha.das36@corp.com,8232043732,Karimnagar,Telangana,505001,India,Male,Support,193330,INR,2022-09-26,No,"H.No 29, Kukatpally , Karimnagar",Excellent team player,1.59
+254,Mahesh Sharma,53,mahesh.sharma38@corp.com,7114227340,Karimnagar,Telangana,505001,India,Female,Marketing,39258,INR,2022-12-19,Yes,"H.No 88, Jubilee Hills , Karimnagar",Promoted last year,4.63
+233,  arjun joshi  ,26,  arjun.joshi31@corp.com ,7489538120, WARANGAL , Telangana , 506002 ,India,male, operations ,53258,INR,2023-11-21,No,"H.No 115, Banjara Hills , Warangal",Needs improvement,1.84
+248,Siddharth Nair,30,siddharth.nair68@corp.com,9776704724,Khammam,Telangana,507001,India,Male,HR,80531,INR,2019-01-08,Yes,"H.No 117, Banjara Hills , Khammam",Needs improvement,3.82
+177,KAVYA VARMA ,48,  kavya.varma39@corp.com ,8079757650,adilabad,telangana, 504001 ,India,male, finance ,95981,INR,2019-12-21,No,"H.No 153, Jubilee Hills , Adilabad",Promoted last year,1.43
+270,Mahesh Patel,32,mahesh.patel14@corp.com,7786825410,Khammam,Telangana,507001,India,Female,Support,179145,INR,2023-08-06,No,"H.No 200, Ameerpet , Khammam",Good employee,4.45
+455,Kavya Singh,57,kavya.singh60@corp.com,9050487679,Warangal ,Telengana,"500081,",India,m,HR,$0,INR,2021-05-18, no ,"H.No 11, Ameerpet , Khammam","😊 Unicode test - café, naïve",2.98
+247,POOJA REDDY ,34, POOJA.REDDY57@CORP.COM ,6907915284,adilabad,telangana, 504001 ,India,female, operations ,156998,INR,2022-06-27,Yes,"H.No 132, Jubilee Hills , Adilabad",Good employee,2.24
+165,Kiran Patel,55,kiran.patel5@corp.com,9603771733,Adilabad,Telangana,504001,India,Male,Support,42717,INR,2018-07-05,Yes,"H.No 18, Jubilee Hills , Adilabad",Good employee,1.87
+92,Neha Menon,39,neha.menon28@corp.com,9242456102,Khammam,Telangana,507001,India,Male,Finance,142699,INR,2018-05-22,No,"H.No 135, Ameerpet , Khammam",Good employee,1.88
+238,Aarav Menon,27,aarav.menon38@corp.com,9538611992,Nizamabad,Telangana,503001,India,Female,HR,55424,INR,2018-04-06,No,"H.No 21, Kukatpally , Nizamabad",Good employee,2.23
+266,Diya Singh,24,diya.singh71@corp.com,8131827254,Secunderabad,Telangana,500003,India,Female,Finance,91474,INR,2018-01-22,Yes,"H.No 29, Kukatpally , Secunderabad",Excellent team player,4.8
+256,Rakesh Desai,36,rakesh.desai96@corp.com,9742772931,Warangal,Telangana,506002,India,Female,Support,116852,INR,2020-05-19,No,"H.No 119, Banjara Hills , Warangal",Promoted last year,1.21
+192,Kavya Iyer,53,kavya.iyer22@corp.com,6355067637,Khammam,Telangana,507001,India,Male,Support,87810,INR,2020-01-09,Yes,"H.No 138, Ameerpet , Khammam",Excellent team player,4.12
+462,Arjun Iyer,N/A,arjun.iyer16@corp.com,7076704744,Nizamabad ,Telangana, 500081 ,India,FEMALE,Sales ,$0,INR,,Yes,"H.No 18, Kukatpally , Karimnagar",Good employee,4.89
+460,Rahul Ali,36,rahul.ali53@corp.com,6484667629,Nizamabad ,Andhra Pradesh,503001,India, Other,Sales ,152133,INR,2023-05-15T10:30:00Z,No,"H.No 196, Ameerpet , Adilabad",Needs improvement,3.23
+85,Ishita Shah,31,ishita.shah9@corp.com,6541988748,Warangal,Telangana,506002,India,Female,Marketing,186602,INR,2022-05-15,No,"H.No 26, Banjara Hills , Warangal",Excellent team player,2.72
+452,diya patel,31,diya.patel46@corp.com,7221411520,Nizamabad ,ap,ABC123,India,Male,Sales,72150,INR,NULL,true,"H.No 12, Banjara Hills, Hyderabad",Excellent team player,1.95
+223,ANANYA REDDY ,23,  ananya.reddy9@corp.com ,6849331223, NIZAMABAD ,telangana, 503001 ,India,female, support ,63761,INR,2018-06-04,Yes,"H.No 119, Banjara Hills , Nizamabad",Excellent team player,4.7
+199,Diya Joshi,57,diya.joshi74@corp.com,6560898021,Khammam,Telangana,507001,India,Female,Support,120109,INR,2023-01-02,Yes,"H.No 161, Kukatpally , Khammam",Good employee,1.5
+476,Kiran Shah,46,kiran.shah12@corp.com,7713084216,HYD,ap,506002,India,F,HR,134573,INR,2018-01-28,Yes,"H.No 42, Kukatpally , Warangal",Promoted last year,2.14
+86,Rakesh Menon,43,rakesh.menon59@corp.com,7712533097,Karimnagar,Telangana,505001,India,Male,Finance,141873,INR,2020-11-09,No,"H.No 40, Kukatpally , Karimnagar",Good employee,1.36
+34,Deepak Reddy,51,deepak.reddy54@corp.com,9805929053,Nizamabad,Telangana,503001,India,Male,Operations,130657,INR,2021-07-08,Yes,"H.No 168, Banjara Hills , Nizamabad",Good employee,4.11
+242,Sai Gupta,34,sai.gupta17@corp.com,6183291591,Karimnagar,Telangana,505001,India,Male,Operations,144135,INR,2019-11-05,No,"H.No 82, Banjara Hills , Karimnagar",Good employee,2.55
+248,Siddharth Nair,30,siddharth.nair68@corp.com,9776704724,Khammam,Telangana,507001,India,Male,HR,80531,INR,2019-01-08,Yes,"H.No 117, Banjara Hills , Khammam",Needs improvement,3.82
+487,Lakshmi Das,55, CHARLIE@EXAMPLE.COM ,9745275018,Khammam,Telangana,5000AB,India,F,Operations,INR 50000,INR,2021-12-16,true,"Line1
+Line2","😊 Unicode test - café, naïve",2.94
+241,Kavya Das,52,kavya.das74@corp.com,9786674545,Secunderabad,Telangana,500003,India,Female,Finance,50697,INR,2021-12-02,Yes,"H.No 31, Kukatpally , Secunderabad",Excellent team player,4.8
+402,Vivaan Khan,120,test@domain..com,7354705301,Nizamabad,AP,ABC123,India,FEMALE,Marketing,$0,INR,2022-12-31,Yes,,"😊 Unicode test - café, naïve",3.1
+42,Aditya Patel,23,aditya.patel32@corp.com,6856247605,Adilabad,Telangana,504001,India,Male,Sales,69946,INR,2019-03-16,Yes,"H.No 145, Jubilee Hills , Adilabad",Promoted last year,3.8
+247,  pooja reddy  ,34,  pooja.reddy57@corp.com ,6907915284,adilabad,telangana, 504001 ,India,female, operations ,156998,INR,2022-06-27,Yes,"H.No 132, Jubilee Hills , Adilabad",Good employee,2.24
+108,Sai Varma,50,sai.varma66@corp.com,6632857647,Adilabad,Telangana,504001,India,Female,Engineering,88205,INR,2021-06-01,No,"H.No 14, Kukatpally , Adilabad",Needs improvement,1.94
+251,Siddharth Sharma,22,siddharth.sharma61@corp.com,9914929023,Secunderabad,Telangana,500003,India,Male,Sales,32218,INR,2019-05-20,No,"H.No 183, Ameerpet , Secunderabad",Promoted last year,4.58
+,Siddharth Patel,45,siddharth.patel51@corp.com,6635422970,Warangal,Andhra Pradesh,503001,India,Female,Finance,"1,00,000",INR,2022-12-31,true,,Promoted last year,4.5
+300,Arjun Joshi,52,arjun.joshi60@corp.com,7912797925,Warangal,Telangana,506002,India,Female,Marketing,174617,INR,2018-03-21,Yes,"H.No 72, Jubilee Hills , Warangal",Excellent team player,2.05
+261,Sneha Ali,59,sneha.ali40@corp.com,6717346250,Hyderabad,Telangana,500081,India,Male,Finance,106238,INR,2021-12-17,No,"H.No 112, Jubilee Hills , Hyderabad",Needs improvement,4.98
+NULL,Amit Reddy,56,amit.reddy75@corp.com,7342176089,Khammam,TS,503001,India,Male,Finance,"$1,200.50",INR,2018-08-15,No,"H.No 147, Ameerpet , Khammam","Contains, comma, and ""quote""",2.41
+65,Siddharth Varma,22,siddharth.varma37@corp.com,9118365242,Warangal,Telangana,506002,India,Female,Support,68953,INR,2021-09-16,No,"H.No 86, Kukatpally , Warangal",Promoted last year,4.73
+447,Vivaan Mehta,120,vivaan.mehta36@corp.com,6586269483,Warangal ,Andhra pradesh ,5000AB,India,Female,Sales ,-1000,INR,2023-05-15T10:30:00Z,No,"H.No 155, Jubilee Hills , Hyderabad","Contains, comma, and ""quote""",3.31
+144,Aarav Chowdary,58,aarav.chowdary78@corp.com,6460852958,Warangal,Telangana,506002,India,Female,Marketing,198116,INR,2022-09-16,Yes,"H.No 130, Kukatpally , Warangal",Needs improvement,1.77
+ID_26,Diya Varma,N/A,diya.varma92@corp.com,7882985094,ADILABAD,Telengana,5000811,India,Male,Marketing ,999999999,INR,2019-01-16,NULL,"H.No 88, Kukatpally , Nizamabad","Needs review, promotion? Yes, soon",4.14
+257,Amit Mehta,59,amit.mehta80@corp.com,6305869263,Karimnagar,Telangana,505001,India,Male,Sales,61409,INR,2023-07-17,No,"H.No 106, Banjara Hills , Karimnagar",Excellent team player,1.55
+28,Sunil Gupta,47,sunil.gupta43@corp.com,7196591018,Adilabad,Telangana,504001,India,Male,Support,103170,INR,2020-11-17,No,"H.No 174, Ameerpet , Adilabad",Good employee,1.46
+127,Amit Mehta,38,amit.mehta84@corp.com,6905415100,Adilabad,Telangana,504001,India,Female,Sales,197507,INR,2018-08-21,No,"H.No 165, Ameerpet , Adilabad",Promoted last year,1.98
+168,Sneha Reddy,45,sneha.reddy52@corp.com,7971380304,Khammam,Telangana,507001,India,Male,Operations,89207,INR,2020-11-27,Yes,"H.No 168, Banjara Hills , Khammam",Good employee,2.62
+77,Sunil Varma,59,sunil.varma49@corp.com,9532255403,Nizamabad,Telangana,503001,India,Female,Engineering,91295,INR,2021-01-20,No,"H.No 157, Jubilee Hills , Nizamabad",Good employee,3.54
+NULL,  Suresh Varma  ,-5,,7698467700,Warangal ,TG,505001-,India,,Hr,125201,INR,13/01/2022, yes ,"H.No 106, Jubilee Hills , Warangal",Has null byte,4.42
+151,Neha Patel,51,neha.patel17@corp.com,8204382691,Karimnagar,Telangana,505001,India,Female,Sales,45135,INR,2022-08-22,No,"H.No 186, Banjara Hills , Karimnagar",Promoted last year,2.02
+275,Vivaan Das,57,vivaan.das1@corp.com,9547251133,Hyderabad,Telangana,500081,India,Female,Sales,177412,INR,2019-11-22,No,"H.No 88, Ameerpet , Hyderabad",Good employee,4.27
+438,Deepak Rao,25,deepak.rao22@corp.com,7992928946,Secunderabad,ap,500003 ,India,Female,Finance,NULL,INR,2023-09-08,Yes ,"H.No 175, Kukatpally , Karimnagar","😊 Unicode test - café, naïve",2.05
+97,Priya Desai,31,priya.desai31@corp.com,6441542090,Secunderabad,Telangana,500003,India,Female,HR,75481,INR,2022-03-25,Yes,"H.No 46, Kukatpally , Secunderabad",Promoted last year,4.02
+40,Neha Kumar,56,neha.kumar4@corp.com,9895229819,Karimnagar,Telangana,505001,India,Male,Engineering,198492,INR,2021-03-28,No,"H.No 47, Banjara Hills , Karimnagar",Needs improvement,2.52
+77,Sunil Varma,59,sunil.varma49@corp.com,9532255403,Nizamabad,Telangana,503001,India,Female,Engineering,91295,INR,2021-01-20,No,"H.No 157, Jubilee Hills , Nizamabad",Good employee,3.54
+205,ISHITA KUMAR ,37,  ishita.kumar36@corp.com ,8768624284,hyderabad,telangana, 500081 ,India,male, sales ,187548,INR,2022-12-20,No,"H.No 200, Banjara Hills , Hyderabad",Needs improvement,1.82
+24,Vivaan Reddy,49,vivaan.reddy36@corp.com,6189351213,Hyderabad,Telangana,500081,India,Female,Support,64293,INR,2023-05-06,No,"H.No 142, Kukatpally , Hyderabad",Good employee,1.45
+472,Neha Khan,twenty-five,neha.khan29@corp.com,9064732814,Secunderabad, telangana ,50 50 01,India,Male,fin,"1,20,000.00",INR,2020-12-16,No,"Apt 4B, Building, 2nd Floor, Hyderabad",NULL,3.4
+126,Diya Shah,56,diya.shah12@corp.com,8158535229,Nizamabad,Telangana,503001,India,Male,Sales,182212,INR,2019-03-22,No,"H.No 145, Banjara Hills , Nizamabad",Good employee,1.32
+204,Mahesh Gupta,31,mahesh.gupta53@corp.com,8646026315,Nizamabad,Telangana,503001,India,Female,Support,86949,INR,2018-02-05,Yes,"H.No 151, Kukatpally , Nizamabad",Needs improvement,4.85
+220,Kavya Rao,56,kavya.rao46@corp.com,9308571144,Secunderabad,Telangana,500003,India,Female,Finance,151463,INR,2020-02-03,Yes,"H.No 176, Ameerpet , Secunderabad",Good employee,1.86
+297,Ananya Gupta,29,ananya.gupta24@corp.com,8881828165,Adilabad,Telangana,504001,India,Male,Support,173878,INR,2021-11-18,Yes,"H.No 75, Banjara Hills , Adilabad",Needs improvement,1.39

@@ -1,25 +1,25 @@
 {
   "narvl_version": "0.1.0",
-  "run_id": "119bded1-96c5-47e5-a765-6b15ca66fed2",
+  "run_id": "23d9cce5-f837-4c09-be86-0f98c976cd93",
   "dataset_name": "dataset",
-  "timestamp_utc": "2026-09-30T12:40:11.311357+00:00",
+  "timestamp_utc": "2026-10-01T09:51:55.744073+00:00",
   "lineage": {
     "raw_shape": [
       6,
       6
     ],
     "clean_shape": [
-      5,
+      4,
       6
     ],
     "input_hash_sha256": "a9364e9894eadf250aa16b3b99f4c75e056ca468872bed131575c83a9463c2b6",
-    "output_hash_sha256": "6510380315d3127b3ecae79c548eee289978313bcf49e0cc60f8a129fcba2cf4"
+    "output_hash_sha256": "50f6cb428985b3812e9efa3a65a3c6a33d0e2ad958edededd4193952e562897b"
   },
   "pipeline_steps": [
     {
       "step_id": 1,
       "target_column": "ALL",
-      "issue": "Detected 2 exact duplicate rows",
+      "issue": "Detected 1 exact duplicate rows",
       "rule": "Row uniqueness constraint",
       "action": "deduplicate_exact",
       "parameters": {
@@ -32,40 +32,23 @@
     },
     {
       "step_id": 2,
-      "target_column": "CustomerID",
-      "issue": "Approximate FD violation with PostalCode: typographical drift",
-      "rule": "FD: PostalCode -> CustomerID",
-      "action": "standardize_values",
-      "parameters": {
-        "mapping": {
-          "102": "101",
-          "104": "103"
-        }
-      },
-      "confidence": 1.0,
-      "justification": "Fuzzy matching resolved canonical root from PostalCode grouping.",
-      "loss_potential": "none",
-      "test_criterion": "consistent_with_PostalCode"
-    },
-    {
-      "step_id": 3,
       "target_column": "State",
-      "issue": "Approximate FD violation with PostalCode: typographical drift",
-      "rule": "FD: PostalCode -> State",
+      "issue": "Typographical, casing drift, and format anomalies in State",
+      "rule": "Standardize State to canonical entities and formats",
       "action": "standardize_values",
       "parameters": {
         "mapping": {
           "Telengana": "Telangana",
-          "Karnataka": "Karnatak"
+          "Karnatak": "Karnataka"
         }
       },
-      "confidence": 1.0,
-      "justification": "Fuzzy matching resolved canonical root from PostalCode grouping.",
+      "confidence": 0.98,
+      "justification": "Unified semantic knowledge and functional dependencies resolve State anomalies.",
       "loss_potential": "none",
-      "test_criterion": "consistent_with_PostalCode"
+      "test_criterion": "standardized_state"
     },
     {
-      "step_id": 4,
+      "step_id": 3,
       "target_column": "Age",
       "issue": "Age values out of plausible domain: [-12.0, 145.0]",
       "rule": "Domain range: 0 <= Age <= 120",
@@ -80,50 +63,53 @@
       "test_criterion": "between_0_and_120"
     },
     {
-      "step_id": 5,
+      "step_id": 4,
       "target_column": "Email",
-      "issue": "Inconsistent email case and whitespace",
-      "rule": "Email RFC standardization",
+      "issue": "Inconsistent email case, whitespace, or invalid format tokens",
+      "rule": "Email RFC standardization and validation",
       "action": "regex_replace",
       "parameters": {
         "pattern": "^\\s+|\\s+$",
         "replacement": "",
-        "lowercase": true
+        "lowercase": true,
+        "nullify_invalid": true,
+        "valid_pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
       },
       "confidence": 0.96,
-      "justification": "Emails must be trimmed and lowercased for uniform entity resolution.",
+      "justification": "Emails must be trimmed, lowercased, and invalid format strings nullified.",
       "loss_potential": "none",
       "test_criterion": "valid_email_regex"
     }
   ],
   "loss_profile": {
-    "volumetric_loss": 0.1667,
-    "max_w1_distance": 0.2259,
+    "volumetric_loss": 0.3333,
+    "max_w1_distance": 0.4559,
     "w1_per_column": {
-      "CustomerID": 0.2236,
-      "Age": 0.2259,
-      "PostalCode": 0.1372,
-      "Salary": 0.1718
+      "CustomerID": 0.1677,
+      "Age": 0.4559,
+      "PostalCode": 0.2495,
+      "Salary": 0.2803
     },
     "utility_delta": 0.0,
     "is_safe": false,
     "blocking_reasons": [
-      "Volumetric loss 16.67% exceeds safety threshold 15.00%"
+      "Volumetric loss 33.33% exceeds safety threshold 15.00%",
+      "Maximum Wasserstein W1 distance 0.4559 exceeds threshold 0.3500"
     ]
   },
   "validation": {
-    "pandera_passed": false,
-    "ge_passed": false,
-    "is_fully_validated": false
+    "pandera_passed": true,
+    "ge_passed": true,
+    "is_fully_validated": true
   },
-  "digital_signature": "6c98e1ee995a33b889f367f8ccfe2d636750a8df4c509a43d4b446287cdb9b2f",
+  "digital_signature": "7e6fc210e3a79003b7d7a8ef29ed1c1c2e62ad5ab2cd70fe44cc29181d51f279",
   "signature_algorithm": "HMAC-SHA256",
-  "signature": "6c98e1ee995a33b889f367f8ccfe2d636750a8df4c509a43d4b446287cdb9b2f",
+  "signature": "7e6fc210e3a79003b7d7a8ef29ed1c1c2e62ad5ab2cd70fe44cc29181d51f279",
   "pipeline_provenance": [
     {
       "step_id": 1,
       "target_column": "ALL",
-      "issue": "Detected 2 exact duplicate rows",
+      "issue": "Detected 1 exact duplicate rows",
       "rule": "Row uniqueness constraint",
       "action": "deduplicate_exact",
       "parameters": {
@@ -136,40 +122,23 @@
     },
     {
       "step_id": 2,
-      "target_column": "CustomerID",
-      "issue": "Approximate FD violation with PostalCode: typographical drift",
-      "rule": "FD: PostalCode -> CustomerID",
-      "action": "standardize_values",
-      "parameters": {
-        "mapping": {
-          "102": "101",
-          "104": "103"
-        }
-      },
-      "confidence": 1.0,
-      "justification": "Fuzzy matching resolved canonical root from PostalCode grouping.",
-      "loss_potential": "none",
-      "test_criterion": "consistent_with_PostalCode"
-    },
-    {
-      "step_id": 3,
       "target_column": "State",
-      "issue": "Approximate FD violation with PostalCode: typographical drift",
-      "rule": "FD: PostalCode -> State",
+      "issue": "Typographical, casing drift, and format anomalies in State",
+      "rule": "Standardize State to canonical entities and formats",
       "action": "standardize_values",
       "parameters": {
         "mapping": {
           "Telengana": "Telangana",
-          "Karnataka": "Karnatak"
+          "Karnatak": "Karnataka"
         }
       },
-      "confidence": 1.0,
-      "justification": "Fuzzy matching resolved canonical root from PostalCode grouping.",
+      "confidence": 0.98,
+      "justification": "Unified semantic knowledge and functional dependencies resolve State anomalies.",
       "loss_potential": "none",
-      "test_criterion": "consistent_with_PostalCode"
+      "test_criterion": "standardized_state"
     },
     {
-      "step_id": 4,
+      "step_id": 3,
       "target_column": "Age",
       "issue": "Age values out of plausible domain: [-12.0, 145.0]",
       "rule": "Domain range: 0 <= Age <= 120",
@@ -184,18 +153,20 @@
       "test_criterion": "between_0_and_120"
     },
     {
-      "step_id": 5,
+      "step_id": 4,
       "target_column": "Email",
-      "issue": "Inconsistent email case and whitespace",
-      "rule": "Email RFC standardization",
+      "issue": "Inconsistent email case, whitespace, or invalid format tokens",
+      "rule": "Email RFC standardization and validation",
       "action": "regex_replace",
       "parameters": {
         "pattern": "^\\s+|\\s+$",
         "replacement": "",
-        "lowercase": true
+        "lowercase": true,
+        "nullify_invalid": true,
+        "valid_pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
       },
       "confidence": 0.96,
-      "justification": "Emails must be trimmed and lowercased for uniform entity resolution.",
+      "justification": "Emails must be trimmed, lowercased, and invalid format strings nullified.",
       "loss_potential": "none",
       "test_criterion": "valid_email_regex"
     }
